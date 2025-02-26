@@ -1,0 +1,145 @@
+[gd_scene load_steps=15 format=3 uid="uid://bvnulej4plccm"]
+
+[ext_resource type="Script" path="res://UI/changelog/changelog.gd" id="1_c68sj"]
+[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="2_5qcnx"]
+[ext_resource type="Texture2D" uid="uid://dyfriog8gdjgu" path="res://UI/shop/X.png" id="3_h64td"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_joxro"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pxjqf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rglhw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j7x2c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1gs08"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_undk4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2pqv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ynk1h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hoqrc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1f5xr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_heliu"]
+
+[node name="Changelog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c68sj")
+
+[node name="fade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.784314)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 128.0
+offset_top = 104.0
+offset_right = -128.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("2_5qcnx")
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "1.4 (00/00/2025)
+
+1.3 (02/21/2025)
+[ul]creator machines have been slowed down[/ul]
+[ul]machines prices now go down when you level up[/ul]
+[ul]death resets the player position[/ul]
+[ul]creators and sellers can be paused[/ul]
+[ul]added a max amount of boxes you can have to reduce lag[/ul]
+[ul]added loading screens everywhere[/ul]
+[ul]added price caps for machines that increase at each level[/ul]
+[ul]increased expansion prices[/ul]
+[ul]conveyor belts align boxes to the center[/ul]
+[ul]fixed showing/hiding walls[/ul]
+[ul]conveyor belts move the player![/ul]
+[ul]expansion buttons now only show when you hover over the walls[/ul]
+[ul]fixed a bunch of saving bugs[/ul]
+[ul]walls fade in/out instead of outright dissapearing[/ul]
+[ul]added display name changing[/ul]
+
+1.2 (02/01/2025)
+[ul]added map expansion[/ul]
+[ul]updated conveyor belt models[/ul]
+[ul]camera zooming[/ul]
+[ul]building radius[/ul]
+[ul]added delay to building, progress is saved too[/ul]
+[ul]fixed leaderboard repeating scores[/ul]
+[ul]added death by machines[/ul]
+[ul]better visibility system through the walls[/ul]
+
+1.1 (01/28/2025)
+[ul]added a basic account system[/ul]
+[ul]added a progress saving system[/ul]
+[ul]added a leaderboard[/ul]
+[ul]machine price rises now after buying machines[/ul]
+[ul]new icon![/ul]
+[ul]scaled UI for the people who have a hard time seeing[/ul]
+[ul]fixed shop ui[/ul]
+[ul]creators now only put boxes on conveyor belts[/ul]
+[ul]updated some of the models[/ul]
+[ul]patched a bunch of bugs[/ul]
+
+1.0  (01/17/2025)
+[ul]Automaton was released to the public![/ul]"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -240.0
+offset_top = 32.0
+offset_right = -184.0
+offset_bottom = 88.0
+grow_horizontal = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_joxro")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_pxjqf")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_rglhw")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_j7x2c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_1gs08")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_undk4")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_p2pqv")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_ynk1h")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hoqrc")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_1f5xr")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_heliu")
+icon = ExtResource("3_h64td")
+flat = true
+expand_icon = true
+
+[node name="title" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -259.0
+offset_top = 24.0
+offset_right = 259.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("2_5qcnx")
+theme_override_font_sizes/normal_font_size = 54
+bbcode_enabled = true
+text = "[center]changelog"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

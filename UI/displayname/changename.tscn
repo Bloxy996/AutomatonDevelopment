@@ -1,0 +1,165 @@
+[gd_scene load_steps=4 format=3 uid="uid://hfjr4mufp1o"]
+
+[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_6lgns"]
+[ext_resource type="Script" path="res://UI/displayname/changename.gd" id="1_c62ke"]
+[ext_resource type="PackedScene" uid="uid://cvpo7kkgufcp4" path="res://UI/loader.tscn" id="3_gov5r"]
+
+[node name="Changename" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c62ke")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -265.0
+offset_top = 20.0
+offset_right = 265.0
+offset_bottom = 84.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("1_6lgns")
+theme_override_font_sizes/normal_font_size = 42
+bbcode_enabled = true
+text = "[center]change display name"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -265.0
+offset_top = -196.0
+offset_right = 265.0
+offset_bottom = -132.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("1_6lgns")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[center]current name:"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = -145.0
+offset_right = -64.0
+offset_bottom = -81.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_6lgns")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[center]name"
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -265.0
+offset_top = -34.0
+offset_right = 265.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_6lgns")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[center]new name:"
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = 20.5
+offset_right = 220.0
+offset_bottom = 79.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_6lgns")
+theme_override_font_sizes/font_size = 36
+placeholder_text = "type here"
+alignment = 1
+
+[node name="cancel" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -157.0
+offset_top = 132.0
+offset_right = -12.0
+offset_bottom = 172.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_6lgns")
+theme_override_font_sizes/font_size = 20
+text = "cancel"
+
+[node name="confirm" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = 132.0
+offset_right = 155.0
+offset_bottom = 172.0
+theme_override_fonts/font = ExtResource("1_6lgns")
+theme_override_font_sizes/font_size = 20
+text = "confirm"
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = 86.5
+offset_right = 180.0
+offset_bottom = 143.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_6lgns")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[center] successfully changed!"
+
+[node name="loader" parent="." instance=ExtResource("3_gov5r")]
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="cancel" to="." method="_on_cancel_pressed"]
+[connection signal="pressed" from="confirm" to="." method="_on_confirm_pressed"]

@@ -1,0 +1,262 @@
+[gd_scene load_steps=18 format=3 uid="uid://dv1t2fofro4r8"]
+
+[ext_resource type="Script" path="res://UI/mainmenu/maincontainer.gd" id="1_i753r"]
+[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_lnbpc"]
+[ext_resource type="Script" path="res://UI/mainmenu/intropresents.gd" id="2_v30av"]
+[ext_resource type="PackedScene" uid="uid://cvpo7kkgufcp4" path="res://UI/loader.tscn" id="6_5x4kl"]
+[ext_resource type="PackedScene" uid="uid://ugbl7dmctl03" path="res://UI/mainmenu/entername.tscn" id="8_cgt5w"]
+[ext_resource type="PackedScene" uid="uid://bvnulej4plccm" path="res://UI/changelog/changelog.tscn" id="10_iocfx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_igmte"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tp5wp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qkvwy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3qgi6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a4hns"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gr7ob"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2v2n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1iem0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_405wu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g6h7m"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5pilw"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="introbackground" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="intropresents" type="RichTextLabel" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -43.0
+offset_bottom = 157.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_lnbpc")
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[center]from the sourdough project proposal IV"
+script = ExtResource("2_v30av")
+
+[node name="maincontainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i753r")
+
+[node name="playbutton" type="Button" parent="maincontainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = 76.0
+offset_right = 126.0
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_lnbpc")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_igmte")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_tp5wp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qkvwy")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3qgi6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a4hns")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_gr7ob")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_t2v2n")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_1iem0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_405wu")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_g6h7m")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5pilw")
+text = "play"
+
+[node name="reset" type="Button" parent="maincontainer"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_top = -72.0
+offset_right = -66.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_lnbpc")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_igmte")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_tp5wp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qkvwy")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3qgi6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a4hns")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_gr7ob")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_t2v2n")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_1iem0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_405wu")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_g6h7m")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5pilw")
+text = "reset game"
+
+[node name="contacts" type="Button" parent="maincontainer"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -72.0
+offset_right = 126.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_lnbpc")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_igmte")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_tp5wp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qkvwy")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3qgi6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a4hns")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_gr7ob")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_t2v2n")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_1iem0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_405wu")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_g6h7m")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5pilw")
+text = "any feedback?"
+
+[node name="leaderboard" type="Button" parent="maincontainer"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -112.0
+offset_right = 126.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_lnbpc")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_igmte")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_tp5wp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qkvwy")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3qgi6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a4hns")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_gr7ob")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_t2v2n")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_1iem0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_405wu")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_g6h7m")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5pilw")
+text = "leaderboard"
+
+[node name="changelog" type="Button" parent="maincontainer"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = -72.0
+offset_right = 192.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_lnbpc")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_igmte")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_tp5wp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qkvwy")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3qgi6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a4hns")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_gr7ob")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_t2v2n")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_1iem0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_405wu")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_g6h7m")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5pilw")
+text = "changelog"
+
+[node name="title" type="RichTextLabel" parent="maincontainer"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -259.0
+offset_top = -188.0
+offset_right = 259.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_lnbpc")
+theme_override_font_sizes/normal_font_size = 72
+bbcode_enabled = true
+text = "[center]automaton"
+
+[node name="detail" type="RichTextLabel" parent="maincontainer"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 72.0
+offset_top = -232.0
+offset_right = 456.0
+offset_bottom = -72.0
+grow_vertical = 0
+theme_override_fonts/normal_font = ExtResource("1_lnbpc")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "developer's notes:
+if it dosent work the first time, 
+try it again and it will work!
+
+put the game in a seperate window to keep it running!"
+
+[node name="Entername" parent="." instance=ExtResource("8_cgt5w")]
+visible = false
+layout_mode = 1
+
+[node name="Changelog" parent="." instance=ExtResource("10_iocfx")]
+visible = false
+layout_mode = 1
+
+[node name="loader" parent="." instance=ExtResource("6_5x4kl")]
+layout_mode = 1
+
+[connection signal="pressed" from="maincontainer/playbutton" to="maincontainer" method="_on_playbutton_pressed"]
+[connection signal="pressed" from="maincontainer/reset" to="maincontainer" method="_on_reset_pressed"]
+[connection signal="pressed" from="maincontainer/contacts" to="maincontainer" method="_on_contacts_pressed"]
+[connection signal="pressed" from="maincontainer/leaderboard" to="maincontainer" method="_on_leaderboard_pressed"]
+[connection signal="pressed" from="maincontainer/changelog" to="maincontainer" method="_on_changelog_pressed"]

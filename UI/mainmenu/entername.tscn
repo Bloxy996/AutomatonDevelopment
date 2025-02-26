@@ -1,0 +1,183 @@
+[gd_scene load_steps=14 format=3 uid="uid://ugbl7dmctl03"]
+
+[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_o555f"]
+[ext_resource type="Script" path="res://UI/mainmenu/entername.gd" id="1_wo5mk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sfbbr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h0hst"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3p1dp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3m5nd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nucpp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q78l8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ouvb7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cfiv8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3035f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3v75e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yqixc"]
+
+[node name="Entername" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wo5mk")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -206.0
+offset_top = -209.0
+offset_right = 210.0
+offset_bottom = -137.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_o555f")
+theme_override_font_sizes/normal_font_size = 42
+bbcode_enabled = true
+text = "[center]enter username"
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -224.0
+offset_top = -108.0
+offset_right = 216.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_o555f")
+theme_override_font_sizes/font_size = 36
+placeholder_text = "type here"
+alignment = 1
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -269.0
+offset_top = -37.0
+offset_right = 269.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_o555f")
+theme_override_font_sizes/normal_font_size = 42
+bbcode_enabled = true
+text = "[center]enter display name:"
+
+[node name="LineEdit2" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -224.0
+offset_top = 31.0
+offset_right = 216.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_o555f")
+theme_override_font_sizes/font_size = 36
+placeholder_text = "type here"
+alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.0
+offset_top = 113.0
+offset_right = 66.0
+offset_bottom = 153.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_o555f")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sfbbr")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_h0hst")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_3p1dp")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3m5nd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_nucpp")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_q78l8")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ouvb7")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_cfiv8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3035f")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_3v75e")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_yqixc")
+text = "done"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -156.0
+offset_top = -152.0
+offset_right = 156.0
+offset_bottom = -112.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_o555f")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center] (has to be unique)"
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = 166.5
+offset_right = 180.0
+offset_bottom = 223.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_o555f")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[center] Username already taken."
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
