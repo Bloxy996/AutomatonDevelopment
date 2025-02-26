@@ -1,3 +1,4 @@
 # AutomatonDevelopment
 
-#this is where you can find all of the soruce code for our game, Automaton!
+This repo contains all of the soruce code for Automaton.
+https://github.com/drhs-itpm/automaton is the HTML files for the website, https://drhscit.org/automaton/
