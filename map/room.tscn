@@ -1,0 +1,892 @@
+[gd_scene load_steps=54 format=3 uid="uid://igpmsyoxijud"]
+
+[ext_resource type="Texture2D" uid="uid://bjrvu65c1u03c" path="res://map/floor.png" id="1_ev4ph"]
+[ext_resource type="Script" path="res://map/room.gd" id="1_lknie"]
+[ext_resource type="Texture2D" uid="uid://ndqvrubmkvly" path="res://map/brick.png" id="2_ofjqq"]
+[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="4_1g4y5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2fj3h"]
+size = Vector3(15, 1, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ofcdi"]
+albedo_color = Color(0.44436, 0.44436, 0.44436, 1)
+albedo_texture = ExtResource("1_ev4ph")
+uv1_offset = Vector3(0.5, 0, -0.5)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_5qlad"]
+size = Vector3(15, 1, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cgy55"]
+size = Vector3(1, 10, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ictsb"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("2_ofjqq")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_offset = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_miitd"]
+size = Vector3(1, 14, 15)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_iay4a"]
+points = PackedVector3Array(0.571429, 7.16527, 7.61905, -0.619048, -7.11905, -7.61905, -0.619048, 7.16667, -7.61905, 0.571429, -7.11905, -7.61905, -0.619048, -7.11905, 7.61905, -0.619048, 7.16667, 7.61905, 0.571429, 7.16527, -7.61905, 0.571429, -7.11905, 7.61905)
+
+[sub_resource type="Animation" id="Animation_unnjj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_xl8i3"]
+resource_name = "hide"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_mbhoo"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wijyf"]
+_data = {
+"RESET": SubResource("Animation_unnjj"),
+"hide": SubResource("Animation_xl8i3"),
+"show": SubResource("Animation_mbhoo")
+}
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yt5hs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c6qba"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_avwjb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q41g4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r0pli"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g3qoy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j1mx5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dxcun"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mg627"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_omxgm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kyvj7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b12gn"]
+bg_color = Color(0, 0, 0, 0.313726)
+border_color = Color(0, 0, 0, 0.313726)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tfhmo"]
+bg_color = Color(0, 1, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a5323"]
+size = Vector3(1, 14, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cxuv5"]
+albedo_color = Color(0.270222, 0.270222, 0.270222, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s76qo"]
+size = Vector3(15, 0.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf4r3"]
+size = Vector3(1, 10, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v566o"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("2_ofjqq")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_offset = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qt4eu"]
+points = PackedVector3Array(0.571429, 7.16527, 7.61905, -0.619048, -7.11905, -7.61905, -0.619048, 7.16667, -7.61905, 0.571429, -7.11905, -7.61905, -0.619048, -7.11905, 7.61905, -0.619048, 7.16667, 7.61905, 0.571429, 7.16527, -7.61905, 0.571429, -7.11905, 7.61905)
+
+[sub_resource type="Animation" id="Animation_aqorn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_k62po"]
+resource_name = "hide"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_d1aa7"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1hmi7"]
+_data = {
+"RESET": SubResource("Animation_aqorn"),
+"hide": SubResource("Animation_k62po"),
+"show": SubResource("Animation_d1aa7")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ukk3n"]
+size = Vector3(1, 14, 15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7l16j"]
+size = Vector3(15, 0.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wdlcb"]
+size = Vector3(15, 1, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vmqax"]
+size = Vector3(1, 10, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbh4h"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("2_ofjqq")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_offset = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="Animation" id="Animation_o113o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_2tf2v"]
+resource_name = "hide"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_yq8jb"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bihgb"]
+_data = {
+"RESET": SubResource("Animation_o113o"),
+"hide": SubResource("Animation_2tf2v"),
+"show": SubResource("Animation_yq8jb")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_58nek"]
+size = Vector3(1, 10, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0kgpm"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("2_ofjqq")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_offset = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="Animation" id="Animation_iymph"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_01mtk"]
+resource_name = "hide"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_eelxr"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material_override:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material_override:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t48or"]
+_data = {
+"RESET": SubResource("Animation_iymph"),
+"hide": SubResource("Animation_01mtk"),
+"show": SubResource("Animation_eelxr")
+}
+
+[node name="room" type="StaticBody3D"]
+input_ray_pickable = false
+script = ExtResource("1_lknie")
+
+[node name="floor" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.5, 8)
+shape = SubResource("BoxShape3D_2fj3h")
+
+[node name="mesh" type="MeshInstance3D" parent="floor"]
+material_override = SubResource("StandardMaterial3D_ofcdi")
+mesh = SubResource("BoxMesh_5qlad")
+skeleton = NodePath("../../..")
+
+[node name="wallFL" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5, 8)
+shape = SubResource("BoxShape3D_cgy55")
+
+[node name="mesh" type="MeshInstance3D" parent="wallFL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_ictsb")
+mesh = SubResource("BoxMesh_miitd")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="wallFL/mesh" groups=["exclude_from_raycast"]]
+collision_layer = 2
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wallFL/mesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_iay4a")
+
+[node name="Marker3D" type="Marker3D" parent="wallFL/mesh/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="wallFL/mesh"]
+libraries = {
+"": SubResource("AnimationLibrary_wijyf")
+}
+speed_scale = 4.0
+
+[node name="expandL" type="Marker3D" parent="wallFL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="Button" type="Button" parent="wallFL/expandL"]
+visible = false
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("4_1g4y5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yt5hs")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_c6qba")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_avwjb")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_q41g4")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_r0pli")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_g3qoy")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_j1mx5")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_dxcun")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mg627")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_omxgm")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_kyvj7")
+text = "expansion at
+level 000
+000 kredits"
+
+[node name="ProgressBar" type="ProgressBar" parent="wallFL/expandL/Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_b12gn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tfhmo")
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="Area3D" type="Area3D" parent="wallFL"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wallFL/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_a5323")
+
+[node name="outline" type="MeshInstance3D" parent="wallFL"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -5, 0)
+material_override = SubResource("StandardMaterial3D_cxuv5")
+mesh = SubResource("BoxMesh_s76qo")
+
+[node name="wallFR" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 8, 5, 15)
+shape = SubResource("BoxShape3D_yf4r3")
+
+[node name="mesh" type="MeshInstance3D" parent="wallFR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_v566o")
+mesh = SubResource("BoxMesh_miitd")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="wallFR/mesh" groups=["exclude_from_raycast"]]
+collision_layer = 2
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wallFR/mesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_qt4eu")
+
+[node name="Marker3D" type="Marker3D" parent="wallFR/mesh/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="wallFR/mesh"]
+libraries = {
+"": SubResource("AnimationLibrary_1hmi7")
+}
+speed_scale = 4.0
+
+[node name="expandR" type="Marker3D" parent="wallFR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="Button" type="Button" parent="wallFR/expandR"]
+visible = false
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("4_1g4y5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yt5hs")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_c6qba")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_avwjb")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_q41g4")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_r0pli")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_g3qoy")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_j1mx5")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_dxcun")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mg627")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_omxgm")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_kyvj7")
+text = "expansion at
+level 000
+000 kredits"
+
+[node name="ProgressBar" type="ProgressBar" parent="wallFR/expandR/Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_b12gn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tfhmo")
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="Area3D" type="Area3D" parent="wallFR"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wallFR/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_ukk3n")
+
+[node name="outline" type="MeshInstance3D" parent="wallFR"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -5, 0)
+material_override = SubResource("StandardMaterial3D_cxuv5")
+mesh = SubResource("BoxMesh_7l16j")
+
+[node name="hidden" type="StaticBody3D" parent="." groups=["exclude_from_raycast"]]
+input_ray_pickable = false
+
+[node name="roof" type="CollisionShape3D" parent="hidden"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 10, 8)
+shape = SubResource("BoxShape3D_wdlcb")
+
+[node name="wallBL" type="CollisionShape3D" parent="hidden"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8, 5, 1)
+shape = SubResource("BoxShape3D_vmqax")
+
+[node name="outline" type="MeshInstance3D" parent="hidden/wallBL"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -5, 0)
+material_override = SubResource("StandardMaterial3D_cxuv5")
+mesh = SubResource("BoxMesh_7l16j")
+skeleton = NodePath("../../../floor")
+
+[node name="mesh" type="MeshInstance3D" parent="hidden/wallBL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_tbh4h")
+mesh = SubResource("BoxMesh_miitd")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="hidden/wallBL/mesh" groups=["exclude_from_raycast"]]
+collision_layer = 2
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hidden/wallBL/mesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_iay4a")
+
+[node name="Marker3D" type="Marker3D" parent="hidden/wallBL/mesh/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.15256e-07, 0, 8)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="hidden/wallBL/mesh"]
+libraries = {
+"": SubResource("AnimationLibrary_bihgb")
+}
+speed_scale = 4.0
+
+[node name="wallBR" type="CollisionShape3D" parent="hidden"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 5, 8)
+shape = SubResource("BoxShape3D_58nek")
+
+[node name="outline" type="MeshInstance3D" parent="hidden/wallBR"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -5, 0)
+material_override = SubResource("StandardMaterial3D_cxuv5")
+mesh = SubResource("BoxMesh_7l16j")
+skeleton = NodePath("../../../floor")
+
+[node name="mesh" type="MeshInstance3D" parent="hidden/wallBR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_0kgpm")
+mesh = SubResource("BoxMesh_miitd")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="hidden/wallBR/mesh" groups=["exclude_from_raycast"]]
+collision_layer = 2
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hidden/wallBR/mesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_iay4a")
+
+[node name="Marker3D" type="Marker3D" parent="hidden/wallBR/mesh/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="hidden/wallBR/mesh"]
+libraries = {
+"": SubResource("AnimationLibrary_t48or")
+}
+speed_scale = 4.0
+
+[connection signal="pressed" from="wallFL/expandL/Button" to="." method="_on_buttonL_pressed"]
+[connection signal="pressed" from="wallFR/expandR/Button" to="." method="_on_buttonR_pressed"]

@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://xv67o2okrxgy"]
+
+[ext_resource type="StyleBox" uid="uid://0fbtm7y126ln" path="res://leaderboard/yourstatspanel.tres" id="1_skrvd"]
+[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_wkkbw"]
+
+[node name="slot" type="Panel"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 40)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_skrvd")
+
+[node name="place" type="RichTextLabel" parent="."]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 56.0
+offset_bottom = 40.0
+theme_override_fonts/normal_font = ExtResource("1_wkkbw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[right]0000"
+scroll_active = false
+
+[node name="name" type="RichTextLabel" parent="."]
+layout_mode = 1
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 680.0
+offset_bottom = 40.0
+theme_override_fonts/normal_font = ExtResource("1_wkkbw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "name"
+scroll_active = false
+
+[node name="level" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = -0.1
+anchor_right = 1.0
+anchor_bottom = -0.1
+offset_left = -452.0
+offset_top = 12.0
+offset_right = -332.0
+offset_bottom = 44.0
+theme_override_fonts/normal_font = ExtResource("1_wkkbw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "0000000000"
+scroll_active = false
+
+[node name="boxes" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = -0.1
+anchor_right = 1.0
+anchor_bottom = -0.1
+offset_left = -316.0
+offset_top = 12.0
+offset_right = -68.0
+offset_bottom = 44.0
+theme_override_fonts/normal_font = ExtResource("1_wkkbw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "00000000000000000000"
+scroll_active = false

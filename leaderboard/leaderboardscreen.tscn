@@ -1,0 +1,201 @@
+[gd_scene load_steps=16 format=3 uid="uid://c6aaol47j7awo"]
+
+[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_ioj23"]
+[ext_resource type="Script" path="res://leaderboard/leaderboardscreen.gd" id="1_tw443"]
+[ext_resource type="PackedScene" uid="uid://xv67o2okrxgy" path="res://leaderboard/slot.tscn" id="3_prvn8"]
+[ext_resource type="PackedScene" uid="uid://cvpo7kkgufcp4" path="res://UI/loader.tscn" id="4_7nqwq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ygncd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_icv4y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pext3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8nm67"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2krpa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x1wxc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3axlf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8nutp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2h42y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tkray"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ttiuf"]
+
+[node name="Leaderboardscreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tw443")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -368.0
+offset_top = 20.0
+offset_right = 376.0
+offset_bottom = 84.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("1_ioj23")
+theme_override_font_sizes/normal_font_size = 42
+bbcode_enabled = true
+text = "[center]leaderboard"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+layout_mode = 1
+offset_left = 103.0
+offset_top = 89.0
+offset_right = 183.0
+offset_bottom = 129.0
+theme_override_fonts/normal_font = ExtResource("1_ioj23")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "name"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -340.0
+offset_top = 89.0
+offset_right = -228.0
+offset_bottom = 129.0
+grow_horizontal = 0
+theme_override_fonts/normal_font = ExtResource("1_ioj23")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "boxes"
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -476.0
+offset_top = 89.0
+offset_right = -354.0
+offset_bottom = 129.0
+grow_horizontal = 0
+theme_override_fonts/normal_font = ExtResource("1_ioj23")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "level"
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 104.0
+offset_top = -99.0
+offset_right = 232.0
+offset_bottom = -67.0
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = ExtResource("1_ioj23")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "you"
+
+[node name="exit" type="Button" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 32.0
+offset_right = 104.0
+offset_bottom = 72.0
+theme_override_fonts/font = ExtResource("1_ioj23")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ygncd")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_icv4y")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pext3")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_8nm67")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2krpa")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_x1wxc")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3axlf")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_8nutp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_2h42y")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_tkray")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ttiuf")
+text = "exit"
+
+[node name="changename" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -192.0
+offset_top = 32.0
+offset_right = -60.0
+offset_bottom = 72.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("1_ioj23")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ygncd")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_icv4y")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pext3")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_8nm67")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2krpa")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_x1wxc")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3axlf")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_8nutp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_2h42y")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_tkray")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ttiuf")
+text = "change name"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 129.0
+offset_right = -24.0
+offset_bottom = -128.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="slot" parent="." instance=ExtResource("3_prvn8")]
+self_modulate = Color(1, 1, 1, 1)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -64.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_vertical = 0
+
+[node name="loader" parent="." instance=ExtResource("4_7nqwq")]
+layout_mode = 1
+
+[connection signal="pressed" from="exit" to="." method="_on_button_9_pressed"]
+[connection signal="pressed" from="changename" to="." method="_on_changename_pressed"]
