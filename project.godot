@@ -121,3 +121,4 @@ rightclick={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+limits/spatial_indexer/threaded_cull_minimum_instances=65536

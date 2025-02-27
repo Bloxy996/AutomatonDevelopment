@@ -94,6 +94,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jisbc"]
+size = Vector3(1.5, 1.5, 1.5)
 
 [sub_resource type="Animation" id="Animation_4xhph"]
 length = 0.001
@@ -213,7 +214,7 @@ text = "pause"
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.165289, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("BoxShape3D_jisbc")
 
 [node name="boxholder" type="Marker3D" parent="."]

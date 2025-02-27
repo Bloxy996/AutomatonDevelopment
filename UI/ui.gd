@@ -41,7 +41,7 @@ func _process(delta: float) -> void: #runs every microsecond because this is a r
 	level.text = str("level ", Main.level) #set the level UI to the level you are at
 	xpreq.text = str(Main.levelbar, '/', Main.maxLB, ' boxes') #show the player how many boxes they have and how much they need (the max) to level up
 	
-	if Main.tutorial_progress == 4 and Main.kredits >= 20: #move onto the next tutorial text if there's enough kredits to buy a machine
+	if Main.tutorial_progress == 4 and Main.kredits >= Main.prices['seller']: #move onto the next tutorial text if there's enough kredits to buy a machine
 		Main.tutorial_progress += 1
 	
 	if Input.is_action_just_pressed('end_tutorial') and Main.tutorial_progress == 8: #close out the tutorial when the player is done with it

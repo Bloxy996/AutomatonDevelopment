@@ -159,8 +159,6 @@ func savegame(menu: bool = false) -> void: #function to save game
 		main.get_node('UI/saved/AnimationPlayer').play('show') #play the animation thingy for saving games
 
 func loadgame(menu: bool = false) -> void: #function to load the game
-	Global._updateleaderboard()
-	
 	if FileAccess.file_exists("user://savegame.save"): #if there's actually a save file!
 		if not menu:
 			for node: Node3D in get_tree().get_nodes_in_group('machine') + get_tree().get_nodes_in_group('box') + get_tree().get_nodes_in_group('shadow'):
@@ -221,3 +219,5 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 					elif inst.mode == 'destroyer': ##destroyer shadows cant be saved yet 
 						##maybe find the machine based on the position? (I'll have to put machines/shadows/boxes in queues to load them in the right order though)
 						inst.queue_free()
+	
+	Global._updateleaderboard()

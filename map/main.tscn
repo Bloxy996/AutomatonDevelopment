@@ -42,8 +42,8 @@ albedo_color = Color(1, 0, 0, 0.498039)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u6ljy"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_puskf"]
-albedo_color = Color(0.427493, 0.427493, 0.427493, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4tych"]
+albedo_color = Color(0.0984, 0.4, 0.088, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_prg11"]
 size = Vector3(80, 1, 80)
@@ -177,7 +177,7 @@ shape = SubResource("BoxShape3D_u6ljy")
 
 [node name="univground" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
-material_override = SubResource("StandardMaterial3D_puskf")
+material_override = SubResource("StandardMaterial3D_4tych")
 mesh = SubResource("BoxMesh_prg11")
 skeleton = NodePath("../WorldEnvironment")
 
@@ -393,7 +393,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4)
 [node name="loader" parent="." instance=ExtResource("10_eycge")]
 
 [node name="boxkreationdelay" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.25
 one_shot = true
 autostart = true
 

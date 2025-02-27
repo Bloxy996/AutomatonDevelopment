@@ -40,6 +40,7 @@ func _process(_delta: float) -> void: #runs on every frame
 			var maxprice: float = (Main.level + 1) ** (Main.machinepricemultiplier ** 1.5)
 			##maybe the price multiplied by the maxprice should be the current machine price you leveled up at
 			##a price for a random machine goes down when you sell a box??
+			##add minimum clamp
 			Main.prices['kreator'] = clamp(Main.prices['kreator'], 0, 20 * maxprice)
 			Main.prices['seller'] = clamp(Main.prices['seller'], 0, 20 * maxprice)
 			Main.prices['belt'] = clamp(Main.prices['belt'], 0, 25 * maxprice)

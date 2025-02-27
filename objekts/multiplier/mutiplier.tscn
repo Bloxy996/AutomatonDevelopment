@@ -3,9 +3,6 @@
 [ext_resource type="ArrayMesh" uid="uid://dljhfwngjgvd8" path="res://objekts/multiplier/mesh.tres" id="1_6dpd4"]
 [ext_resource type="Script" path="res://objekts/multiplier/mutiplier.gd" id="1_d8isr"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_mye1d"]
-size = Vector3(1, 1, 0.1)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5t78x"]
 albedo_color = Color(0.205111, 0.205111, 0.205111, 1)
 
@@ -18,10 +15,13 @@ points = PackedVector3Array(0.4, 0.25, 0.5, 0.4, -0.25, 0.5, 0.4, 0.25, -0.5, -0
 [sub_resource type="BoxShape3D" id="BoxShape3D_j3iod"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qg3pv"]
-size = Vector3(0.05, 0.4, 0.8)
+size = Vector3(0.05, 0.4, 1.3)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nm8py"]
 points = PackedVector3Array(0.01, 0.5, 0.5, 0.01, 0.5, -0.5, -0.01, -0.5, 0.5, 0.01, -0.5, 0.5, 0.01, -0.5, -0.5, -0.01, -0.5, -0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_02sys"]
+size = Vector3(1.3, 1, 0.1)
 
 [node name="Multiplier" type="StaticBody3D" groups=["machine", "multiplier"]]
 script = ExtResource("1_d8isr")
@@ -29,10 +29,6 @@ script = ExtResource("1_d8isr")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.14, 0, 0, 0, 0.0106235, 0.0456882, 0, -0.00252743, 0.19204, 0, 0.523072, -0.598677)
 mesh = ExtResource("1_6dpd4")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.00232167, 0.56766, 0.0147433)
-shape = SubResource("BoxShape3D_mye1d")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.242551, 0)
@@ -65,5 +61,9 @@ shape = SubResource("ConvexPolygonShape3D_nm8py")
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
 transform = Transform3D(-1, 3.82137e-15, -8.74228e-08, 8.74228e-08, 4.37114e-08, -1, 0, -1, -4.37114e-08, -0.488, 0.82, 0.015)
 shape = SubResource("ConvexPolygonShape3D_nm8py")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.00232167, 0.56766, 0.0147433)
+shape = SubResource("BoxShape3D_02sys")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
