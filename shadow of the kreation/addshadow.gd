@@ -34,17 +34,7 @@ func _process(_delta: float) -> void: #runs on every frame
 			inst.global_rotation = global_rotation
 			
 			Main.kredits -= Main.prices[type] #take away money!
-			Main.prices[type] *= Main.machinepricemultiplier #increase the price
-			
-			##keep the prices from going over the max (based on level); maybe I was going to do something different!
-			var maxprice: float = (Main.level + 1) ** (Main.machinepricemultiplier ** 1.5)
-			##maybe the price multiplied by the maxprice should be the current machine price you leveled up at
-			##a price for a random machine goes down when you sell a box??
-			##add minimum clamp
-			Main.prices['kreator'] = clamp(Main.prices['kreator'], 0, 20 * maxprice)
-			Main.prices['seller'] = clamp(Main.prices['seller'], 0, 20 * maxprice)
-			Main.prices['belt'] = clamp(Main.prices['belt'], 0, 25 * maxprice)
-			Main.prices['multiplier'] = clamp(Main.prices['multiplier'], 0, 40 * maxprice)
+			Main.progressions('buymachine', type)
 		
 		if Input.is_action_just_pressed('rightclick') and has_overlapping_bodies(): #removing machines while building
 			var builderinarea: bool = false

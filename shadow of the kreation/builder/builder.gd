@@ -43,11 +43,7 @@ func _on_timer_timeout() -> void:
 		inst.global_rotation = global_rotation
 	
 	elif mode == 'destroyer': #if it's being used to destroy
-		#give the credits back that were lost for each of the machines
-		if node.is_in_group('kreator'): Main.kredits += Main.prices['kreator'] / (Main.machinepricemultiplier * 2)
-		elif node.is_in_group('seller'): Main.kredits += Main.prices['seller'] / (Main.machinepricemultiplier * 2)
-		elif node.is_in_group('belt'): Main.kredits += Main.prices['belt'] / (Main.machinepricemultiplier * 2)
-		elif node.is_in_group('multiplier'): Main.kredits += Main.prices['multiplier'] / (Main.machinepricemultiplier * 2)
+		Main.progressions('sellmachine', '', node)
 		
 		node.queue_free() #IRRADIKATE ZE MACHINE!!
 	
