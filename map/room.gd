@@ -29,11 +29,7 @@ var expand_prices: Dictionary = { #prices needed to expand
 }
 
 func _ready() -> void:
-	##set prices, pls update calculations
-	expand_prices['left']['level'] = int(randf_range((location.x + 1) * 3, (location.x + 1) * 6))
-	expand_prices['left']['kredits'] = int(randf_range((location.x + 1) * 30000, (location.x + 1) * 60000))
-	expand_prices['right']['level'] = int(randf_range((location.y + 1) * 3, (location.y + 1) * 6))
-	expand_prices['right']['kredits'] = int(randf_range((location.y + 1) * 30000, (location.y + 1) * 60000))
+	Main.progressions('addroom', '', null, self)
 	
 	#set the buttons
 	expandLM.get_node('Button').text = str(
