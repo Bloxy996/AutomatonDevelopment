@@ -266,6 +266,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="builder" type="StaticBody3D" groups=["shadow"]]
+input_ray_pickable = false
 script = ExtResource("1_mivof")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

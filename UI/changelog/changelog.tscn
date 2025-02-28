@@ -58,7 +58,7 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_5qcnx")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "1.4 (00/00/2025)
+text = "1.4 (02/28/2025)
 [ul]Updated the creator models[/ul]
 [ul]Fixed the conveyorbelt movement[/ul]
 [ul]Boxes are put into a queue when they are generated to help prevent clogging[/ul]
@@ -79,6 +79,8 @@ text = "1.4 (00/00/2025)
 [ul]Added a spawn point where you cant build machines[/ul]
 [ul]Fixed wall texturing[/ul]
 [ul]Made player movement directional to the camera[/ul]
+[ul]Fixed all progression prices[/ul]
+[ul]Fixed a bunch of rendering and detection bugs[/ul]
 
 1.3 (02/21/2025)
 [ul]creator machines have been slowed down[/ul]
