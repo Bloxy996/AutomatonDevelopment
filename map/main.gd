@@ -53,24 +53,29 @@ func sell_box(price: int) -> void: #runs when a box is sold
 func progressions(mode: String, type: String = '', node: Node3D = null, room: Room = null) -> void: #universal place for all progression stuff
 	match mode:
 		'buymachine': #buying a machine
-			Main.prices[type] *= Main.machinepricemultiplier #increase the price
+			prices[type] *= machinepricemultiplier #increase the price
 			##keep the prices from going over the max (based on level); maybe I was going to do something different!
 			##a price for a random machine goes down when you sell a box and add minimum clamp
-			Main.prices[type] = clamp(Main.prices[type], 0, {'kreator' : 20, 'seller' : 20, 'belt' : 25, 'multiplier' : 40}[type] * ((Main.level + 1) ** (Main.machinepricemultiplier ** 1.5)))
+			prices[type] = clamp(prices[type], 0, {
+				'kreator' : 20, 
+				'seller' : 20, 
+				'belt' : 25, 
+				'multiplier' : 40
+			}[type] * maxLB)
 		'sellmachine': #selling a machine
 			#give the credits back that were lost for each of the machines
-			if node.is_in_group('kreator'): Main.kredits += Main.prices['kreator'] / (Main.machinepricemultiplier * 2)
-			elif node.is_in_group('seller'): Main.kredits += Main.prices['seller'] / (Main.machinepricemultiplier * 2)
-			elif node.is_in_group('belt'): Main.kredits += Main.prices['belt'] / (Main.machinepricemultiplier * 2)
-			elif node.is_in_group('multiplier'): Main.kredits += Main.prices['multiplier'] / (Main.machinepricemultiplier * 2)
+			if node.is_in_group('kreator'): kredits += prices['kreator'] / machinepricemultiplier
+			elif node.is_in_group('seller'): kredits += prices['seller'] / machinepricemultiplier
+			elif node.is_in_group('belt'): kredits += prices['belt'] / machinepricemultiplier
+			elif node.is_in_group('multiplier'): kredits += prices['multiplier'] / machinepricemultiplier
 		'levelup': #when you level up
 			maxLB = round(maxLB*machinepricemultiplier) #make the max level thingy bigger
 		'addroom': #when a room is created
 			##set prices, pls update calculations
-			room.expand_prices['left']['level'] = int(randf_range((room.location.x + 1) * 3, (room.location.x + 1) * 6))
-			room.expand_prices['left']['kredits'] = int(randf_range((room.location.x + 1) * 30000, (room.location.x + 1) * 60000))
-			room.expand_prices['right']['level'] = int(randf_range((room.location.y + 1) * 3, (room.location.y + 1) * 6))
-			room.expand_prices['right']['kredits'] = int(randf_range((room.location.y + 1) * 30000, (room.location.y + 1) * 60000))
+			room.expand_prices['left']['level'] = round(randf_range(4, 8) * (room.location.x + 1) ** machinepricemultiplier)
+			room.expand_prices['left']['kredits'] = round(randf_range(40000, 80000) * (room.location.x + 1) ** machinepricemultiplier)
+			room.expand_prices['right']['level'] = round(randf_range(4, 8) * (room.location.y + 1) ** machinepricemultiplier)
+			room.expand_prices['right']['kredits'] = round(randf_range(40000, 80000) * (room.location.y + 1) ** machinepricemultiplier)
 
 
 func resetgame() -> void: ##resets all the variables to their original values, update this when updating other variables
@@ -81,7 +86,7 @@ func resetgame() -> void: ##resets all the variables to their original values, u
 		if not sw_result.has('scores'): continue
 		
 		for score: Dictionary in sw_result.scores:
-			if score["player_name"] == Main.playername:
+			if score["player_name"] == playername:
 				SilentWolf.Scores.delete_score(score["score_id"])
 	
 	kredits = 0

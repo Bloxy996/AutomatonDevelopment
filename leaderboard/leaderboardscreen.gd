@@ -49,6 +49,7 @@ func getanddisplayscores() -> void:
 	loader.showscreen()
 	
 	var month: String = [ #get the month using real time!
+		0,
 		'january',
 		'february',
 		'march',
