@@ -25,6 +25,7 @@ sky = SubResource("Sky_e0jfy")
 ambient_light_source = 3
 reflected_light_source = 2
 tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_sql4h"]
 height = 200.0
@@ -125,7 +126,8 @@ script = ExtResource("1_7qdv2")
 environment = SubResource("Environment_fupma")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.258819, 0.836515, -0.482963, 0, 0.5, 0.866025, 0.965927, -0.224144, 0.129409, 0, 0, 0)
+transform = Transform3D(0.25882, 0.836515, -0.482962, 0, 0.499999, 0.866025, 0.965928, -0.224144, 0.129409, 0, 0, 0)
+light_energy = 1.2
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -183,6 +185,7 @@ skeleton = NodePath("../WorldEnvironment")
 
 [node name="spawn" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="spawn"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -396,6 +399,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4)
 wait_time = 0.25
 one_shot = true
 autostart = true
+
+[node name="exitdelay" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
 
 [connection signal="pressed" from="UI/irradicate" to="." method="_on_irradicate_pressed"]
 [connection signal="pressed" from="UI/create" to="UI/Shop" method="_on_create_pressed"]

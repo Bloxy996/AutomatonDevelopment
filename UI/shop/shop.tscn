@@ -1,32 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://pqgimsdre2da"]
+[gd_scene load_steps=9 format=3 uid="uid://pqgimsdre2da"]
 
-[ext_resource type="Texture2D" uid="uid://ds3f3sft16klm" path="res://UI/shop/Shop Background UI.png" id="1_myw0m"]
 [ext_resource type="Script" path="res://UI/shop/shop.gd" id="1_p511o"]
 [ext_resource type="Texture2D" uid="uid://dyfriog8gdjgu" path="res://UI/shop/X.png" id="2_np1oo"]
-[ext_resource type="Texture2D" uid="uid://de6hv7css86qb" path="res://UI/shop/options/creator.png" id="4_0wa0i"]
+[ext_resource type="Texture2D" uid="uid://d3w4xs8a8rgmw" path="res://UI/shop/images/creator.png" id="4_c2orj"]
+[ext_resource type="Texture2D" uid="uid://cth3wb3t7l3wx" path="res://UI/shop/images/seller.png" id="5_fmgr2"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="5_tsgys"]
-[ext_resource type="Texture2D" uid="uid://bo8ubbvwly58q" path="res://UI/shop/options/seller.png" id="6_go38h"]
-[ext_resource type="Texture2D" uid="uid://cpbxqevcvu2n8" path="res://UI/shop/images/creator.jpg" id="6_tox4m"]
-[ext_resource type="Texture2D" uid="uid://bryy66ei5r0ho" path="res://UI/shop/options/conveyer belt.png" id="7_dboq4"]
-[ext_resource type="Texture2D" uid="uid://ck350erlfkb50" path="res://UI/shop/images/seller.jpg" id="8_0odm1"]
-[ext_resource type="Texture2D" uid="uid://qxv3hndktoc4" path="res://UI/shop/options/multiplier.png" id="8_0poxd"]
-[ext_resource type="Texture2D" uid="uid://blh06gdxjganw" path="res://UI/shop/images/belt.jpg" id="10_hqe3f"]
-[ext_resource type="Texture2D" uid="uid://d0jhnxdatmy5u" path="res://UI/shop/images/mutiplier.jpg" id="12_3hf2k"]
+[ext_resource type="Texture2D" uid="uid://bsnmpb7v41bvp" path="res://UI/shop/images/multiplier.png" id="6_ogwwx"]
+[ext_resource type="Texture2D" uid="uid://ck5jhu2li3njf" path="res://UI/shop/images/belt.png" id="7_r30og"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sviem"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ec55y"]
-bg_color = Color(0, 0, 0, 0.247059)
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color(0, 0, 0, 0.247059)
-border_blend = true
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [node name="Shop" type="Control"]
 layout_mode = 3
@@ -46,131 +28,400 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.784314)
 
-[node name="container" type="Control" parent="."]
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -512.0
+offset_top = -268.0
+offset_right = 512.0
+offset_bottom = 228.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="background ui" type="Sprite2D" parent="container"]
-position = Vector2(12, 8)
-scale = Vector2(0.781944, 0.781945)
-texture = ExtResource("1_myw0m")
-
-[node name="exit" type="Button" parent="container"]
-layout_mode = 0
-offset_left = 316.0
-offset_top = -256.0
-offset_right = 371.0
-offset_bottom = -201.0
+[node name="exit" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 432.0
+offset_top = -260.0
+offset_right = 487.0
+offset_bottom = -205.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_sviem")
 icon = ExtResource("2_np1oo")
 flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="creator" type="Sprite2D" parent="container"]
-position = Vector2(-163, -89)
-scale = Vector2(0.335417, 0.335417)
-texture = ExtResource("4_0wa0i")
-
-[node name="creator" type="Button" parent="container/creator"]
-offset_left = 38.7578
-offset_top = 125.217
-offset_right = 391.758
-offset_bottom = 257.217
+[node name="shop" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -384.0
+offset_top = -254.0
+offset_right = -264.0
+offset_bottom = -202.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 40
-text = "20 kredits"
-expand_icon = true
+text = "shop"
 
-[node name="Sprite2D" type="Sprite2D" parent="container/creator"]
-position = Vector2(-195.503, 56.4223)
-scale = Vector2(2.67391, 2.48758)
-texture = ExtResource("6_tox4m")
+[node name="container" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -504.0
+offset_top = -196.0
+offset_right = 504.0
+offset_bottom = 252.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="tutorial" type="RichTextLabel" parent="container/creator"]
-offset_left = -957.018
-offset_top = -122.236
-offset_right = -480.018
-offset_bottom = 157.764
-theme_override_fonts/normal_font = ExtResource("5_tsgys")
-theme_override_font_sizes/normal_font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxFlat_ec55y")
-bbcode_enabled = true
-text = "[right]note: creators will only put boxes onto conveyor belts"
-fit_content = true
+[node name="container" type="VBoxContainer" parent="container"]
+layout_mode = 2
 
-[node name="seller" type="Sprite2D" parent="container"]
-position = Vector2(173, -89)
-scale = Vector2(0.335417, 0.335417)
-texture = ExtResource("6_go38h")
+[node name="kreator" type="Panel" parent="container/container"]
+custom_minimum_size = Vector2(1000, 100)
+layout_mode = 2
 
-[node name="seller" type="Button" parent="container/seller"]
-offset_left = 38.7578
-offset_top = 125.217
-offset_right = 391.758
-offset_bottom = 257.217
+[node name="name" type="Label" parent="container/container/kreator"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 110.0
+offset_top = -23.0
+offset_right = 236.0
+offset_bottom = 17.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("5_tsgys")
-theme_override_font_sizes/font_size = 40
-text = "20 kredits"
-expand_icon = true
+theme_override_font_sizes/font_size = 30
+text = "creator"
 
-[node name="Sprite2D" type="Sprite2D" parent="container/seller"]
-position = Vector2(-195.503, 56.4223)
-scale = Vector2(2.67391, 2.48758)
-texture = ExtResource("8_0odm1")
+[node name="TextureRect" type="TextureRect" parent="container/container/kreator"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -44.0
+offset_right = 100.0
+offset_bottom = 44.0
+grow_vertical = 2
+texture = ExtResource("4_c2orj")
+expand_mode = 1
+stretch_mode = 4
 
-[node name="belt" type="Sprite2D" parent="container"]
-position = Vector2(-160, 123)
-scale = Vector2(0.335417, 0.335417)
-texture = ExtResource("7_dboq4")
-
-[node name="belt" type="Button" parent="container/belt"]
-offset_left = 38.7578
-offset_top = 125.217
-offset_right = 391.758
-offset_bottom = 257.217
+[node name="desc" type="Label" parent="container/container/kreator"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 319.0
+offset_top = -44.0
+offset_right = 796.0
+offset_bottom = 44.0
+grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
-theme_override_font_sizes/font_size = 40
-text = "25 kredits"
-expand_icon = true
+theme_override_font_sizes/font_size = 16
+text = "an automated machine that will generate boxes; they will put boxes only onto conveyor belts"
+vertical_alignment = 1
+autowrap_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="container/belt"]
-position = Vector2(-195.503, 56.4223)
-scale = Vector2(2.67391, 2.48758)
-texture = ExtResource("10_hqe3f")
-
-[node name="multiplier" type="Sprite2D" parent="container"]
-position = Vector2(171, 123)
-scale = Vector2(0.335417, 0.335417)
-texture = ExtResource("8_0poxd")
-
-[node name="multiplier" type="Button" parent="container/multiplier"]
-offset_left = 38.7578
-offset_top = 125.217
-offset_right = 391.758
-offset_bottom = 257.217
+[node name="button" type="Button" parent="container/container/kreator"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 796.0
+offset_top = -44.0
+offset_right = 992.0
+offset_bottom = 44.0
+grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
-theme_override_font_sizes/font_size = 40
-text = "40 kredits"
-expand_icon = true
+text = "buy for 1000000000000000 kredits"
+alignment = 2
+autowrap_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="container/multiplier"]
-position = Vector2(-195.503, 56.4223)
-scale = Vector2(2.67391, 2.48758)
-texture = ExtResource("12_3hf2k")
+[node name="seller" type="Panel" parent="container/container"]
+custom_minimum_size = Vector2(1000, 100)
+layout_mode = 2
 
-[connection signal="pressed" from="container/exit" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="container/creator/creator" to="." method="_on_creator_pressed"]
-[connection signal="pressed" from="container/seller/seller" to="." method="_on_seller_pressed"]
-[connection signal="pressed" from="container/belt/belt" to="." method="_on_belt_pressed"]
-[connection signal="pressed" from="container/multiplier/multiplier" to="." method="_on_multiplier_pressed"]
+[node name="name" type="Label" parent="container/container/seller"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 110.0
+offset_top = -23.0
+offset_right = 236.0
+offset_bottom = 17.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 30
+text = "seller"
+
+[node name="TextureRect" type="TextureRect" parent="container/container/seller"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -44.0
+offset_right = 100.0
+offset_bottom = 44.0
+grow_vertical = 2
+texture = ExtResource("5_fmgr2")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="desc" type="Label" parent="container/container/seller"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 319.0
+offset_top = -44.0
+offset_right = 796.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 16
+text = "an automated machine that will sell boxes; they'll NOT grab boxes from multipliers"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="button" type="Button" parent="container/container/seller"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 796.0
+offset_top = -44.0
+offset_right = 992.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+text = "buy for 1000000000000000 kredits"
+alignment = 2
+autowrap_mode = 2
+
+[node name="multiplier" type="Panel" parent="container/container"]
+custom_minimum_size = Vector2(1000, 100)
+layout_mode = 2
+
+[node name="name" type="Label" parent="container/container/multiplier"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 110.0
+offset_top = -23.0
+offset_right = 290.0
+offset_bottom = 17.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 30
+text = "multiplier"
+
+[node name="TextureRect" type="TextureRect" parent="container/container/multiplier"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -44.0
+offset_right = 100.0
+offset_bottom = 44.0
+grow_vertical = 2
+texture = ExtResource("6_ogwwx")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="desc" type="Label" parent="container/container/multiplier"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 319.0
+offset_top = -44.0
+offset_right = 796.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 16
+text = "adds to the amount of kredits a box will sell for; the max multiplied amount is x100"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="button" type="Button" parent="container/container/multiplier"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 796.0
+offset_top = -44.0
+offset_right = 992.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+text = "buy for 1000000000000000 kredits"
+alignment = 2
+autowrap_mode = 2
+
+[node name="belt" type="Panel" parent="container/container"]
+custom_minimum_size = Vector2(1000, 100)
+layout_mode = 2
+
+[node name="name" type="Label" parent="container/container/belt"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 110.0
+offset_top = -23.0
+offset_right = 236.0
+offset_bottom = 17.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 30
+text = "belt"
+
+[node name="TextureRect" type="TextureRect" parent="container/container/belt"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -44.0
+offset_right = 100.0
+offset_bottom = 44.0
+grow_vertical = 2
+texture = ExtResource("7_r30og")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="desc" type="Label" parent="container/container/belt"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 319.0
+offset_top = -44.0
+offset_right = 796.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 16
+text = "moves boxes in the direction it's pointing"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="button" type="Button" parent="container/container/belt"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 796.0
+offset_top = -44.0
+offset_right = 992.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+text = "buy for 1000000000000000 kredits"
+alignment = 2
+autowrap_mode = 2
+
+[node name="splitbelt" type="Panel" parent="."]
+visible = false
+custom_minimum_size = Vector2(1000, 100)
+layout_mode = 2
+offset_left = 72.0
+offset_top = 476.0
+offset_right = 1072.0
+offset_bottom = 576.0
+
+[node name="name" type="Label" parent="splitbelt"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 124.0
+offset_top = -23.0
+offset_right = 250.0
+offset_bottom = 17.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 30
+text = "split belt"
+
+[node name="TextureRect" type="TextureRect" parent="splitbelt"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -44.0
+offset_right = 100.0
+offset_bottom = 44.0
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 4
+
+[node name="desc" type="Label" parent="splitbelt"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 319.0
+offset_top = -44.0
+offset_right = 796.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 16
+text = "moves boxes back and forth on 1 axis (toggled directions, you'll see) from any side"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="button" type="Button" parent="splitbelt"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 796.0
+offset_top = -44.0
+offset_right = 992.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+text = "buy for 1000000000000000 kredits"
+alignment = 2
+autowrap_mode = 2
+
+[connection signal="pressed" from="exit" to="." method="_on_exit_pressed"]

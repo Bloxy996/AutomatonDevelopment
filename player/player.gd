@@ -12,6 +12,7 @@ class_name Player
 @onready var deathanim: AnimationPlayer = $death/AnimationPlayer
 @onready var floorcast: ShapeCast3D = $floor
 @onready var deathconfirmation: Timer = $deathradius/confirmation
+@onready var boxdetection: Area3D = $boxdetection
 
 @onready var loader: Loader = $"../loader"
 
@@ -79,3 +80,22 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 func _on_confirmation_timeout() -> void: #if the confirmation timer is over and the player is still clipped, kill it
 	##ppl are constantly dying, maybe the radius or the wait time is too big, and also death should happen when you go into a multiplier even if not clipped
 	if deathradius.get_overlapping_bodies().size() - 1 > 0: die()
+
+func clearboxes() -> void: ##delete unused boxes in immediate area, please make this look nicer
+	for node: Node3D in boxdetection.get_overlapping_bodies():
+		if node is Box: #iterates through all the boxes
+			var usingbox: bool = false
+			
+			for area: Area3D in node.detector.get_overlapping_areas():
+				if area.is_in_group('usingbox'):
+					usingbox = true #sets this to true when the box is in an area used for a machine (it's being used)
+					break
+			
+			if not usingbox: 
+				node.queue_free() #if it's not being used, remove it
+				Main.kredits -= 5 ##take away kredits, maaybe change this number somehow? (distance to player, increases with level or how many boxes you do it, etc.)
+		
+		#stop the removal of boxes if you would run out of kredits
+		if Main.kredits - 5 < 0: break
+	
+	Main.savegame() #idk it just seems like a good time to save ig

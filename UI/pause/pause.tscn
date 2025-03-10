@@ -73,6 +73,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_05xov")
 text = "resume"
 
 [node name="reset" type="Button" parent="MarginContainer/VBoxContainer"]
+modulate = Color(1, 0, 0, 1)
 layout_mode = 2
 mouse_filter = 1
 theme_override_fonts/font = ExtResource("2_qf0ts")
@@ -88,6 +89,24 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_k2pnd")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_rp873")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_05xov")
 text = "reset player"
+
+[node name="clearboxes" type="Button" parent="MarginContainer/VBoxContainer"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_qf0ts")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_w28qb")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3c2ka")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yaf5j")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_kvkam")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ub00u")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_ckg7d")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0trp2")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_ha3gy")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_k2pnd")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_rp873")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_05xov")
+text = "clear boxes (5 kredits per box)"
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
@@ -130,5 +149,6 @@ text = "quit "
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/clearboxes" to="." method="_on_clearboxes_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]

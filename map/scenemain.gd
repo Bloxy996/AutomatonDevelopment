@@ -16,6 +16,7 @@ class_name MainScene
 @onready var loader: Loader = $loader
 @onready var boxkreationdelay: Timer = $boxkreationdelay
 @onready var spawn: Area3D = $spawn
+@onready var exitdelay: Timer = $exitdelay
 
 @onready var ui: UI = $UI
 
@@ -72,21 +73,22 @@ func _process(delta: float) -> void: #runs every ~milisecond
 				for node: Node3D in irradicate.get_overlapping_bodies():
 					if node.is_in_group('machine'):
 						if not node.is_in_group('original'):
-							var inst: Builder = buildshadow.instantiate() #create the builder to make a machine
+							var inst: Builder = buildshadow.instantiate() #create the builder to remove a machine
 							inst.mode = 'destroyer' #set all of the settings
 							inst.node = node
 							inst.type = 'kreator' if node.is_in_group('kreator') else ('seller' if node.is_in_group('seller') else ('belt' if node.is_in_group('belt') else 'multiplier'))
 							
 							Main.main.get_node('machines').add_child(inst) #add the node and set the timer stuff
-							inst.wait.start(type_to_waittime[inst.type])
-							inst.bar.max_value = type_to_waittime[inst.type]
+							inst.wait.start(type_to_waittime[inst.type] / Main.deletetimerspeedup)
+							inst.bar.max_value = type_to_waittime[inst.type] / Main.deletetimerspeedup
 							
 							inst.global_position = node.global_position #move it to the correct position
 							inst.global_rotation = node.global_rotation
 							
 							break
 		
-		if Input.is_action_just_pressed("enter"):
+		if Input.is_action_just_pressed("esc"):
+			exitdelay.start() #start the timer so the pause menu dosent show
 			Main.irradicating = false #tell main that the shadow is done doing it's horrible things
 	
 	camera.global_position = lerp(camera.global_position, Vector3(player.global_position.x - 10, 15, player.global_position.z - 10), delta * 4) #set the camera position
@@ -102,11 +104,15 @@ func _process(delta: float) -> void: #runs every ~milisecond
 		boxkreationdelay.start()
 		if get_tree().get_nodes_in_group('box').size() < Main.maxboxes: #if there's enough space to add more boxes and there's stuff in the queue
 			if not boxkreationqueue.is_empty():
-				boxkreationqueue.pop_front().request_accepted() #accept the oldest item in the queue and delete it
+				var latest: Kreator = boxkreationqueue.pop_front()
+				if is_instance_valid(latest): latest.request_accepted() #accept the oldest item in the queue and delete it
 
 func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton) and event.is_pressed(): #zoom camera
 		zoom = clampf(zoom + (int(event.button_index == MOUSE_BUTTON_WHEEL_DOWN) - int(event.button_index == MOUSE_BUTTON_WHEEL_UP)), 5, 25)
+	elif event.is_action_pressed("delete"): #delete key can also be used to delete machines
+		if not Main.building: #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
+			Main.irradicating = true
 
 func _on_autosave_timeout() -> void: #save the game periodically
 	Main.savegame()
@@ -150,10 +156,11 @@ func generate_rooms() -> void: #generate rooms from factory map
 	#generate the rooms
 	for y: int in range(Main.factory_map.size()):
 		for x: int in range(Main.factory_map[y].size()):
-			var inst: Room = room.instantiate() #create the room
-			inst.location = Vector2(x, y) #set it's position on the map
-			factory.add_child(inst) #add the factory!
-			inst.global_position = Vector3(inst.location.x, 0, inst.location.y) * room_size #set the phsyical position
+			if Main.factory_map[y][x] is Dictionary or Main.factory_map[y][x] != 0: #if there's actually a room
+				var inst: Room = room.instantiate() #create the room
+				inst.location = Vector2(x, y) #set it's position on the map
+				factory.add_child(inst) #add the factory!
+				inst.global_position = Vector3(inst.location.x, 0, inst.location.y) * room_size #set the phsyical position
 	
 	#remove the walls
 	for node: Room in factory.get_children():

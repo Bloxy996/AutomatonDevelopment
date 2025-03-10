@@ -47,7 +47,7 @@ input_ray_pickable = false
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.165289, 0)
 shape = SubResource("BoxShape3D_j3iod")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." groups=["inmultiplier", "usingbox"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 input_ray_pickable = false
 

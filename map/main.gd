@@ -28,6 +28,13 @@ var prices: Dictionary = { #gets the prices of each of the machines
 	'multiplier' : 40
 }
 
+var originalprices: Dictionary = { #the original prices for all machines, not const because I set the thingy later on
+	'kreator' : 20,
+	'seller' : 20,
+	'belt' : 25,
+	'multiplier' : 40
+}
+
 var first_time: bool = true #is true when the player opens the game for the first time
 
 ##the price and demand for ALL sellers, reset at each level up but it's a tad bit different
@@ -35,7 +42,9 @@ var first_time: bool = true #is true when the player opens the game for the firs
 var progression_price: float = 15
 var progression_demand: float = 8
 
-var machinepricemultiplier: float = 1.125 ##adjust this, raises the price whenever you buy a machine by this #, you can change it w/ upgrades soon
+const machinepricemultiplier: float = 1.125 ##adjust this, raises the price whenever you buy a machine by this #, you can change it w/ upgrades soon
+const deletetimerspeedup: float = 2 ##the number to divide the time by when removing a machine (adjust and add a create speedup when doing upgrades)
+const beltspeed: float = 4 #speed for the belt/multipliers
 
 var factory_map: Array = [[1]] ##array for the rooms that you have in the factory, also make a machine map too for saving
 
@@ -56,27 +65,29 @@ func progressions(mode: String, type: String = '', node: Node3D = null, room: Ro
 			prices[type] *= machinepricemultiplier #increase the price
 			##keep the prices from going over the max (based on level); maybe I was going to do something different!
 			##a price for a random machine goes down when you sell a box and add minimum clamp
-			prices[type] = clamp(prices[type], 0, {
-				'kreator' : 20, 
-				'seller' : 20, 
-				'belt' : 25, 
-				'multiplier' : 40
-			}[type] * maxLB)
+			prices[type] = clamp(prices[type], 0, originalprices[type] * maxLB)
+			
 		'sellmachine': #selling a machine
 			#give the credits back that were lost for each of the machines
-			if node.is_in_group('kreator'): kredits += prices['kreator'] / machinepricemultiplier
-			elif node.is_in_group('seller'): kredits += prices['seller'] / machinepricemultiplier
-			elif node.is_in_group('belt'): kredits += prices['belt'] / machinepricemultiplier
-			elif node.is_in_group('multiplier'): kredits += prices['multiplier'] / machinepricemultiplier
+			var machinetype: String
+			if node.is_in_group('kreator'): machinetype = 'kreator'
+			elif node.is_in_group('seller'): machinetype = 'seller'
+			elif node.is_in_group('belt'): machinetype = 'belt'
+			elif node.is_in_group('multiplier'): machinetype = 'multiplier'
+			
+			kredits += prices[machinetype] / machinepricemultiplier
+			prices[machinetype] /= ((machinepricemultiplier - 1) / 2) + 1 ##bring down the price for the machine, maybe have a floor clamp?
+			prices[machinetype] = round(prices[machinetype])
+		
 		'levelup': #when you level up
 			maxLB = round(maxLB*machinepricemultiplier) #make the max level thingy bigger
+		
 		'addroom': #when a room is created
 			##set prices, pls update calculations
 			room.expand_prices['left']['level'] = round(randf_range(4, 8) * (room.location.x + 1) ** machinepricemultiplier)
 			room.expand_prices['left']['kredits'] = round(randf_range(40000, 80000) * (room.location.x + 1) ** machinepricemultiplier)
 			room.expand_prices['right']['level'] = round(randf_range(4, 8) * (room.location.y + 1) ** machinepricemultiplier)
 			room.expand_prices['right']['kredits'] = round(randf_range(40000, 80000) * (room.location.y + 1) ** machinepricemultiplier)
-
 
 func resetgame() -> void: ##resets all the variables to their original values, update this when updating other variables
 	#removes the player from the leaderboard
@@ -97,19 +108,12 @@ func resetgame() -> void: ##resets all the variables to their original values, u
 	first_time = true
 	progression_price = 15
 	progression_demand = 8
-	machinepricemultiplier = 1.5
 	playername = ""
 	displayname = ""
 	boxes = 0
 	maxboxes = boxesperroom
 	factory_map = [[1]]
-	
-	prices = {
-		'kreator' : 20,
-		'seller' : 20,
-		'belt' : 25,
-		'multiplier' : 40
-	}
+	prices = originalprices
 	
 	DirAccess.remove_absolute("user://savegame.save") #clears the file
 
@@ -153,7 +157,6 @@ func savegame(menu: bool = false) -> void: #function to save game
 		'first_time' : first_time,
 		'progression_price' : progression_price,
 		'progression_demand' : progression_demand,
-		'machinepricemultiplier' : machinepricemultiplier,
 		'playername' : playername,
 		'displayname' : displayname,
 		'boxes' : boxes,
@@ -250,3 +253,6 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 						inst.queue_free()
 	
 	Global._updateleaderboard()
+	
+	kredits += 99999999999 ##debugging
+	level += 999999999

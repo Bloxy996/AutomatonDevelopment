@@ -106,13 +106,14 @@ func _on_SaveScore_request_completed(result, response_code, headers, body) -> vo
 	
 	if status_check:
 		var json_body = JSON.parse_string(body.get_string_from_utf8())
-		var sw_result: Dictionary = SilentWolf.build_result(json_body)
-		if json_body.has('success') and json_body.success:
-			SWLogger.info("SilentWolf save score success.")
-			sw_result["score_id"] = json_body.score_id
-		elif json_body.has('error'):
-			SWLogger.error("SilentWolf save score failure: " + str(json_body.error))
-		sw_save_score_complete.emit(sw_result)
+		if json_body:
+			var sw_result: Dictionary = SilentWolf.build_result(json_body)
+			if json_body.has('success') and json_body.success:
+				SWLogger.info("SilentWolf save score success.")
+				sw_result["score_id"] = json_body.score_id
+			elif json_body.has('error'):
+				SWLogger.error("SilentWolf save score failure: " + str(json_body.error))
+			sw_save_score_complete.emit(sw_result)
 
 
 func get_scores(maximum: int=10, ldboard_name: String="main", period_offset: int=0) -> Node:
