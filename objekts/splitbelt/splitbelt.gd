@@ -1,5 +1,5 @@
 extends StaticBody3D #skript for the konveyor belt
-class_name Belt
+class_name SplitBelt
 
 @onready var effect: Area3D = $Area3D
 @onready var adjustL: Area3D = $adjustL

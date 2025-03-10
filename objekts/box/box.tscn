@@ -1,8 +1,7 @@
-[gd_scene load_steps=20 format=4 uid="uid://cmyleaka8nhuo"]
+[gd_scene load_steps=18 format=4 uid="uid://cmyleaka8nhuo"]
 
 [ext_resource type="Texture2D" uid="uid://c7bmnctuydmse" path="res://objekts/box/UV.png" id="1_1sakw"]
 [ext_resource type="Script" path="res://objekts/box/box.gd" id="1_p6f6l"]
-[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="3_p5um1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1alt7"]
 friction = 0.25
@@ -144,21 +143,14 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_fltg5")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7m0ej"]
-bg_color = Color(0, 0, 0, 0.313726)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="LabelSettings" id="LabelSettings_5ijam"]
-font = ExtResource("3_p5um1")
+[sub_resource type="BoxShape3D" id="BoxShape3D_sk74q"]
+size = Vector3(0.51, 0.51, 0.51)
 
 [node name="Box" type="RigidBody3D" groups=["box"]]
 input_capture_on_drag = true
 mass = 5.0
 physics_material_override = SubResource("PhysicsMaterial_1alt7")
-continuous_cd = true
+sleeping = true
 script = ExtResource("1_p6f6l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -187,52 +179,15 @@ skeleton = NodePath("")
 
 [node name="Marker3D" type="Marker3D" parent="."]
 
-[node name="pick up" type="Button" parent="Marker3D"]
-visible = false
-offset_right = 86.0
-offset_bottom = 28.0
-mouse_filter = 1
-theme_override_fonts/font = ExtResource("3_p5um1")
-text = "pick up"
-
-[node name="drop" type="Button" parent="Marker3D"]
-offset_right = 85.0
-offset_bottom = 29.0
-mouse_filter = 1
-theme_override_fonts/font = ExtResource("3_p5um1")
-text = "drop"
-
-[node name="delete" type="Button" parent="Marker3D/drop"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 45.5
-offset_top = -30.0
-offset_right = 61.5
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 1
-theme_override_fonts/font = ExtResource("3_p5um1")
-theme_override_font_sizes/font_size = 12
-text = "X"
-
-[node name="Label" type="Label" parent="Marker3D"]
-visible = false
-offset_right = 34.0
-offset_bottom = 22.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_7m0ej")
-text = "x1"
-label_settings = SubResource("LabelSettings_5ijam")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="forceapplier" type="Marker3D" parent="."]
+
+[node name="detector" type="Area3D" parent="."]
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="detector"]
+shape = SubResource("BoxShape3D_sk74q")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
-[connection signal="pressed" from="Marker3D/pick up" to="." method="_on_pick_up_pressed"]
-[connection signal="pressed" from="Marker3D/drop" to="." method="_on_drop_pressed"]
-[connection signal="pressed" from="Marker3D/drop/delete" to="." method="_on_delete_pressed"]
+[connection signal="mouse_entered" from="detector" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="detector" to="." method="_on_mouse_exited"]

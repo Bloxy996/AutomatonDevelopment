@@ -17,8 +17,8 @@ to start, walk over to the CREATOR machine on the left and press CREATE A BOX to
 	'after a few seconds, a BOX should appear
 when it does, pick it up by clicking on it',
 	'walk over to the SELLER machine on the right and drop your BOX by clicking on it again
-this takes a bit of effort, dosent it? you can also press the X to delete the box',
-	'once an offer is avaliable, you can go over to the SELLER and press CLICK TO SELL to sell your BOX
+this takes a bit of effort, dosent it? you can also right click on it to delete the box',
+	'once an offer is avaliable (the light will turn red again), you can go over to the SELLER and press CLICK TO SELL to sell your BOX
 you will get KREDITS and gain 1 EXPERIENCE POINT for each BOX you sell',
 	'now you can continue to create and sell BOXES manually; this is a bit of work
 after a while you will get enough KREDITS to buy a MACHINE, we will tell you when that time comes!',
@@ -27,8 +27,8 @@ click on ADD MACHINE in the bottom right or press TAB to open the SHOP',
 	'you may now choose a MACHINE that you have enough KREDITS to buy
 the descriptions are shown next to the image, click on the price to buy a MACHINE',
 	'the shadow follows your MOUSE, and if you LEFT CLICK, you can place down the selected MACHINE; the arrow on the shadow is the direction of the MACHINE which can be rotated by pressing R
-if you have more KREDITS, you can place more MACHINES and press ENTER to end the process; you can press RIGHT CLICK to remove machines too',
-	'if you want to delete MACHINES, press the DELETE MACHINES BUTTON and LEFT CLICK on MACHINES to delete them; press ENTER to stop
+if you have more KREDITS, you can place more MACHINES and press ESCAPE to end the process; you can press RIGHT CLICK to remove machines too',
+	'if you want to delete MACHINES, press the DELETE MACHINES BUTTON (or the delete key) and LEFT CLICK on MACHINES to delete them; press ESCAPE to stop
 press T to close the tutorial, and have fun playing!'
 ]
 

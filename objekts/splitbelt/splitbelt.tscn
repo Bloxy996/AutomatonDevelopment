@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=4 uid="uid://d1kplwhcnt2oq"]
+[gd_scene load_steps=18 format=4 uid="uid://dtnw3iqqjqlow"]
 
-[ext_resource type="Script" path="res://objekts/konveyorbelt/konveyorbelt.gd" id="1_uk2u1"]
-[ext_resource type="Texture2D" uid="uid://c7j41u68cce32" path="res://objekts/konveyorbelt/UV1.png" id="2_ac5wu"]
-[ext_resource type="Texture2D" uid="uid://dyrrgx5pe48bo" path="res://objekts/konveyorbelt/UV2.jpg" id="2_brdgx"]
+[ext_resource type="Script" path="res://objekts/splitbelt/splitbelt.gd" id="1_t3eev"]
+[ext_resource type="Texture2D" uid="uid://b6m4jhwnxg223" path="res://objekts/splitbelt/UV1.png" id="2_em22t"]
+[ext_resource type="Texture2D" uid="uid://dyrrgx5pe48bo" path="res://objekts/konveyorbelt/UV2.jpg" id="3_ulls7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mywik"]
 albedo_color = Color(0.205111, 0.205111, 0.205111, 1)
@@ -31,7 +31,7 @@ roughness = 0.206522
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_160a3"]
 resource_name = "Material.003"
 cull_mode = 2
-albedo_texture = ExtResource("2_ac5wu")
+albedo_texture = ExtResource("2_em22t")
 metallic = 1.0
 roughness = 0.293478
 
@@ -95,7 +95,7 @@ points = PackedVector3Array(0.460765, 0.59328, 1.07443, -1.53923, 0.59328, 1.074
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i0kaj"]
 resource_name = "Material.001"
 cull_mode = 2
-albedo_texture = ExtResource("2_brdgx")
+albedo_texture = ExtResource("3_ulls7")
 roughness = 0.5
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_t1t48"]
@@ -132,12 +132,17 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_t1t48")
 
-[node name="Belt" type="StaticBody3D" groups=["belt", "machine"]]
+[node name="SplitBelt" type="StaticBody3D" groups=["belt", "machine"]]
 input_ray_pickable = false
-script = ExtResource("1_uk2u1")
+script = ExtResource("1_t3eev")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0.003)
+material_override = SubResource("StandardMaterial3D_mywik")
+mesh = SubResource("BoxMesh_0fgnt")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 0.9, 0, 1, 0, -1, 0, -3.93403e-08, 0, -0.008, 0.003)
 material_override = SubResource("StandardMaterial3D_mywik")
 mesh = SubResource("BoxMesh_0fgnt")
 

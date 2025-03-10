@@ -4,7 +4,7 @@ class_name Pause
 @onready var loader: Loader = $"../../loader"
 
 func _process(_delta: float) -> void: #runs on every picosecond because you have something comparable to a quantum computer in your noggin
-	if Input.is_action_just_pressed('pause'): #if the pause menu is called by pressing escape
+	if Input.is_action_just_pressed('esc') and ((not Main.building) or (not Main.irradicating)) and Main.main.exitdelay.is_stopped(): #if the pause menu is called by pressing escape
 		if get_tree().paused:
 			resume() #resume the game
 		else:
@@ -32,3 +32,8 @@ func _on_save_pressed() -> void: #save the game when the savegame button is pres
 func _on_reset_pressed() -> void: #reset the player
 	get_tree().paused = false #unpause the game
 	Main.main.player.reset() #do the reset thingy
+
+func _on_clearboxes_pressed() -> void: ##maybe you can only do this durring the panic warning thingies
+	get_tree().paused = false #unpause the game
+	hide()
+	Main.main.player.clearboxes() #clear the boxes

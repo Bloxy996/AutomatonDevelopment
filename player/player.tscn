@@ -1,11 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://bm3fnga38jpgw"]
+[gd_scene load_steps=17 format=3 uid="uid://bm3fnga38jpgw"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_uooiq"]
 [ext_resource type="ArrayMesh" uid="uid://xy702iir7ips" path="res://player/mesh.tres" id="2_8ynt8"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="3_6dbmm"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_se6ai"]
-radius = 0.48
+radius = 0.45
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o6od3"]
 size = Vector3(2, 2, 2)
@@ -149,13 +149,15 @@ _data = {
 "death": SubResource("Animation_d3idw")
 }
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_m7m7t"]
+radius = 20.0
+
 [node name="Player" type="RigidBody3D" groups=["player"]]
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 mass = 10.0
 center_of_mass_mode = 1
-continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_uooiq")
@@ -302,6 +304,12 @@ text = "[center]press R to restart"
 libraries = {
 "": SubResource("AnimationLibrary_4ofgs")
 }
+
+[node name="boxdetection" type="Area3D" parent="."]
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="boxdetection"]
+shape = SubResource("SphereShape3D_m7m7t")
 
 [connection signal="timeout" from="deathradius/confirmation" to="." method="_on_confirmation_timeout"]
 [connection signal="animation_finished" from="death/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -45,21 +45,22 @@ func _process(_delta: float) -> void: #runs on every frame
 				for node: Node3D in get_overlapping_bodies():
 					if node.is_in_group('machine'):
 						if not node.is_in_group('original'):
-							var inst: Builder = Main.main.buildshadow.instantiate() #create the builder to make a machine
+							var inst: Builder = Main.main.buildshadow.instantiate() #create the builder to remove a machine
 							inst.mode = 'destroyer' #set all of the settings
 							inst.node = node
 							inst.type = 'kreator' if node.is_in_group('kreator') else ('seller' if node.is_in_group('seller') else ('belt' if node.is_in_group('belt') else 'multiplier'))
 							
 							Main.main.get_node('machines').add_child(inst) #add the node and set the timer stuff
-							inst.wait.start(Main.main.type_to_waittime[inst.type])
-							inst.bar.max_value = Main.main.type_to_waittime[inst.type]
+							inst.wait.start(Main.main.type_to_waittime[inst.type] / Main.deletetimerspeedup)
+							inst.bar.max_value = Main.main.type_to_waittime[inst.type] / Main.deletetimerspeedup
 							
 							inst.global_position = global_position #move it to the correct position
 							inst.global_rotation = global_rotation
 							
 							break
 	
-	if Input.is_action_just_pressed("enter") or Main.kredits - Main.prices[type] < 0: #if the user ends the creation or they dont have enough money,
+	if Input.is_action_just_pressed("esc") or Main.kredits - Main.prices[type] < 0: #if the user ends the creation or they dont have enough money,
+		Main.main.exitdelay.start() #start the timer so the pause menu dosent show
 		Main.building = false #tell main skript that the shadow is done with it's job
 		queue_free() #do what needs to be done; remove it from the mortal plane of existence
 		

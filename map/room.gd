@@ -29,7 +29,11 @@ var expand_prices: Dictionary = { #prices needed to expand
 }
 
 func _ready() -> void:
-	Main.progressions('addroom', '', null, self)
+	if not Main.factory_map[location.y][location.x] is Dictionary: #sets the expand prices if it needs one
+		Main.progressions('addroom', '', null, self)
+		Main.factory_map[location.y][location.x] = expand_prices
+	else: #sets the price to the saved one if it dosent need one
+		expand_prices = Main.factory_map[location.y][location.x]
 	
 	#set the buttons
 	expandLM.get_node('Button').text = str(
@@ -66,6 +70,10 @@ func _process(_delta: float) -> void:
 		if (not wall.get_parent().visible) and visiblility: wall.get_node("../AnimationPlayer").play('show') #if the wall needs to show
 		
 		#wall.get_parent().visible = visiblility
+	
+	if Main.building or Main.irradicating: #hide the buttons when building/deleting
+		if is_instance_valid(buttonL): buttonL.hide()
+		if is_instance_valid(buttonR): buttonR.hide()
 
 func set_button(marker : Marker3D, prices : Dictionary) -> void:
 	marker.get_node('Button').global_position = get_viewport().get_camera_3d().unproject_position(marker.global_position) - (marker.get_node('Button').size / 2) #move to the wall

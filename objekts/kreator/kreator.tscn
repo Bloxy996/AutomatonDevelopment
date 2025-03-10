@@ -1,8 +1,9 @@
-[gd_scene load_steps=26 format=4 uid="uid://cwxkmuoaeityg"]
+[gd_scene load_steps=30 format=4 uid="uid://cwxkmuoaeityg"]
 
 [ext_resource type="Script" path="res://objekts/kreator/kreator.gd" id="1_wlmyy"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="3_5dmas"]
 [ext_resource type="ArrayMesh" uid="uid://b844s7fag2kmt" path="res://objekts/kreator/mesh.tres" id="3_siepo"]
+[ext_resource type="Material" uid="uid://pcxososdf80d" path="res://objekts/unpausedlight.tres" id="4_4ur0n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hri05"]
 albedo_color = Color(0.205111, 0.205111, 0.205111, 1)
@@ -50,6 +51,9 @@ _data = {
 "RESET": SubResource("Animation_6vnfi"),
 "spawn": SubResource("Animation_jq3s3")
 }
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mokwu"]
+size = Vector3(0.5, 1.25, 0.5)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wqw7e"]
 bg_color = Color(0, 0, 0, 0.352941)
@@ -267,6 +271,12 @@ _data = {
 "open": SubResource("Animation_ecvyk")
 }
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_mdmyl"]
+size = Vector3(0.75, 0.5, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lk63x"]
+size = Vector3(0.07, 0.1, 0.15)
+
 [node name="Kreator" type="StaticBody3D" groups=["kreator", "machine"]]
 input_ray_pickable = false
 script = ExtResource("1_wlmyy")
@@ -287,15 +297,20 @@ input_ray_pickable = false
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.165289, 0)
 shape = SubResource("BoxShape3D_xrdyh")
 
-[node name="spawnbox" type="Marker3D" parent="."]
+[node name="spawnbox" type="Area3D" parent="." groups=["usingbox"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+input_ray_pickable = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="spawnbox"]
 libraries = {
 "": SubResource("AnimationLibrary_8ut07")
 }
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spawnbox"]
+shape = SubResource("BoxShape3D_mokwu")
+
 [node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
 offset_top = 35.0
 offset_right = 128.0
 offset_bottom = 43.0
@@ -317,6 +332,7 @@ one_shot = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="createbox" type="Button" parent="buttonholder"]
+visible = false
 offset_right = 128.0
 offset_bottom = 31.0
 theme_override_fonts/font = ExtResource("3_5dmas")
@@ -324,8 +340,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_qr6be")
 text = "create a box"
 
 [node name="pause" type="Button" parent="buttonholder"]
-offset_right = 128.0
-offset_bottom = 31.0
+visible = false
+offset_right = 72.0
+offset_bottom = 30.0
 theme_override_fonts/font = ExtResource("3_5dmas")
 text = "pause"
 
@@ -365,6 +382,21 @@ skeleton = NodePath("")
 libraries = {
 "": SubResource("AnimationLibrary_itp44")
 }
+
+[node name="sender" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="sender"]
+shape = SubResource("BoxShape3D_mdmyl")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="sender"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_mdmyl")
+
+[node name="pause" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45498, 0.589631, 0.331104)
+material_override = ExtResource("4_4ur0n")
+mesh = SubResource("BoxMesh_lk63x")
 
 [connection signal="animation_finished" from="spawnbox/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="ProgressBar/Timer" to="." method="_on_timer_timeout"]

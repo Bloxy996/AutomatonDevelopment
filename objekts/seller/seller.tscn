@@ -1,8 +1,10 @@
-[gd_scene load_steps=19 format=4 uid="uid://bi5nwl7eahp7j"]
+[gd_scene load_steps=21 format=4 uid="uid://bi5nwl7eahp7j"]
 
 [ext_resource type="Script" path="res://objekts/seller/seller.gd" id="1_3orkw"]
 [ext_resource type="ArrayMesh" uid="uid://b278u3wdoyvaj" path="res://objekts/seller/mesh.tres" id="1_ol83c"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="3_p3ndv"]
+[ext_resource type="Material" uid="uid://b5nmws3lggxpv" path="res://objekts/seller/greenlight.tres" id="4_b7mnx"]
+[ext_resource type="Material" uid="uid://pcxososdf80d" path="res://objekts/unpausedlight.tres" id="5_yk60e"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vf10q"]
 resource_name = "Material"
@@ -77,14 +79,7 @@ data = PackedVector3Array(-0.6949, 1, -0.6949, -0.6949, 1.161, 0.6949, -0.6949, 
 size = Vector3(0.5, 0.5, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p20l6"]
-size = Vector3(2.5, 0.2, 2.5)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e0w58"]
-bg_color = Color(0, 0, 0, 0.313726)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+size = Vector3(2.5, 0.5, 0.5)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4vim"]
 bg_color = Color(0, 0, 0, 0.352941)
@@ -148,6 +143,9 @@ _data = {
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8rxol"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_e7f7x"]
+size = Vector3(0.1, 0.1, 0.15)
+
 [node name="Seller" type="StaticBody3D" groups=["machine", "seller"]]
 input_ray_pickable = false
 script = ExtResource("1_3orkw")
@@ -166,7 +164,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.5, 0, 0, 0, 0.2625, 0, 0, 0, 0.5, 0, 0.2625, 0)
 shape = SubResource("ConcavePolygonShape3D_3kx1h")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." groups=["usingbox"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 input_ray_pickable = false
 
@@ -174,9 +172,12 @@ input_ray_pickable = false
 shape = SubResource("BoxShape3D_a5i7j")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0966126, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 shape = SubResource("BoxShape3D_p20l6")
-disabled = true
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.2, 0)
+shape = SubResource("BoxShape3D_p20l6")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
@@ -184,15 +185,6 @@ one_shot = true
 
 [node name="holder" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-
-[node name="Label" type="Label" parent="holder"]
-visible = false
-offset_right = 192.0
-offset_bottom = 40.0
-theme_override_fonts/font = ExtResource("3_p3ndv")
-theme_override_styles/normal = SubResource("StyleBoxFlat_e0w58")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Button" type="Button" parent="holder"]
 visible = false
@@ -204,9 +196,8 @@ text = "click to sell"
 
 [node name="pause" type="Button" parent="holder"]
 visible = false
-offset_top = -45.0
-offset_right = 191.0
-offset_bottom = -5.0
+offset_right = 72.0
+offset_bottom = 30.0
 theme_override_fonts/font = ExtResource("3_p3ndv")
 text = "pause"
 
@@ -230,6 +221,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="blocker"]
 shape = SubResource("BoxShape3D_8rxol")
+
+[node name="light" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.423316, 0.517821, 0.270704)
+material_override = ExtResource("4_b7mnx")
+mesh = SubResource("BoxMesh_e7f7x")
+
+[node name="pause" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.27068, 0.517821, -0.420766)
+material_override = ExtResource("5_yk60e")
+mesh = SubResource("BoxMesh_e7f7x")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="holder/Button" to="." method="_on_button_pressed"]
