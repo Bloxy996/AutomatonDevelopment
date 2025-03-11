@@ -126,7 +126,7 @@ script = ExtResource("1_7qdv2")
 environment = SubResource("Environment_fupma")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.25882, 0.836515, -0.482962, 0, 0.499999, 0.866025, 0.965928, -0.224144, 0.129409, 0, 0, 0)
+transform = Transform3D(0.258822, 0.836513, -0.482964, 1.28817e-08, 0.5, 0.866025, 0.965927, -0.224146, 0.129409, 0, 0, 0)
 light_energy = 1.2
 shadow_enabled = true
 

@@ -9,7 +9,7 @@ func _ready() -> void:
 	loader.showscreen()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	currentname.text = "[center]" + Main.displayname #sets text to player display name
 
 func _on_cancel_pressed() -> void:
