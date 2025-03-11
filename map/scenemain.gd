@@ -24,14 +24,9 @@ var room_size: int = 14 #the size of the rooms for the generator
 
 var zoom: float = 10 #size of the camera
 
-var type_to_waittime: Dictionary = { #defines the wait times for each of the machines
-	'kreator' : 10,
-	'seller' : 10,
-	'belt' : 5,
-	'multiplier' : 8
-}
-
 var boxkreationqueue: Array[Kreator] = [] #the box kreation queue, all boxes go here to be created
+
+var boxamount: float = 0
 
 func _ready() -> void:
 	Main.main = self #set the main scene in the master branch
@@ -76,11 +71,11 @@ func _process(delta: float) -> void: #runs every ~milisecond
 							var inst: Builder = buildshadow.instantiate() #create the builder to remove a machine
 							inst.mode = 'destroyer' #set all of the settings
 							inst.node = node
-							inst.type = 'kreator' if node.is_in_group('kreator') else ('seller' if node.is_in_group('seller') else ('belt' if node.is_in_group('belt') else 'multiplier'))
+							inst.type = Main.group_to_type(node)
 							
 							Main.main.get_node('machines').add_child(inst) #add the node and set the timer stuff
-							inst.wait.start(type_to_waittime[inst.type] / Main.deletetimerspeedup)
-							inst.bar.max_value = type_to_waittime[inst.type] / Main.deletetimerspeedup
+							inst.wait.start(Main.machinedata[inst.type]['type_to_waittime'] / Main.deletetimerspeedup)
+							inst.bar.max_value = Main.machinedata[inst.type]['type_to_waittime'] / Main.deletetimerspeedup
 							
 							inst.global_position = node.global_position #move it to the correct position
 							inst.global_rotation = node.global_rotation
@@ -100,9 +95,15 @@ func _process(delta: float) -> void: #runs every ~milisecond
 	
 	univground.global_position = Vector3(player.global_position.x, -0.55, player.global_position.z) #set the position for the visual ground
 	
+	#number of boxes also includes the ones being generated
+	boxamount = get_tree().get_nodes_in_group('box').size()
+	for kreator: Kreator in get_tree().get_nodes_in_group('kreator'):
+		if (not kreator.timer.is_stopped()) or (not kreator.automated.is_stopped()):
+			boxamount += 1
+	
 	if boxkreationdelay.is_stopped(): #the code in here will run periodically for however long the wait time for the timer is
 		boxkreationdelay.start()
-		if get_tree().get_nodes_in_group('box').size() < Main.maxboxes: #if there's enough space to add more boxes and there's stuff in the queue
+		if boxamount < Main.maxboxes: #if there's enough space to add more boxes and there's stuff in the queue
 			if not boxkreationqueue.is_empty():
 				var latest: Kreator = boxkreationqueue.pop_front()
 				if is_instance_valid(latest): latest.request_accepted() #accept the oldest item in the queue and delete it

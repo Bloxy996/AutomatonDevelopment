@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://c408bg6sajv8f"]
+
+[ext_resource type="ArrayMesh" uid="uid://dljhfwngjgvd8" path="res://objekts/multiplier/mesh.tres" id="1_fi2en"]
+[ext_resource type="ArrayMesh" uid="uid://b4qrabo5mteb1" path="res://shadow of the kreation/buildarrow.obj" id="2_d30yg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ohpuc"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0.74902, 1, 0.498039)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g5emm"]
+size = Vector3(0.8, 0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gjokb"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0.74902, 1, 0.74902)
+
+[node name="multiplier" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.14, 0, 0, 0, 0.0106235, 0.0456882, 0, -0.00252743, 0.19204, 0, 0.523072, -0.598677)
+material_override = SubResource("StandardMaterial3D_ohpuc")
+mesh = ExtResource("1_fi2en")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.242551, 0)
+material_override = SubResource("StandardMaterial3D_ohpuc")
+mesh = SubResource("BoxMesh_g5emm")
+
+[node name="arrow" type="MeshInstance3D" parent="."]
+transform = Transform3D(-2.18557e-09, 0, -0.05, 0, 0.05, 0, 0.05, 0, -2.18557e-09, 0, 0.2, 1)
+material_override = SubResource("StandardMaterial3D_gjokb")
+mesh = ExtResource("2_d30yg")
+skeleton = NodePath("../..")

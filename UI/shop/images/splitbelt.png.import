@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpbxqevcvu2n8"
-path="res://.godot/imported/creator.jpg-da02be534a2e8d2c6b2ff9f328263ab2.ctex"
+uid="uid://crhi6iq5va2g2"
+path="res://.godot/imported/splitbelt.png-97f85019d9a0ad42bc53f59d71eda847.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/shop/images/creator.jpg"
-dest_files=["res://.godot/imported/creator.jpg-da02be534a2e8d2c6b2ff9f328263ab2.ctex"]
+source_file="res://UI/shop/images/splitbelt.png"
+dest_files=["res://.godot/imported/splitbelt.png-97f85019d9a0ad42bc53f59d71eda847.ctex"]
 
 [params]
 

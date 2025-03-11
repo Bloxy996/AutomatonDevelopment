@@ -47,6 +47,7 @@ exclude_from_raycast=""
 shadow=""
 inmultiplier=""
 usingbox=""
+splitbelt=""
 
 [input]
 

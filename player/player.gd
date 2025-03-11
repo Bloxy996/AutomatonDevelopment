@@ -83,19 +83,19 @@ func _on_confirmation_timeout() -> void: #if the confirmation timer is over and 
 
 func clearboxes() -> void: ##delete unused boxes in immediate area, please make this look nicer
 	for node: Node3D in boxdetection.get_overlapping_bodies():
-		if node is Box: #iterates through all the boxes
-			var usingbox: bool = false
-			
-			for area: Area3D in node.detector.get_overlapping_areas():
-				if area.is_in_group('usingbox'):
-					usingbox = true #sets this to true when the box is in an area used for a machine (it's being used)
-					break
-			
-			if not usingbox: 
-				node.queue_free() #if it's not being used, remove it
-				Main.kredits -= 5 ##take away kredits, maaybe change this number somehow? (distance to player, increases with level or how many boxes you do it, etc.)
-		
-		#stop the removal of boxes if you would run out of kredits
-		if Main.kredits - 5 < 0: break
+		if Main.kredits >= Main.deleteboxcost:
+			if node is Box: #iterates through all the boxes
+				var usingbox: bool = false
+				
+				for area: Area3D in node.detector.get_overlapping_areas():
+					if area.is_in_group('usingbox'):
+						usingbox = true #sets this to true when the box is in an area used for a machine (it's being used)
+						break
+				
+				if not usingbox: 
+					node.queue_free() #if it's not being used, remove it
+					Main.kredits -= Main.deleteboxcost ##take away kredits, maaybe change this number somehow? (distance to player, increases with level or how many boxes you do it, etc.)
+		else: #stop the removal of boxes if you would run out of kredits
+			break
 	
 	Main.savegame() #idk it just seems like a good time to save ig

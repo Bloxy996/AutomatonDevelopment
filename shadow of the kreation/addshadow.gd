@@ -1,17 +1,13 @@
 extends Area3D #skript for the shadow of the creator of creators
 class_name CreationShadow
 
-@onready var shadows: Node3D = $shadows #all of the shadow meshes
 @onready var buildradius_detection: Area3D = $buildradius_detection
 
 var type: String #the machine that is being created
 
 func _ready() -> void: #runs when it appears
 	Main.building = true #tell the main skript that something is being created
-	for shadow: Node3D in shadows.get_children(): #set the shadow mesh to the one of the type of the machine
-		if shadow.name == type:
-			shadow.show()
-			break
+	add_child(Main.machinedata[type]['shadow'].instantiate()) #add the shadow for visuals
 
 func _process(_delta: float) -> void: #runs on every frame
 	#move it to the mouse, and keep it on the ground
@@ -26,8 +22,8 @@ func _process(_delta: float) -> void: #runs on every frame
 			var inst: Builder = Main.main.buildshadow.instantiate() #create the builder to make a machine
 			inst.type = type #set the shadow to the type needed
 			Main.main.get_node('machines').add_child(inst) ##add to the machines, maybe add to a seperate shadow node instead
-			inst.wait.start(Main.main.type_to_waittime[type]) #start the timer, when it finished a machine will be created
-			inst.bar.max_value = Main.main.type_to_waittime[type] #sets the max value for UI purposes
+			inst.wait.start(Main.machinedata[type]['type_to_waittime']) #start the timer, when it finished a machine will be created
+			inst.bar.max_value = Main.machinedata[type]['type_to_waittime'] #sets the max value for UI purposes
 			
 			#move the build shadow to the shadow's position/rotation
 			inst.global_position = global_position
@@ -48,11 +44,11 @@ func _process(_delta: float) -> void: #runs on every frame
 							var inst: Builder = Main.main.buildshadow.instantiate() #create the builder to remove a machine
 							inst.mode = 'destroyer' #set all of the settings
 							inst.node = node
-							inst.type = 'kreator' if node.is_in_group('kreator') else ('seller' if node.is_in_group('seller') else ('belt' if node.is_in_group('belt') else 'multiplier'))
+							inst.type = Main.group_to_type(node)
 							
 							Main.main.get_node('machines').add_child(inst) #add the node and set the timer stuff
-							inst.wait.start(Main.main.type_to_waittime[inst.type] / Main.deletetimerspeedup)
-							inst.bar.max_value = Main.main.type_to_waittime[inst.type] / Main.deletetimerspeedup
+							inst.wait.start(Main.machinedata[inst.type]['type_to_waittime'] / Main.deletetimerspeedup)
+							inst.bar.max_value = Main.machinedata[inst.type]['type_to_waittime'] / Main.deletetimerspeedup
 							
 							inst.global_position = global_position #move it to the correct position
 							inst.global_rotation = global_rotation

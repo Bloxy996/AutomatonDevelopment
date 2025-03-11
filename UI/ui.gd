@@ -17,7 +17,7 @@ to start, walk over to the CREATOR machine on the left and press CREATE A BOX to
 	'after a few seconds, a BOX should appear
 when it does, pick it up by clicking on it',
 	'walk over to the SELLER machine on the right and drop your BOX by clicking on it again
-this takes a bit of effort, dosent it? you can also right click on it to delete the box',
+this takes a bit of effort, dosent it? you can also right click on it to delete the box if you have enough kredits',
 	'once an offer is avaliable (the light will turn red again), you can go over to the SELLER and press CLICK TO SELL to sell your BOX
 you will get KREDITS and gain 1 EXPERIENCE POINT for each BOX you sell',
 	'now you can continue to create and sell BOXES manually; this is a bit of work
@@ -49,19 +49,19 @@ func _process(delta: float) -> void: #runs every microsecond because this is a r
 	
 	tutorial.text = tutorial_texts[Main.tutorial_progress] #sets the tutorial texts based on the progress
 	
-	if Main.maxboxes - get_tree().get_nodes_in_group('box').size() <= 20: #if a warning needs to be shown
+	if Main.maxboxes - Main.main.boxamount <= 20: #if a warning needs to be shown
 		if TMBblinker.is_stopped(): #the binking stuff code
 			TMBblinker.start()
 			toomanyboxes.visible = not toomanyboxes.visible
 		
-		if Main.maxboxes - get_tree().get_nodes_in_group('box').size() < 0: #over the limit warning
+		if Main.maxboxes - Main.main.boxamount < 0: #over the limit warning
 			toomanyboxes.modulate = Color.RED
-			toomanyboxes.text = str(abs(Main.maxboxes - get_tree().get_nodes_in_group('box').size()), ' BOXES OVER THE LIMIT, PLEASE REMOVE BOXES TO REACTIVATE THE CREATORS!')
-		elif Main.maxboxes - get_tree().get_nodes_in_group('box').size() == 0: #at the limit warning
+			toomanyboxes.text = str(abs(Main.maxboxes - Main.main.boxamount), ' BOXES OVER THE LIMIT, PLEASE REMOVE BOXES TO REACTIVATE THE CREATORS!')
+		elif Main.maxboxes - Main.main.boxamount == 0: #at the limit warning
 			toomanyboxes.modulate = Color.RED
 			toomanyboxes.text = 'YOU HAVE REACHED THE MAX LIMIT, PLEASE REMOVE BOXES TO REACTIVATE THE CREATORS!'
 		else: #near the limit warning
 			toomanyboxes.modulate = Color.ORANGE_RED
-			toomanyboxes.text = str(Main.maxboxes - get_tree().get_nodes_in_group('box').size(), ' BOXES TO THE LIMIT, BE CAREFUL!')
+			toomanyboxes.text = str(Main.maxboxes - Main.main.boxamount, ' BOXES TO THE LIMIT, BE CAREFUL!')
 	else: #hide if there is no need for a warning
 		toomanyboxes.hide()

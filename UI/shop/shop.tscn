@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://pqgimsdre2da"]
+[gd_scene load_steps=10 format=3 uid="uid://pqgimsdre2da"]
 
 [ext_resource type="Script" path="res://UI/shop/shop.gd" id="1_p511o"]
 [ext_resource type="Texture2D" uid="uid://dyfriog8gdjgu" path="res://UI/shop/X.png" id="2_np1oo"]
@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="5_tsgys"]
 [ext_resource type="Texture2D" uid="uid://bsnmpb7v41bvp" path="res://UI/shop/images/multiplier.png" id="6_ogwwx"]
 [ext_resource type="Texture2D" uid="uid://ck5jhu2li3njf" path="res://UI/shop/images/belt.png" id="7_r30og"]
+[ext_resource type="Texture2D" uid="uid://crhi6iq5va2g2" path="res://UI/shop/images/splitbelt.png" id="8_1bne1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sviem"]
 
@@ -20,6 +21,7 @@ grow_vertical = 2
 script = ExtResource("1_p511o")
 
 [node name="fade" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,7 +40,7 @@ anchor_bottom = 0.5
 offset_left = -512.0
 offset_top = -268.0
 offset_right = 512.0
-offset_bottom = 228.0
+offset_bottom = 260.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -91,6 +93,7 @@ offset_right = 504.0
 offset_bottom = 252.0
 grow_horizontal = 2
 grow_vertical = 2
+scroll_vertical = 68
 
 [node name="container" type="VBoxContainer" parent="container"]
 layout_mode = 2
@@ -355,24 +358,19 @@ text = "buy for 1000000000000000 kredits"
 alignment = 2
 autowrap_mode = 2
 
-[node name="splitbelt" type="Panel" parent="."]
-visible = false
+[node name="splitbelt" type="Panel" parent="container/container"]
 custom_minimum_size = Vector2(1000, 100)
 layout_mode = 2
-offset_left = 72.0
-offset_top = 476.0
-offset_right = 1072.0
-offset_bottom = 576.0
 
-[node name="name" type="Label" parent="splitbelt"]
+[node name="name" type="Label" parent="container/container/splitbelt"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 124.0
-offset_top = -23.0
-offset_right = 250.0
-offset_bottom = 17.0
+offset_left = 110.0
+offset_top = -22.0
+offset_right = 290.0
+offset_bottom = 18.0
 grow_vertical = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
@@ -380,7 +378,7 @@ theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 30
 text = "split belt"
 
-[node name="TextureRect" type="TextureRect" parent="splitbelt"]
+[node name="TextureRect" type="TextureRect" parent="container/container/splitbelt"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -390,10 +388,11 @@ offset_top = -44.0
 offset_right = 100.0
 offset_bottom = 44.0
 grow_vertical = 2
+texture = ExtResource("8_1bne1")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="desc" type="Label" parent="splitbelt"]
+[node name="desc" type="Label" parent="container/container/splitbelt"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -405,11 +404,11 @@ offset_bottom = 44.0
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 16
-text = "moves boxes back and forth on 1 axis (toggled directions, you'll see) from any side"
+text = "moves boxes back and forth on 1 axis (toggled directions, you'll see) from any side; you can right click on it to switch the direction when you're near it"
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="button" type="Button" parent="splitbelt"]
+[node name="button" type="Button" parent="container/container/splitbelt"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5

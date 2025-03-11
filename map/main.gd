@@ -1,5 +1,48 @@
 extends Node3D #everything here can be called with any script anywhere it wants, this is the MASTER BRANCH!!
 
+var prices: Dictionary = { ##gets the prices of each of the machines, maybe combine with machinedata?
+	'kreator' : 20,
+	'seller' : 20,
+	'belt' : 25,
+	'multiplier' : 40,
+	'splitbelt' : 30
+}
+
+var machinedata: Dictionary = {
+	'kreator' : {
+		'originalprice' : 20,
+		'shadow' : load("res://objekts/kreator/kreatorshadow.tscn"),
+		'type_to_scene' : load("res://objekts/kreator/kreator.tscn"),
+		'type_to_waittime' : 10
+	},
+	'seller' : {
+		'originalprice' : 20,
+		'shadow' : load("res://objekts/seller/sellershadow.tscn"),
+		'type_to_scene' : load("res://objekts/seller/seller.tscn"),
+		'type_to_waittime' : 10
+	},
+	'belt' : {
+		'originalprice' : 25,
+		'shadow' : load("res://objekts/konveyorbelt/beltshadow.tscn"),
+		'type_to_scene' : load("res://objekts/konveyorbelt/konveyorbelt.tscn"),
+		'type_to_waittime' : 5
+	},
+	'multiplier' : {
+		'originalprice' : 40,
+		'shadow' : load("res://objekts/multiplier/multipliershadow.tscn"),
+		'type_to_scene' : load("res://objekts/multiplier/mutiplier.tscn"),
+		'type_to_waittime' : 8
+	},
+	'splitbelt' : {
+		'originalprice' : 30,
+		'shadow' : load("res://objekts/splitbelt/splitbeltshadow.tscn"),
+		'type_to_scene' : load("res://objekts/splitbelt/splitbelt.tscn"),
+		'type_to_waittime' : 5
+	}
+}
+
+var main: MainScene #the main scene
+
 var kredits: float = 0 #the amount of kredits the player has from selling boxes
 var level: int = 0 #the level number the player is at
 var levelbar: float = 0 #the amount of points the player has in each level
@@ -8,6 +51,7 @@ var maxLB: int = 10 #the max for the levelbar
 var picked: bool = false #if the player is holding a box
 var building: bool = false #if something is being built
 var irradicating: bool = false #if something is being destoryed
+var first_time: bool = true #is true when the player opens the game for the first time
 
 var tutorial_progress: int = 0 #progress durring the tutorial
 
@@ -19,24 +63,6 @@ var maxboxes: int = 50 #the max amount of boxes that can be in the game, increas
 var maxserveriterations: float = 20 #the max amount of times the silentwolf iterations can run until a error appears
 var boxesperroom: int = 50 #the amount of boxes for every room, just so I can change the number wheverer I need it quickly
 
-var main: MainScene #the main scene
-
-var prices: Dictionary = { #gets the prices of each of the machines
-	'kreator' : 20,
-	'seller' : 20,
-	'belt' : 25,
-	'multiplier' : 40
-}
-
-var originalprices: Dictionary = { #the original prices for all machines, not const because I set the thingy later on
-	'kreator' : 20,
-	'seller' : 20,
-	'belt' : 25,
-	'multiplier' : 40
-}
-
-var first_time: bool = true #is true when the player opens the game for the first time
-
 ##the price and demand for ALL sellers, reset at each level up but it's a tad bit different
 ##also have UI for this
 var progression_price: float = 15
@@ -45,6 +71,7 @@ var progression_demand: float = 8
 const machinepricemultiplier: float = 1.125 ##adjust this, raises the price whenever you buy a machine by this #, you can change it w/ upgrades soon
 const deletetimerspeedup: float = 2 ##the number to divide the time by when removing a machine (adjust and add a create speedup when doing upgrades)
 const beltspeed: float = 4 #speed for the belt/multipliers
+const deleteboxcost: float = 5 #cost to delete boxes
 
 var factory_map: Array = [[1]] ##array for the rooms that you have in the factory, also make a machine map too for saving
 
@@ -58,6 +85,12 @@ func sell_box(price: int) -> void: #runs when a box is sold
 		level+=1 #increase the level by 1
 		savegame() #seems like a good time to save your progress dosent it!
 
+func group_to_type(node: Node3D) -> String: #amazing piece of code here
+	for group: String in prices.keys():
+		if node.is_in_group(group):
+			return group
+	return ''
+
 ##I WILL do progression price and demand!!
 func progressions(mode: String, type: String = '', node: Node3D = null, room: Room = null) -> void: #universal place for all progression stuff
 	match mode:
@@ -65,15 +98,11 @@ func progressions(mode: String, type: String = '', node: Node3D = null, room: Ro
 			prices[type] *= machinepricemultiplier #increase the price
 			##keep the prices from going over the max (based on level); maybe I was going to do something different!
 			##a price for a random machine goes down when you sell a box and add minimum clamp
-			prices[type] = clamp(prices[type], 0, originalprices[type] * maxLB)
+			prices[type] = clamp(prices[type], 0, machinedata[type]['originalprice'] * maxLB)
 			
 		'sellmachine': #selling a machine
 			#give the credits back that were lost for each of the machines
-			var machinetype: String
-			if node.is_in_group('kreator'): machinetype = 'kreator'
-			elif node.is_in_group('seller'): machinetype = 'seller'
-			elif node.is_in_group('belt'): machinetype = 'belt'
-			elif node.is_in_group('multiplier'): machinetype = 'multiplier'
+			var machinetype: String = group_to_type(node)
 			
 			kredits += prices[machinetype] / machinepricemultiplier
 			prices[machinetype] /= ((machinepricemultiplier - 1) / 2) + 1 ##bring down the price for the machine, maybe have a floor clamp?
@@ -113,7 +142,9 @@ func resetgame() -> void: ##resets all the variables to their original values, u
 	boxes = 0
 	maxboxes = boxesperroom
 	factory_map = [[1]]
-	prices = originalprices
+	
+	for machine: String in prices.keys():
+		prices[machine] = machinedata[machine]['originalprice']
 	
 	DirAccess.remove_absolute("user://savegame.save") #clears the file
 
@@ -168,13 +199,10 @@ func savegame(menu: bool = false) -> void: #function to save game
 		'player_posY' : player_posY if menu else main.get_node('player').global_position.y,
 		'player_posZ' : player_posZ if menu else main.get_node('player').global_position.z,
 		'player_rotY' : player_rotY if menu else main.get_node('player').global_rotation.y,
-		
-		#prices
-		'kreator' : prices['kreator'],
-		'seller' : prices['seller'],
-		'belt' : prices['belt'],
-		'multiplier' : prices['multiplier']
 	}
+	
+	for machine: String in prices.keys(): #prices
+		mainsave[machine] = prices[machine]
 	
 	#turn it into a string and save it as a new line
 	savefile.store_line(JSON.stringify(mainsave))
@@ -214,10 +242,7 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 					elif (not menu) and key == 'player_posZ': main.get_node('player').global_position.z = data[key]
 					elif (not menu) and key == 'player_rotY': main.get_node('player').global_rotation.y = data[key]
 					
-					elif key == 'kreator': prices['kreator'] = data[key]
-					elif key == 'seller': prices['seller'] = data[key]
-					elif key == 'belt': prices['belt'] = data[key]
-					elif key == 'multiplier': prices['multiplier'] = data[key]
+					elif prices.keys().has(key): prices[key] = data[key]
 					
 					elif key == 'factory_map': #set the factory map
 						factory_map = data[key]
@@ -253,6 +278,3 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 						inst.queue_free()
 	
 	Global._updateleaderboard()
-	
-	kredits += 99999999999 ##debugging
-	level += 999999999

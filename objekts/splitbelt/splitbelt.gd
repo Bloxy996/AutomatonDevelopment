@@ -4,35 +4,50 @@ class_name SplitBelt
 @onready var effect: Area3D = $Area3D
 @onready var adjustL: Area3D = $adjustL
 @onready var adjustR: Area3D = $adjustR
+@onready var area: Area3D = $Area3D2
+@onready var flip: Area3D = $flip
+@onready var positive: MeshInstance3D = $positive
+@onready var negative: MeshInstance3D = $negative
 
-var has_box: bool = false #true when there is a box on it
+var nextdir: float = 1 #toggles between -1 and 1 for pushing boxes back and forth
+var currentboxes: Dictionary = {} #dict that will hold all the boxes inside of the belt and store the direction theyre supposed to go in
+
+var onmouse: bool = false
 
 func _process(_delta: float) -> void: #runs on every frame
 	#keep it from doing goofy stuff
 	effect.collision_mask = 1; adjustL.collision_mask = 1; adjustR.collision_mask = 1
 	
-	for body: Node3D in effect.get_overlapping_bodies() + adjustL.get_overlapping_bodies() + adjustR.get_overlapping_bodies(): #finds out what is on top of the belt
-		if body is RigidBody3D: #if it can be moved,
-			if body is Box and body.get_parent().name != 'hand': #if it's a box and not being held, move it
-				has_box = true #tell everyone that there is a box on the belt
-				
-				#the forces to apply, starts with nothing
-				var forces: Vector3 = Vector3.ZERO
-				#force from the foward area of the belt
-				if effect.get_overlapping_bodies().has(body): forces += (transform.basis * Vector3.FORWARD).normalized() * Main.beltspeed
-				#adds forces from adjusters
-				if adjustL.get_overlapping_bodies().has(body): forces += (transform.basis * Vector3.RIGHT).normalized() * 4
-				elif adjustR.get_overlapping_bodies().has(body): forces += (transform.basis * Vector3.LEFT).normalized() * 4
-				##applies the forces needed with dampner, linear_velocities has won the fight for now
-				##body.apply_impulse(forces - body.linear_velocity, body.forceapplier.position)
-				body.linear_velocity = forces 
-				
-			##elif body.is_in_group('player'): #if it's the player also move it, for funsies! (maybe bring back some ppl liked it as transportation so)
-			##	body.apply_impulse(((transform.basis * Vector3.FORWARD).normalized() * Main.beltspeed) - body.linear_velocity)
-
-func _on_area_3d_body_exited(body: Node3D) -> void: #if a box leaves the belt, set the has box varible to 0 because there is no box anymore
-	if body is Box:
-		has_box = false
+	#manual flipping of the belt
+	if area.get_overlapping_bodies().has(Main.main.get_node('player')):
+		if onmouse and Input.is_action_just_pressed('rightclick'):
+			nextdir *= -1
+	
+	var overlapping: Array = effect.get_overlapping_bodies() + adjustL.get_overlapping_bodies() + adjustR.get_overlapping_bodies()
+	
+	for body: Node3D in overlapping:
+		if body is Box and (not currentboxes.keys().has(body)) and body.get_parent().name != 'hand': 
+			currentboxes[body] = nextdir
+			nextdir *= -1
+	
+	for box: Box in currentboxes.keys():
+		if not overlapping.has(box):
+			currentboxes.erase(box)
+		else:
+			#the forces to apply, starts with nothing
+			var forces: Vector3 = Vector3.ZERO
+			#force from the foward area of the belt
+			if effect.get_overlapping_bodies().has(box): forces += (transform.basis * Vector3.FORWARD).normalized() * Main.beltspeed * currentboxes[box]
+			#adds forces from adjusters
+			if adjustL.get_overlapping_bodies().has(box): forces += (transform.basis * Vector3.RIGHT).normalized() * 4
+			elif adjustR.get_overlapping_bodies().has(box): forces += (transform.basis * Vector3.LEFT).normalized() * 4
+			##applies the forces needed with dampner, linear_velocities has won the fight for now
+			##body.apply_impulse(forces - body.linear_velocity, body.forceapplier.position)
+			box.linear_velocity = forces
+	
+	#set the directional lights for the next direction
+	positive.material_override = load("res://objekts/pausedlight.tres") if nextdir == -1 else load("res://objekts/unpausedlight.tres")
+	negative.material_override = load("res://objekts/pausedlight.tres") if nextdir == 1 else load("res://objekts/unpausedlight.tres")
 
 func save() -> Dictionary: #saving function called from main, gets all the data from the node and pushes it to main
 	return {
@@ -43,3 +58,9 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 		'posY' : global_position.y,
 		'posZ' : global_position.z
 	}
+
+func _on_flip_mouse_entered() -> void:
+	onmouse = true
+
+func _on_flip_mouse_exited() -> void:
+	onmouse = false

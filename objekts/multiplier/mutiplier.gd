@@ -1,4 +1,4 @@
-extends StaticBody3D #skript for the multiplier belt
+extends StaticBody3D #skript for the multiplier 
 class_name Multiplier
 
 @onready var area: Area3D = $Area3D
@@ -7,15 +7,15 @@ var has_box: bool = false #true when there is a box on it
 
 func _process(_delta: float) -> void: #runs on every frame
 	area.collision_mask = 1 #keep it from doing goofy stuff
-	for body: Node3D in area.get_overlapping_bodies(): #finds out what is on top of the belt
+	for body: Node3D in area.get_overlapping_bodies(): #finds out what is on top of the multiplier
 		if body is RigidBody3D: #if it can be moved,
 			if body.is_in_group('box') and body.get_parent().name != 'hand': #if it's a box and not being held, move it
-				has_box = true #tell everyone that there is a box on the belt
+				has_box = true #tell everyone that there is a box on the multiplier
 				##apply forces (linear_velocity has won the fight for now), maybe it should be slower than the conveyor belt
 				##body.apply_impulse(((transform.basis * Vector3.FORWARD).normalized() * -Main.beltspeed) - body.linear_velocity, body.forceapplier.position)
 				body.linear_velocity = (transform.basis * Vector3.FORWARD).normalized() * -Main.beltspeed
 
-func _on_area_3d_body_exited(body: Node3D) -> void: #if a box leaves the belt, set the has box varible to 0 because there is no box anymore
+func _on_area_3d_body_exited(body: Node3D) -> void: #if a box leaves the multiplier, set the has box varible to 0 because there is no box anymore
 	if body.is_in_group('box'):
 		has_box = false
 

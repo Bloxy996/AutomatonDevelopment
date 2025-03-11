@@ -51,8 +51,10 @@ func _input(event: InputEvent) -> void: #when the player presses the button to p
 					Main.tutorial_progress += 1
 			else:
 				dropbox()
-		elif event.is_action_pressed('rightclick'):
-			dropbox(); queue_free() ##drop and remove the box when the user clicks to remove it, make this look nicer pls im begging upon a dying star
+		elif event.is_action_pressed('rightclick') and Main.kredits >= Main.deleteboxcost:
+			dropbox() ##drop and remove the box when the user clicks to remove it, make this look nicer pls im begging upon a dying star
+			Main.kredits -= Main.deleteboxcost #take away money
+			queue_free()
 
 func dropbox() -> void: #drop a box
 	reparent(Main.main.get_node('boxes')) #send the box back to where it came from because it's useless now
