@@ -115,7 +115,6 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_b405k")
 text = "back"
 
 [node name="loader" parent="." instance=ExtResource("3_w6uny")]
-visible = false
 layout_mode = 1
 
 [node name="LinkButton" type="LinkButton" parent="."]

@@ -19,7 +19,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="builder" type="StaticBody3D" groups=["shadow"]]
+[node name="builder" type="StaticBody3D" groups=["save", "shadow"]]
 input_ray_pickable = false
 script = ExtResource("1_mivof")
 

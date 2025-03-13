@@ -1,7 +1,7 @@
-[gd_scene load_steps=18 format=4 uid="uid://cmyleaka8nhuo"]
+[gd_scene load_steps=6 format=3 uid="uid://cmyleaka8nhuo"]
 
-[ext_resource type="Texture2D" uid="uid://c7bmnctuydmse" path="res://objekts/box/UV.png" id="1_1sakw"]
 [ext_resource type="Script" path="res://objekts/box/box.gd" id="1_p6f6l"]
+[ext_resource type="ArrayMesh" uid="uid://oox8yrgij306" path="res://objekts/box/mesh.tres" id="2_jwvee"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1alt7"]
 friction = 0.25
@@ -9,144 +9,10 @@ friction = 0.25
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wmv18"]
 points = PackedVector3Array(-1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, 1, 1, -1, -1, -1, -1, 1, -1, 1, -1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slxx3"]
-resource_name = "Material"
-cull_mode = 2
-albedo_texture = ExtResource("1_1sakw")
-roughness = 0.5
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_bfff7"]
-_surfaces = [{
-"aabb": AABB(-1, -1, -1, 2, 2, 2),
-"format": 34896613377,
-"index_count": 36,
-"index_data": PackedByteArray("AAAGAAQAAAACAAYAAwAGAAIAAwAHAAYABwAEAAYABwAFAAQABQADAAEABQAHAAMAAQACAAAAAQADAAIABQAAAAQABQABAAAA"),
-"name": "Material",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 8,
-"vertex_data": PackedByteArray("/////wAAAAD//wAAAAAAAP///////wAA//8AAP//AAAAAP//AAAAAAAAAAAAAAAAAAD/////AAAAAAAA//8AAA==")
-}]
-blend_shape_mode = 0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_1c7fo"]
-resource_name = "box_Cube"
-_surfaces = [{
-"aabb": AABB(-1, -1, -1, 2, 2, 2),
-"attribute_data": PackedByteArray("/5//f/+f/3//n/9//1//f/9f/3//X/9//5//P/+f/z//n/8//1//P/9f/z//X/8//5//v/+f/7//3/9//1//v/8f/3//X/+//5////+fAAD/3/8//1////8f/z//XwAA"),
-"format": 34896613399,
-"index_count": 36,
-"index_data": PackedByteArray("AQAUAA4AAQAHABQACgATAAYACgAXABMAFQAMABIAFQAPAAwAEAAJAAMAEAAWAAkABQAIAAIABQALAAgAEQAAAA0AEQAEAAAA"),
-"material": SubResource("StandardMaterial3D_slxx3"),
-"name": "Material",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 24,
-"vertex_data": PackedByteArray("/////wAA////////AAD///////8AAFTV//8AAAAA/7///wAAAAD/////AAAAAFTV/////////7///////////////////1TV//8AAP///7///wAA////v///AAD//1TVAAD//wAAVNUAAP//AAD//wAA//8AAP//AAAAAAAAVNUAAAAAAAD/vwAAAAAAAP//AAD/////VNUAAP//////vwAA////////AAAAAP//VNUAAAAA////vwAAAAD///+//7//v/9//7+qKqoqAAD/f/+//7+qKqoq//////9//7+qKqoqAAD/f/////+qKqoqVNVU1f+//7//f/+/VNVU1QAA/3//v/+/VNVU1f//////f/+/VNVU1QAA/3//////")
-}]
-blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_bfff7")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_obnpc"]
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_p682r"]
-_surfaces = [{
-"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
-"format": 34896613377,
-"index_count": 6,
-"index_data": PackedByteArray("AAADAAEAAAACAAMA"),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 4,
-"vertex_data": PackedByteArray("AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAA=")
-}]
-blend_shape_mode = 0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_12nfl"]
-resource_name = "box_Plane"
-_surfaces = [{
-"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
-"attribute_data": PackedByteArray("AAD///////8AAAAA//8AAA=="),
-"format": 34896613399,
-"index_count": 6,
-"index_data": PackedByteArray("AAADAAEAAAACAAMA"),
-"material": SubResource("StandardMaterial3D_obnpc"),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 4,
-"vertex_data": PackedByteArray("AAAAAP///7///wAA////vwAAAAAAAP+///8AAAAA/7////9/////f////3////9/")
-}]
-blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_p682r")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8plbf"]
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_m2smf"]
-_surfaces = [{
-"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
-"format": 34896613377,
-"index_count": 6,
-"index_data": PackedByteArray("AAADAAEAAAACAAMA"),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 4,
-"vertex_data": PackedByteArray("AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAA=")
-}]
-blend_shape_mode = 0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_8u4xm"]
-resource_name = "box_Plane_001"
-_surfaces = [{
-"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
-"attribute_data": PackedByteArray("AAD///////8AAAAA//8AAA=="),
-"format": 34896613399,
-"index_count": 6,
-"index_data": PackedByteArray("AAADAAEAAAACAAMA"),
-"material": SubResource("StandardMaterial3D_8plbf"),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 4,
-"vertex_data": PackedByteArray("AAAAAP///7///wAA////vwAAAAAAAP+///8AAAAA/7////9/////f////3////9/")
-}]
-blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_m2smf")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4odu3"]
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_fltg5"]
-_surfaces = [{
-"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
-"format": 34896613377,
-"index_count": 6,
-"index_data": PackedByteArray("AAADAAEAAAACAAMA"),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 4,
-"vertex_data": PackedByteArray("AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAA=")
-}]
-blend_shape_mode = 0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_gahmf"]
-resource_name = "box_Plane_002"
-_surfaces = [{
-"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
-"attribute_data": PackedByteArray("AAD///////8AAAAA//8AAA=="),
-"format": 34896613399,
-"index_count": 6,
-"index_data": PackedByteArray("AAADAAEAAAACAAMA"),
-"material": SubResource("StandardMaterial3D_4odu3"),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 4,
-"vertex_data": PackedByteArray("AAAAAP///7///wAA////vwAAAAAAAP+///8AAAAA/7////9/////f////3////9/")
-}]
-blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_fltg5")
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_sk74q"]
 size = Vector3(0.51, 0.51, 0.51)
 
-[node name="Box" type="RigidBody3D" groups=["box"]]
+[node name="Box" type="RigidBody3D" groups=["box", "save"]]
 input_capture_on_drag = true
 mass = 5.0
 physics_material_override = SubResource("PhysicsMaterial_1alt7")
@@ -159,27 +25,10 @@ shape = SubResource("ConvexPolygonShape3D_wmv18")
 
 [node name="Cube" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.249905, 0, 0, 0, 0.249905, 0, 0, 0, 0.249905, 0, 0, 0)
-mesh = SubResource("ArrayMesh_1c7fo")
-skeleton = NodePath("")
-
-[node name="Plane" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.0477768, 0, 0, 0, -0.000376235, -0.153915, 0, 0.250683, -0.000231003, -0.00387028, 0.0965875, 0.252153)
-mesh = SubResource("ArrayMesh_12nfl")
-skeleton = NodePath("")
-
-[node name="Plane_001" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.0477768, 0, 0, 0, 0.250683, 0, 0, 0, 0.252337, -0.00389125, 0.250627, 0)
-mesh = SubResource("ArrayMesh_8u4xm")
-skeleton = NodePath("")
-
-[node name="Plane_002" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.0477768, -2.19153e-08, 5.88168e-16, 0, -1.09576e-08, -0.153915, 4.17677e-09, -0.250683, 6.72785e-09, -0.00387028, 0.0970335, -0.25141)
-mesh = SubResource("ArrayMesh_gahmf")
+mesh = ExtResource("2_jwvee")
 skeleton = NodePath("")
 
 [node name="Marker3D" type="Marker3D" parent="."]
-
-[node name="forceapplier" type="Marker3D" parent="."]
 
 [node name="detector" type="Area3D" parent="."]
 input_capture_on_drag = true

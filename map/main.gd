@@ -129,6 +129,7 @@ func resetgame() -> void: ##resets all the variables to their original values, u
 			if score["player_name"] == playername:
 				SilentWolf.Scores.delete_score(score["score_id"])
 	
+	##probaly a better way of doing this...
 	kredits = 0
 	level = 0
 	levelbar = 0
@@ -150,10 +151,7 @@ func resetgame() -> void: ##resets all the variables to their original values, u
 
 func savegame(menu: bool = false) -> void: #function to save game
 	#all of the variables that need to be gotten from a older save if on a menu
-	var player_posX: float = 4
-	var player_posY: float = 1
-	var player_posZ: float = 4
-	var player_rotY: float
+	var playertransform: Array = [4, 1, 4, 0]
 	var nodes: Array
 	
 	if FileAccess.file_exists("user://savegame.save") and menu: #if this isnt the first save
@@ -168,11 +166,8 @@ func savegame(menu: bool = false) -> void: #function to save game
 			
 			#set those variables from earlier, machines are added into a list for later
 			if data.has('kredits'):
-				player_posX = data['player_posX']
-				player_posY = data['player_posY']
-				player_posZ = data['player_posZ']
-				player_rotY = data['player_rotY']
-			elif data.has('rotY'):
+				playertransform = [data['playertransform']]
+			elif data.has('transform'):
 				nodes.append(data)
 	
 	Global._updateleaderboard()
@@ -181,6 +176,7 @@ func savegame(menu: bool = false) -> void: #function to save game
 	var mainsave: Dictionary = { #put all of the common varibles in a dictonary
 		#normal varibles
 		'kredits' : kredits,
+		'boxes' : boxes, ##level, levelbar, and maxLB are dependent on boxes, so make it dependent and dont save it seperatley
 		'level' : level,
 		'levelbar' : levelbar,
 		'maxLB' : maxLB,
@@ -190,19 +186,18 @@ func savegame(menu: bool = false) -> void: #function to save game
 		'progression_demand' : progression_demand,
 		'playername' : playername,
 		'displayname' : displayname,
-		'boxes' : boxes,
-		'maxboxes' : maxboxes,
+		'maxboxes' : maxboxes, ##dependent on # of rooms, so update this too!
 		'factory_map' : factory_map,
+		'prices' : prices,
 		
 		#player stuff, if it's the menu it gets what's already in there
-		'player_posX' : player_posX if menu else main.get_node('player').global_position.x,
-		'player_posY' : player_posY if menu else main.get_node('player').global_position.y,
-		'player_posZ' : player_posZ if menu else main.get_node('player').global_position.z,
-		'player_rotY' : player_rotY if menu else main.get_node('player').global_rotation.y,
+		'playertransform' : playertransform if menu else [
+			main.player.global_position.x,
+			main.player.global_position.y,
+			main.player.global_position.z,
+			main.player.global_rotation.y
+		]
 	}
-	
-	for machine: String in prices.keys(): #prices
-		mainsave[machine] = prices[machine]
 	
 	#turn it into a string and save it as a new line
 	savefile.store_line(JSON.stringify(mainsave))
@@ -211,17 +206,23 @@ func savegame(menu: bool = false) -> void: #function to save game
 		for node: Dictionary in nodes:
 			savefile.store_line(JSON.stringify(node))
 	else: #call each of the node save functions from nodes that need to be saved
-		for node: Node3D in get_tree().get_nodes_in_group('machine') + get_tree().get_nodes_in_group('box') + get_tree().get_nodes_in_group('shadow'):
+		for node: Node3D in get_tree().get_nodes_in_group('save'):
 			if (not node.scene_file_path.is_empty()) and node.has_method('save'):
-				if not node.is_in_group('original'):
-					savefile.store_line(JSON.stringify(node.call('save'))) #does the saving stuff like earlier
+				if (not node.is_in_group('original')) and ((not box_inkreator(node)) if node is Box else true):
+						savefile.store_line(JSON.stringify(node.call('save'))) #does the saving stuff like earlier
 		
 		main.get_node('UI/saved/AnimationPlayer').play('show') #play the animation thingy for saving games
+
+func box_inkreator(body: Box) -> bool: #just makes sure that the box is not in a creator because you cant take those out apparently
+	for boxarea: Area3D in body.detector.get_overlapping_areas():
+		if boxarea.is_in_group('inkreator'): #the the area in the center of a kreator
+			return true
+	return false
 
 func loadgame(menu: bool = false) -> void: #function to load the game
 	if FileAccess.file_exists("user://savegame.save"): #if there's actually a save file!
 		if not menu:
-			for node: Node3D in get_tree().get_nodes_in_group('machine') + get_tree().get_nodes_in_group('box') + get_tree().get_nodes_in_group('shadow'):
+			for node: Node3D in get_tree().get_nodes_in_group('save'):
 				if not node.is_in_group('original'):
 					node.queue_free() #remove all of the nodes already in there bc they'll be replaced
 		
@@ -237,35 +238,30 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 			if data.has('kredits'): #if it's the first dict that has kredits (the main save)
 				for key: String in data.keys():
 					#set all of the variables and stuff
-					if (not menu) and key == 'player_posX': main.get_node('player').global_position.x = data[key]
-					elif (not menu) and key == 'player_posY': main.get_node('player').global_position.y = data[key]
-					elif (not menu) and key == 'player_posZ': main.get_node('player').global_position.z = data[key]
-					elif (not menu) and key == 'player_rotY': main.get_node('player').global_rotation.y = data[key]
-					
-					elif prices.keys().has(key): prices[key] = data[key]
+					if (not menu) and key == 'playertransform': 
+						main.player.global_position = Vector3(data[key][0], data[key][1], data[key][2])
+						main.player.global_rotation.y = data[key][3]
 					
 					elif key == 'factory_map': #set the factory map
 						factory_map = data[key]
 						if not menu: main.generate_rooms() #generate the rooms
 					
 					else: set(key, data[key])
-			elif (not menu) and is_instance_valid(main.get_node(data["parent"])): ##if it's a node and the parent exists, probaly find a better way to save the parent then
+			elif not menu: #if it's a node
 				var inst: Node3D = load(data["filename"]).instantiate() #create the node
 				
-				##dont add a box if it's not part of the main box node (maybe I should fix this instead of js not adding them!)
-				if inst is Box and main.get_node(data["parent"]).name != 'boxes':
-					continue
-				
-				if data.has('original'): inst.original = data['original'] ##originals dont go through saving process anymore (maybe change it back?)
+				##if data.has('original'): inst.original = data['original'] ##originals dont go through saving process anymore (maybe change it back?)
 				if data.has('price'): inst.price = data['price']
 				if data.has('type'): inst.type = data['type'] #build shadow loading stuff
 				if data.has('mode'): inst.mode = data['mode']
 				
-				main.get_node(data["parent"]).add_child(inst) #add the node
+				##add the node, I'll have to update this if I decide to save more types of things
+				if inst.is_in_group('box'): main.boxes.add_child(inst)
+				elif inst.is_in_group('machine') or inst.is_in_group('shadow'): main.machines.add_child(inst)
 				
 				##set the position and rotation and other variables that are saved, this may change
-				inst.global_position = Vector3(data["posX"], data["posY"], data["posZ"])
-				inst.global_rotation.y = data["rotY"]
+				inst.global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+				inst.global_rotation.y = data["transform"][3]
 				
 				if data.has('paused'): inst.pause.text = data['paused'] #set's the pause state
 				

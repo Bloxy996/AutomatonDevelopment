@@ -158,7 +158,6 @@ bbcode_enabled = true
 text = "[center] successfully changed!"
 
 [node name="loader" parent="." instance=ExtResource("3_gov5r")]
-visible = false
 layout_mode = 1
 
 [connection signal="pressed" from="cancel" to="." method="_on_cancel_pressed"]

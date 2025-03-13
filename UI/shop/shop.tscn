@@ -21,7 +21,6 @@ grow_vertical = 2
 script = ExtResource("1_p511o")
 
 [node name="fade" type="ColorRect" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -93,7 +92,6 @@ offset_right = 504.0
 offset_bottom = 252.0
 grow_horizontal = 2
 grow_vertical = 2
-scroll_vertical = 68
 
 [node name="container" type="VBoxContainer" parent="container"]
 layout_mode = 2

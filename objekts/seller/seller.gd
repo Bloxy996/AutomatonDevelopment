@@ -114,11 +114,7 @@ func sell_box() -> void: #sell ze box
 func save() -> Dictionary: #saving function called from main, gets all the data from the node and pushes it to main
 	return {
 		'filename' : get_scene_file_path(),
-		'parent' : Main.main.get_path_to(get_parent()),
-		'rotY' : global_rotation.y,
-		'posX' : global_position.x,
-		'posY' : global_position.y,
-		'posZ' : global_position.z,
+		'transform' : [global_position.x, global_position.y, global_position.z, global_rotation.y],
 		'original' : original,
 		'paused' : pause.text
 	}
