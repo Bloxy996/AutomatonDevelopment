@@ -9,16 +9,17 @@ class_name MainScene
 @onready var camera: Camera3D = $Camera3D
 @onready var irradicatebutton: Button = $UI/irradicate
 @onready var autosave: Timer = $UI/autosave
-@onready var player: Player = $player
 @onready var irradicating_buildradius_detection: Area3D = $irradicate/buildradius_detection
 @onready var univground: MeshInstance3D = $univground
-@onready var camcast: Area3D = $Camera3D/Area3D
 @onready var loader: Loader = $loader
 @onready var boxkreationdelay: Timer = $boxkreationdelay
 @onready var spawn: Area3D = $spawn
 @onready var exitdelay: Timer = $exitdelay
+@onready var boxes: Node3D = $boxes
+@onready var machines: Node3D = $machines
 
 @onready var ui: UI = $UI
+@onready var player: Player = $player
 
 var room_size: int = 14 #the size of the rooms for the generator
 
@@ -88,10 +89,6 @@ func _process(delta: float) -> void: #runs every ~milisecond
 	
 	camera.global_position = lerp(camera.global_position, Vector3(player.global_position.x - 10, 15, player.global_position.z - 10), delta * 4) #set the camera position
 	camera.size = lerpf(camera.size, zoom, delta * 4) #set camera zoom on the actual size
-	
-	##camcast thingy has been redacted, but maybe I should bring it back? (the player shoudnt be able to see the WHOLE factory ig)
-	##camcast.look_at(player.global_position) #make the camcast look and scale towards the player
-	##camcast.get_node('CollisionShape3D').shape.height = camcast.global_position.distance_to(player.global_position)
 	
 	univground.global_position = Vector3(player.global_position.x, -0.55, player.global_position.z) #set the position for the visual ground
 	

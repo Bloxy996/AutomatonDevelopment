@@ -3,7 +3,6 @@ class_name Box
 
 @onready var collision: CollisionShape3D = $CollisionShape3D
 @onready var marker: Marker3D = $Marker3D
-@onready var forceapplier: Marker3D = $forceapplier
 @onready var detector: Area3D = $detector
 
 var player_position: Vector3 #varible for player position
@@ -25,8 +24,6 @@ func _process(delta: float) -> void: #runs every nanosecond because this is a fa
 	
 	#boxes are just removed if they fall out
 	if global_position.y < -2: queue_free()
-	#a node to reference to when applying forces from a belt or something
-	forceapplier.global_position = global_position + Vector3(0, -0.25, 0)
 
 func _on_mouse_entered() -> void: #runs when the mouse touches the box
 	onmouse = true #self explainatory
@@ -35,7 +32,7 @@ func _on_mouse_exited() -> void: #runs when the mouse leaves the box
 	onmouse = false #self explainatory
 
 func _input(event: InputEvent) -> void: #when the player presses the button to pick it up
-	if onmouse:
+	if onmouse and global_position.distance_to(Main.main.player.global_position) < 2:
 		if event.is_action_pressed('leftclick'):
 			if get_parent().name != 'hand':
 				reparent(Main.main.get_node('player/CollisionShape3D/hand')) #move the box to the player's hand
@@ -64,10 +61,6 @@ func dropbox() -> void: #drop a box
 func save() -> Dictionary: #saving function called from main, gets all the data from the node and pushes it to main
 	return {
 		'filename' : get_scene_file_path(),
-		'parent' : Main.main.get_path_to(get_parent()),
-		'rotY' : global_rotation.y,
-		'posX' : global_position.x,
-		'posY' : global_position.y,
-		'posZ' : global_position.z,
+		'transform' : [global_position.x, global_position.y, global_position.z, global_rotation.y],
 		'price' : price
 	}

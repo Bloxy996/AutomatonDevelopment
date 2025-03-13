@@ -32,6 +32,9 @@ if you have more KREDITS, you can place more MACHINES and press ESCAPE to end th
 press T to close the tutorial, and have fun playing!'
 ]
 
+func _ready() -> void:
+	if Main.tutorial_progress == 8: tutorial.hide() #hide the tutorial if the returning player is already done
+
 func _process(delta: float) -> void: #runs every microsecond because this is a really fast computer
 	#set the value to the amount of level pts (and lerp it) and the max to the max level pts you can get
 	progress.value = lerpf(progress.value, Main.levelbar, delta * 4)

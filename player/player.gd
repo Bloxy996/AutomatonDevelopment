@@ -3,7 +3,6 @@ class_name Player
 
 @onready var collision: CollisionShape3D = $CollisionShape3D
 @onready var hand: Marker3D = $CollisionShape3D/hand
-@onready var raycast: RayCast3D = $RayCast3D
 @onready var area3d: Area3D = $Area3D
 @onready var boxcollision: CollisionShape3D = $boxcollision
 @onready var buildradius: Area3D = $buildradius
@@ -20,7 +19,6 @@ var waitforrestart: bool = false
 var dead: bool = false
 
 func _physics_process(delta: float) -> void: #runs every microsecond because you have a pretty fast computer
-	##raycast.is_colliding() maybe bring this back for floor collisions
 	var input_dir: Vector2 = Input.get_vector("S", "W", "A", "D") #gets all the WASD inputs to move the player
 	var direction: Vector3 = ((transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized() * 7.5).rotated(Vector3.UP, deg_to_rad(-45)) #turns the inputs into a vector direction with hyper komplex ap calculus bc math, and make it directional to the camera
 	var jump: int = int(Input.is_action_just_pressed("space") and floorcast.is_colliding()) #a integer that is 1 when the player presses space to jump and if it's not floating, 0 if not
@@ -84,7 +82,7 @@ func _on_confirmation_timeout() -> void: #if the confirmation timer is over and 
 func clearboxes() -> void: ##delete unused boxes in immediate area, please make this look nicer
 	for node: Node3D in boxdetection.get_overlapping_bodies():
 		if Main.kredits >= Main.deleteboxcost:
-			if node is Box: #iterates through all the boxes
+			if node is Box and node.get_parent().name != 'hand': #iterates through all the boxes that arent being held
 				var usingbox: bool = false
 				
 				for area: Area3D in node.detector.get_overlapping_areas():

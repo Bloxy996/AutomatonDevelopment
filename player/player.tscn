@@ -173,9 +173,6 @@ transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.5, 0, -0.5, -2.18557e-08, 
 mesh = ExtResource("2_8ynt8")
 skeleton = NodePath("../..")
 
-[node name="RayCast3D" type="RayCast3D" parent="."]
-target_position = Vector3(0, -0.6, 0)
-
 [node name="Area3D" type="Area3D" parent="."]
 input_ray_pickable = false
 

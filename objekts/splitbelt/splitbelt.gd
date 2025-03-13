@@ -18,11 +18,6 @@ func _process(_delta: float) -> void: #runs on every frame
 	#keep it from doing goofy stuff
 	effect.collision_mask = 1; adjustL.collision_mask = 1; adjustR.collision_mask = 1
 	
-	#manual flipping of the belt
-	if area.get_overlapping_bodies().has(Main.main.get_node('player')):
-		if onmouse and Input.is_action_just_pressed('rightclick'):
-			nextdir *= -1
-	
 	var overlapping: Array = effect.get_overlapping_bodies() + adjustL.get_overlapping_bodies() + adjustR.get_overlapping_bodies()
 	
 	for body: Node3D in overlapping:
@@ -45,6 +40,13 @@ func _process(_delta: float) -> void: #runs on every frame
 			##body.apply_impulse(forces - body.linear_velocity, body.forceapplier.position)
 			box.linear_velocity = forces
 	
+	#manual flipping of the belt
+	if area.get_overlapping_bodies().has(Main.main.get_node('player')):
+		if onmouse and Input.is_action_just_pressed('rightclick'):
+			nextdir *= -1
+			for box: Box in currentboxes.keys():
+				currentboxes[box] = nextdir
+	
 	#set the directional lights for the next direction
 	positive.material_override = load("res://objekts/pausedlight.tres") if nextdir == -1 else load("res://objekts/unpausedlight.tres")
 	negative.material_override = load("res://objekts/pausedlight.tres") if nextdir == 1 else load("res://objekts/unpausedlight.tres")
@@ -52,11 +54,7 @@ func _process(_delta: float) -> void: #runs on every frame
 func save() -> Dictionary: #saving function called from main, gets all the data from the node and pushes it to main
 	return {
 		'filename' : get_scene_file_path(),
-		'parent' : Main.main.get_path_to(get_parent()),
-		'rotY' : global_rotation.y,
-		'posX' : global_position.x,
-		'posY' : global_position.y,
-		'posZ' : global_position.z
+		'transform' : [global_position.x, global_position.y, global_position.z, global_rotation.y]
 	}
 
 func _on_flip_mouse_entered() -> void:

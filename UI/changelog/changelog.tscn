@@ -74,6 +74,9 @@ text = "1.5 (00/00/2025)
 [ul]removed most UI[/ul]
 [ul]added shortcuts for dropping/deleting boxes[/ul]
 [ul]added a conveyor belt that splits into 2 directions[/ul]
+[ul]optimized all scene meshes[/ul]
+[ul]changed loading bar color[/ul]
+[ul]fixed tutorial saving state[/ul]
 
 1.4 (02/28/2025)
 [ul]updated the creator models[/ul]

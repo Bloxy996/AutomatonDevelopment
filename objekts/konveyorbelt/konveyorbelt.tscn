@@ -132,7 +132,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_t1t48")
 
-[node name="Belt" type="StaticBody3D" groups=["belt", "machine"]]
+[node name="Belt" type="StaticBody3D" groups=["belt", "machine", "save"]]
 input_ray_pickable = false
 script = ExtResource("1_uk2u1")
 

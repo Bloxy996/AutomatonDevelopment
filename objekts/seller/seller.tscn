@@ -144,9 +144,9 @@ _data = {
 [sub_resource type="BoxShape3D" id="BoxShape3D_8rxol"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_e7f7x"]
-size = Vector3(0.1, 0.1, 0.15)
+size = Vector3(0.05, 0.1, 0.15)
 
-[node name="Seller" type="StaticBody3D" groups=["machine", "seller"]]
+[node name="Seller" type="StaticBody3D" groups=["machine", "save", "seller"]]
 input_ray_pickable = false
 script = ExtResource("1_3orkw")
 
