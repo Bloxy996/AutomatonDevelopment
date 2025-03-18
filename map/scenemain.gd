@@ -123,21 +123,14 @@ func get_rids(nodes: Array[Node]) -> Array[RID]:
 	return rids
 
 func add_room(location : Vector2) -> void:
-	#add missing rooms
-	while Main.factory_map.size() - 1 < location.y:
-		Main.factory_map.append([])
-	while Main.factory_map[location.y].size() - 1 < location.x:
-		Main.factory_map[location.y].append(0)
-	Main.factory_map[location.y][location.x] = 1 #set the room
+	Main.factory_map[str([location.x, location.y])] = null #add the room
 	
 	var inst: Room = room.instantiate() #create the room
 	inst.location = location #set it's position on the map
 	factory.add_child(inst) #add the factory!
-	inst.global_position = Vector3(location.x, 0, location.y) * room_size #set the phsyical position
+	inst.global_position = Vector3(location.x, 0, location.y) * room_size #set the physical position
 	
-	##var positions: Vector3 = Vector3.ZERO #the added positions of all the rooms (will be divided)
 	remove_walls_for_room(location, inst) #removes the walls
-		##positions += node.global_position #add to positions (supposed to be in the remove_walls_for_room() thingy)
 	
 	##WELPS I WANT A FIXED CAMERA, but for now the camera follows the player...
 	###positions /= factory.get_child_count() #gets the average of all the positions of the rooms
@@ -147,22 +140,19 @@ func add_room(location : Vector2) -> void:
 	Main.maxboxes += Main.boxesperroom #increases the max amount of boxes when you expand
 
 func generate_rooms() -> void: #generate rooms from factory map
-	#clear everything in there already
-	for node: Room in factory.get_children():
-		node.queue_free()
+	#clear everything in there already except for the original room
+	for node: Node3D in factory.get_children():
+		if node.name != 'original': node.queue_free()
 	
 	#generate the rooms
-	for y: int in range(Main.factory_map.size()):
-		for x: int in range(Main.factory_map[y].size()):
-			if Main.factory_map[y][x] is Dictionary or Main.factory_map[y][x] != 0: #if there's actually a room
-				var inst: Room = room.instantiate() #create the room
-				inst.location = Vector2(x, y) #set it's position on the map
-				factory.add_child(inst) #add the factory!
-				inst.global_position = Vector3(inst.location.x, 0, inst.location.y) * room_size #set the phsyical position
-	
-	#remove the walls
-	for node: Room in factory.get_children():
-		remove_walls_for_room(node.location, node)
+	for pos: String in Main.factory_map.keys():
+		if pos != '[0, 0]': #the starting room already exists!
+			var inst: Room = room.instantiate() #create the room
+			inst.location = Vector2(str_to_var(pos)[0], str_to_var(pos)[1]) #set it's position on the map
+			factory.add_child(inst) #add the factory!
+			
+			inst.global_position = Vector3(inst.location.x, 0, inst.location.y) * room_size #set the phsyical position
+			remove_walls_for_room(inst.location, inst)
 
 func remove_walls_for_room(location : Vector2, roominst : Room) -> void:
 	for node: Room in factory.get_children(): #removes the walls if it's connecting to another room

@@ -31,6 +31,7 @@ func _on_playbutton_pressed() -> void:
 func _on_reset_pressed() -> void:
 	Main.resetgame() #resets all the variables
 	loader.hidescreen(); await loader.anim.animation_finished
+	await  get_tree().create_timer(0.5).timeout
 	get_tree().reload_current_scene() #reloads the game
 
 func _on_contacts_pressed() -> void:

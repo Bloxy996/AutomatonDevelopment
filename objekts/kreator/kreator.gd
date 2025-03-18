@@ -57,15 +57,17 @@ func _process(_delta: float) -> void: #runs every single nanosecond because your
 	if pause.text == 'pause': #if the machine is unpaused
 		#iterates through all the boxes still in the kreator and inactive
 		for node: Node in spawnbox.get_overlapping_bodies():
-			if node is Box and (not node.freeze) and node.top_level:
+			if node is Box and (not node.freeze):
 				send_to_belt(node)
 				break
 		
 		##if you actually paid for this kreator and there is nothing in it, start the automated timer to make another box (change so you can have a stack of 2 boxes before it stops??)
 		if (not original): #also makes sure that the machine isnt in the queue already
-			if boxcount() == 0 and automated.is_stopped() and (not Main.main.boxkreationqueue.has(self)):
-				if (not dooranim.is_playing()) and (not animation_player.is_playing()): #make sure its not doing anything
-					Main.main.boxkreationqueue.append(self) #add a request to the queue to generate boxes
+			if boxcount() == 0:
+				await get_tree().create_timer(0.1).timeout #double check!!
+				if boxcount() == 0 and automated.is_stopped() and (not Main.main.boxkreationqueue.has(self)):
+					if (not dooranim.is_playing()) and (not animation_player.is_playing()): #make sure its not doing anything
+						Main.main.boxkreationqueue.append(self) #add a request to the queue to generate boxes
 	
 	#set the light to the pause state
 	pauselight.material_override = load("res://objekts/pausedlight.tres") if pause.text != 'pause' else load("res://objekts/unpausedlight.tres")
@@ -96,6 +98,7 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void: #w
 		#unstatcify the box
 		inst.freeze = false
 		inst.top_level = true
+		inst.reparent(Main.main.boxes) #make grabbable by arms
 
 func send_to_belt(box : RigidBody3D) -> void: #sends boxes to any belt near the kreator
 	#if any of the nodes near the kreator is a konveyor belt and it dosent have a box,
@@ -122,9 +125,13 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 	return {
 		'filename' : get_scene_file_path(),
 		'transform' : [global_position.x, global_position.y, global_position.z, global_rotation.y],
-		'original' : original,
 		'paused' : pause.text
 	}
+
+func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
+	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+	global_rotation.y = data["transform"][3]
+	pause.text = data['paused']
 
 func _on_pause_pressed() -> void:
 	pause.release_focus()

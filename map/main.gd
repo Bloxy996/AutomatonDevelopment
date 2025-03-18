@@ -5,7 +5,8 @@ var prices: Dictionary = { ##gets the prices of each of the machines, maybe comb
 	'seller' : 20,
 	'belt' : 25,
 	'multiplier' : 40,
-	'splitbelt' : 30
+	'splitbelt' : 30,
+	'arm' : 10
 }
 
 var machinedata: Dictionary = {
@@ -38,6 +39,12 @@ var machinedata: Dictionary = {
 		'shadow' : load("res://objekts/splitbelt/splitbeltshadow.tscn"),
 		'type_to_scene' : load("res://objekts/splitbelt/splitbelt.tscn"),
 		'type_to_waittime' : 5
+	},
+	'arm' : {
+		'originalprice' : 10,
+		'shadow' : load("res://objekts/arm/armshadow.tscn"),
+		'type_to_scene' : load("res://objekts/arm/arm.tscn"),
+		'type_to_waittime' : 7
 	}
 }
 
@@ -73,7 +80,9 @@ const deletetimerspeedup: float = 2 ##the number to divide the time by when remo
 const beltspeed: float = 4 #speed for the belt/multipliers
 const deleteboxcost: float = 5 #cost to delete boxes
 
-var factory_map: Array = [[1]] ##array for the rooms that you have in the factory, also make a machine map too for saving
+var factory_map: Dictionary = { ##dict for the rooms that you have in the factory, also make a machine map too for saving
+	'[0, 0]' : null #the position, and then the expansion prices
+}
 
 func sell_box(price: int) -> void: #runs when a box is sold
 	boxes += 1 #you know what this does...
@@ -84,7 +93,7 @@ func sell_box(price: int) -> void: #runs when a box is sold
 		progressions('levelup')
 		level+=1 #increase the level by 1
 		savegame() #seems like a good time to save your progress dosent it!
-
+	
 func group_to_type(node: Node3D) -> String: #amazing piece of code here
 	for group: String in prices.keys():
 		if node.is_in_group(group):
@@ -142,7 +151,7 @@ func resetgame() -> void: ##resets all the variables to their original values, u
 	displayname = ""
 	boxes = 0
 	maxboxes = boxesperroom
-	factory_map = [[1]]
+	factory_map = {'[0, 0]' : null}
 	
 	for machine: String in prices.keys():
 		prices[machine] = machinedata[machine]['originalprice']
@@ -176,18 +185,18 @@ func savegame(menu: bool = false) -> void: #function to save game
 	var mainsave: Dictionary = { #put all of the common varibles in a dictonary
 		#normal varibles
 		'kredits' : kredits,
-		'boxes' : boxes, ##level, levelbar, and maxLB are dependent on boxes, so make it dependent and dont save it seperatley
-		'level' : level,
-		'levelbar' : levelbar,
-		'maxLB' : maxLB,
+		'boxes' : boxes, #level, levelbar, and maxLB are dependent on boxes
+		#'level' : level,
+		#'levelbar' : levelbar,
+		#'maxLB' : maxLB,
 		'tutorial_progress' : tutorial_progress,
 		'first_time' : first_time,
 		'progression_price' : progression_price,
 		'progression_demand' : progression_demand,
 		'playername' : playername,
 		'displayname' : displayname,
-		'maxboxes' : maxboxes, ##dependent on # of rooms, so update this too!
-		'factory_map' : factory_map,
+		'factory_map' : factory_map, #maxboxes is dependent on the # of rooms in the factory
+		#'maxboxes' : maxboxes,
 		'prices' : prices,
 		
 		#player stuff, if it's the menu it gets what's already in there
@@ -242,35 +251,35 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 						main.player.global_position = Vector3(data[key][0], data[key][1], data[key][2])
 						main.player.global_rotation.y = data[key][3]
 					
-					elif key == 'factory_map': #set the factory map
-						factory_map = data[key]
-						if not menu: main.generate_rooms() #generate the rooms
-					
 					else: set(key, data[key])
 			elif not menu: #if it's a node
 				var inst: Node3D = load(data["filename"]).instantiate() #create the node
-				
-				##if data.has('original'): inst.original = data['original'] ##originals dont go through saving process anymore (maybe change it back?)
-				if data.has('price'): inst.price = data['price']
-				if data.has('type'): inst.type = data['type'] #build shadow loading stuff
-				if data.has('mode'): inst.mode = data['mode']
+				if inst.has_method('primaryload'): inst.primaryload(data)
 				
 				##add the node, I'll have to update this if I decide to save more types of things
 				if inst.is_in_group('box'): main.boxes.add_child(inst)
 				elif inst.is_in_group('machine') or inst.is_in_group('shadow'): main.machines.add_child(inst)
-				
-				##set the position and rotation and other variables that are saved, this may change
-				inst.global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
-				inst.global_rotation.y = data["transform"][3]
-				
-				if data.has('paused'): inst.pause.text = data['paused'] #set's the pause state
-				
-				if inst is Builder:
-					if inst.mode == 'builder': #start the timer stuff for the build shadow stuff
-						inst.wait.start(data['timeleft'])
-						inst.bar.max_value = data['waittime']
-					elif inst.mode == 'destroyer': ##destroyer shadows cant be saved yet 
-						##maybe find the machine based on the position? (I'll have to put machines/shadows/boxes in queues to load them in the right order though)
-						inst.queue_free()
+				if inst.has_method('secondaryload'): inst.secondaryload(data)
+		
+		setboxesdependencies(boxes) #since level, levelbar, and maxLB are dependent on the boxes you sell, set them from boxes
+		if not menu: 
+			main.generate_rooms() #generate the rooms
+			maxboxes = main.factory.get_child_count() * boxesperroom #set maxboxes since it's dependent
 	
 	Global._updateleaderboard()
+	
+	kredits += 9999999999 #TEST
+
+func setboxesdependencies(calcboxes: int) -> void:
+	var calclevel: int = 0 #recreates the beginning
+	var calcmaxLB: int = 10
+	
+	while calcboxes >= calcmaxLB: #until you cannot fill the levelbar anymore
+		calcboxes -= calcmaxLB #take away the max amount of boxes to increase the level
+		calclevel += 1
+		calcmaxLB = round(calcmaxLB * machinepricemultiplier) ##increase the maxLB like how it usualy wound be make synchonous with progressions function
+	
+	#set all of the variables after because they should be determined now
+	levelbar = calcboxes
+	level = calclevel
+	maxLB = calcmaxLB

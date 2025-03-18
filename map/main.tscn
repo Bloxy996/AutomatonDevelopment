@@ -134,7 +134,7 @@ far = 100.0
 
 [node name="factory" type="Node3D" parent="."]
 
-[node name="room" parent="factory" instance=ExtResource("5_aofv8")]
+[node name="original" parent="factory" instance=ExtResource("5_aofv8")]
 
 [node name="boxes" type="Node3D" parent="."]
 

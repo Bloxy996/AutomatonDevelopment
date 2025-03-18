@@ -64,3 +64,10 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 		'transform' : [global_position.x, global_position.y, global_position.z, global_rotation.y],
 		'price' : price
 	}
+
+func primaryload(data : Dictionary) -> void: #load before the node is institnated
+	price = data['price']
+
+func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
+	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+	global_rotation.y = data["transform"][3]
