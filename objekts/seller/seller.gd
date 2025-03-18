@@ -115,9 +115,13 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 	return {
 		'filename' : get_scene_file_path(),
 		'transform' : [global_position.x, global_position.y, global_position.z, global_rotation.y],
-		'original' : original,
 		'paused' : pause.text
 	}
+
+func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
+	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+	global_rotation.y = data["transform"][3]
+	pause.text = data['paused']
 
 func _on_pause_pressed() -> void:
 	pause.release_focus()

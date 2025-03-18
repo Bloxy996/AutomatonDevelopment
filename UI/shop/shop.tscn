@@ -92,6 +92,7 @@ offset_right = 504.0
 offset_bottom = 252.0
 grow_horizontal = 2
 grow_vertical = 2
+scroll_vertical = 172
 
 [node name="container" type="VBoxContainer" parent="container"]
 layout_mode = 2
@@ -407,6 +408,70 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="button" type="Button" parent="container/container/splitbelt"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 796.0
+offset_top = -44.0
+offset_right = 992.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+text = "buy for 1000000000000000 kredits"
+alignment = 2
+autowrap_mode = 2
+
+[node name="arm" type="Panel" parent="container/container"]
+custom_minimum_size = Vector2(1000, 100)
+layout_mode = 2
+
+[node name="name" type="Label" parent="container/container/arm"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 110.0
+offset_top = -22.0
+offset_right = 290.0
+offset_bottom = 18.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 30
+text = "arm"
+
+[node name="TextureRect" type="TextureRect" parent="container/container/arm"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -44.0
+offset_right = 100.0
+offset_bottom = 44.0
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 4
+
+[node name="desc" type="Label" parent="container/container/arm"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 319.0
+offset_top = -44.0
+offset_right = 796.0
+offset_bottom = 44.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tsgys")
+theme_override_font_sizes/font_size = 16
+text = "these arms dont have a purpose right now, but soon they will! you can play around with them for now so that's nice"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="button" type="Button" parent="container/container/arm"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5

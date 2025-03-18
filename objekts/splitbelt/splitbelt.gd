@@ -55,7 +55,12 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 	return {
 		'filename' : get_scene_file_path(),
 		'transform' : [global_position.x, global_position.y, global_position.z, global_rotation.y]
+		##maybe save nextdir?
 	}
+
+func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
+	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+	global_rotation.y = data["transform"][3]
 
 func _on_flip_mouse_entered() -> void:
 	onmouse = true

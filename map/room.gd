@@ -29,11 +29,11 @@ var expand_prices: Dictionary = { #prices needed to expand
 }
 
 func _ready() -> void:
-	if not Main.factory_map[location.y][location.x] is Dictionary: #sets the expand prices if it needs one
+	if not Main.factory_map[str([location.x, location.y])]: #sets the expand prices if it needs one
 		Main.progressions('addroom', '', null, self)
-		Main.factory_map[location.y][location.x] = expand_prices
+		Main.factory_map[str([location.x, location.y])] = expand_prices
 	else: #sets the price to the saved one if it dosent need one
-		expand_prices = Main.factory_map[location.y][location.x]
+		expand_prices = Main.factory_map[str([location.x, location.y])]
 	
 	#set the buttons
 	expandLM.get_node('Button').text = str(

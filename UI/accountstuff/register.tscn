@@ -1,0 +1,189 @@
+[gd_scene load_steps=14 format=3 uid="uid://csgrjw8n6c0vl"]
+
+[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_oi0om"]
+[ext_resource type="Script" path="res://UI/accountstuff/register.gd" id="1_rwsrx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qhlkc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v1lkl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2w1mv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_odrpy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k0pwp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0rsf0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tuhh7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a0ly1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iif3p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i8nw2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h4cp0"]
+
+[node name="register" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rwsrx")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="title" type="RichTextLabel" parent="."]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -208.0
+offset_right = 256.0
+offset_bottom = -160.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_oi0om")
+theme_override_font_sizes/normal_font_size = 34
+bbcode_enabled = true
+text = "[center]create a new account"
+
+[node name="registerfields" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="username" type="LineEdit" parent="registerfields"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 364.0
+offset_top = 188.0
+offset_right = 748.0
+offset_bottom = 229.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_oi0om")
+theme_override_font_sizes/font_size = 25
+placeholder_text = "username"
+alignment = 1
+
+[node name="email" type="LineEdit" parent="registerfields"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 364.0
+offset_top = 241.0
+offset_right = 748.0
+offset_bottom = 282.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_oi0om")
+theme_override_font_sizes/font_size = 25
+placeholder_text = "email"
+alignment = 1
+
+[node name="password" type="LineEdit" parent="registerfields"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 364.0
+offset_top = 313.0
+offset_right = 748.0
+offset_bottom = 354.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_oi0om")
+theme_override_font_sizes/font_size = 25
+placeholder_text = "password"
+alignment = 1
+
+[node name="confirm" type="LineEdit" parent="registerfields"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 364.0
+offset_top = 366.0
+offset_right = 748.0
+offset_bottom = 407.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_oi0om")
+theme_override_font_sizes/font_size = 25
+placeholder_text = "confirm password"
+alignment = 1
+
+[node name="register" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = 184.0
+offset_right = 120.0
+offset_bottom = 211.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_oi0om")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qhlkc")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_v1lkl")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_2w1mv")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_odrpy")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_k0pwp")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_0rsf0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tuhh7")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_a0ly1")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_iif3p")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_i8nw2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_h4cp0")
+text = "register"
+
+[node name="errors" type="RichTextLabel" parent="."]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = 115.0
+offset_right = 512.0
+offset_bottom = 171.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_oi0om")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "[center]errors"
+
+[connection signal="pressed" from="register" to="." method="_on_register_pressed"]

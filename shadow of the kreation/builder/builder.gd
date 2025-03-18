@@ -19,6 +19,8 @@ func _ready() -> void: #runs when it appears
 	for mesh: MeshInstance3D in shadow.get_children():
 		mesh.material_override.albedo_color = Color(0, 0.749, 1, 0.498) if mode == 'builder' else Color(1, 0, 0, 0.498) #sets the colors
 		if mesh.name == 'arrow' and mode == 'destroyer': mesh.queue_free() #arrows are not needed!
+	
+	shadow.scale *= 1.02 #make it a tad bit bigger
 
 func _process(_delta: float) -> void: #UI for the timer!
 	bar.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (bar.size / 2)
@@ -49,3 +51,18 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 		'waittime' : wait.wait_time,
 		'timeleft' : wait.time_left
 	}
+
+func primaryload(data : Dictionary) -> void: #load before the node is institnated
+	type = data['type']
+	mode = data['mode']
+
+func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
+	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+	global_rotation.y = data["transform"][3]
+	
+	if mode == 'builder': #start the timer stuff for the build shadow stuff
+		wait.start(data['timeleft'])
+		bar.max_value = data['waittime']
+	elif mode == 'destroyer': ##destroyer shadows cant be saved yet 
+		##maybe find the machine based on the position? (I'll have to put machines/shadows/boxes in queues to load them in the right order though)
+		queue_free()
