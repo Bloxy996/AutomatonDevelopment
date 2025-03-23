@@ -58,9 +58,8 @@ var maxLB: int = 10 #the max for the levelbar
 var picked: bool = false #if the player is holding a box
 var building: bool = false #if something is being built
 var irradicating: bool = false #if something is being destoryed
+var settingbehavior: bool = false #if arm behaviours are being set
 var first_time: bool = true #is true when the player opens the game for the first time
-
-var tutorial_progress: int = 0 #progress durring the tutorial
 
 var playername: String = ""
 var displayname: String = ""
@@ -69,6 +68,7 @@ var boxes: int = 0
 var maxboxes: int = 50 #the max amount of boxes that can be in the game, increases with every new expansion
 var maxserveriterations: float = 20 #the max amount of times the silentwolf iterations can run until a error appears
 var boxesperroom: int = 50 #the amount of boxes for every room, just so I can change the number wheverer I need it quickly
+var Tprogress: int = 0 #how much progress is made through the tutorial
 
 ##the price and demand for ALL sellers, reset at each level up but it's a tad bit different
 ##also have UI for this
@@ -143,7 +143,6 @@ func resetgame() -> void: ##resets all the variables to their original values, u
 	level = 0
 	levelbar = 0
 	maxLB = 10
-	tutorial_progress = 0
 	first_time = true
 	progression_price = 15
 	progression_demand = 8
@@ -156,11 +155,14 @@ func resetgame() -> void: ##resets all the variables to their original values, u
 	for machine: String in prices.keys():
 		prices[machine] = machinedata[machine]['originalprice']
 	
-	DirAccess.remove_absolute("user://savegame.save") #clears the file
+	while FileAccess.file_exists("user://savegame.save"):
+		DirAccess.remove_absolute("user://savegame.save") #clears the file
 
 func savegame(menu: bool = false) -> void: #function to save game
 	#all of the variables that need to be gotten from a older save if on a menu
 	var playertransform: Array = [4, 1, 4, 0]
+	var lightdir: Array = [-60, -75, 0]
+	var tutorialvisible: bool = true
 	var nodes: Array
 	
 	if FileAccess.file_exists("user://savegame.save") and menu: #if this isnt the first save
@@ -176,6 +178,8 @@ func savegame(menu: bool = false) -> void: #function to save game
 			#set those variables from earlier, machines are added into a list for later
 			if data.has('kredits'):
 				playertransform = [data['playertransform']]
+				lightdir = [data['lightdir']]
+				tutorialvisible = data['tutorialvisible']
 			elif data.has('transform'):
 				nodes.append(data)
 	
@@ -189,7 +193,6 @@ func savegame(menu: bool = false) -> void: #function to save game
 		#'level' : level,
 		#'levelbar' : levelbar,
 		#'maxLB' : maxLB,
-		'tutorial_progress' : tutorial_progress,
 		'first_time' : first_time,
 		'progression_price' : progression_price,
 		'progression_demand' : progression_demand,
@@ -198,6 +201,7 @@ func savegame(menu: bool = false) -> void: #function to save game
 		'factory_map' : factory_map, #maxboxes is dependent on the # of rooms in the factory
 		#'maxboxes' : maxboxes,
 		'prices' : prices,
+		'tutorialvisible' : tutorialvisible if menu else main.ui.tutorial.text.visible,
 		
 		#player stuff, if it's the menu it gets what's already in there
 		'playertransform' : playertransform if menu else [
@@ -205,6 +209,13 @@ func savegame(menu: bool = false) -> void: #function to save game
 			main.player.global_position.y,
 			main.player.global_position.z,
 			main.player.global_rotation.y
+		],
+		
+		##day/night cycle stuff, wont need this when I synchronize with realtime soon
+		'lightdir' : lightdir if menu else [
+			main.light.rotation_degrees.x,
+			main.light.rotation_degrees.y,
+			main.light.rotation_degrees.z
 		]
 	}
 	
@@ -247,9 +258,15 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 			if data.has('kredits'): #if it's the first dict that has kredits (the main save)
 				for key: String in data.keys():
 					#set all of the variables and stuff
-					if (not menu) and key == 'playertransform': 
-						main.player.global_position = Vector3(data[key][0], data[key][1], data[key][2])
-						main.player.global_rotation.y = data[key][3]
+					if not menu:
+						if key == 'playertransform': 
+							main.player.global_position = Vector3(data[key][0], data[key][1], data[key][2])
+							main.player.global_rotation.y = data[key][3]
+						elif key == 'lightdir':
+							main.light.rotation_degrees = Vector3(data[key][0], data[key][1], data[key][2])
+						elif key == 'tutorialvisible':
+							main.ui.tutorial.text.visible = data[key]
+							main.ui.tutorial.set_process(data[key])
 					
 					else: set(key, data[key])
 			elif not menu: #if it's a node
@@ -265,6 +282,8 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 		if not menu: 
 			main.generate_rooms() #generate the rooms
 			maxboxes = main.factory.get_child_count() * boxesperroom #set maxboxes since it's dependent
+	else :
+		first_time = true #it's the first time if there's no save file
 	
 	Global._updateleaderboard()
 	

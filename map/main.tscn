@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cxfvl01s73nj2"]
+[gd_scene load_steps=31 format=3 uid="uid://cxfvl01s73nj2"]
 
 [ext_resource type="Script" path="res://map/scenemain.gd" id="1_7qdv2"]
 [ext_resource type="PackedScene" uid="uid://bm3fnga38jpgw" path="res://player/player.tscn" id="3_5xs4b"]
@@ -8,22 +8,20 @@
 [ext_resource type="PackedScene" uid="uid://bi5nwl7eahp7j" path="res://objekts/seller/seller.tscn" id="6_hng5h"]
 [ext_resource type="PackedScene" uid="uid://pqgimsdre2da" path="res://UI/shop/shop.tscn" id="6_ku0xv"]
 [ext_resource type="Script" path="res://UI/ui.gd" id="8_vco2r"]
+[ext_resource type="Script" path="res://UI/tutorial/tutorial.gd" id="9_45wbb"]
 [ext_resource type="PackedScene" uid="uid://de8ynbju0svex" path="res://UI/pause/pause.tscn" id="10_bu086"]
 [ext_resource type="PackedScene" uid="uid://cvpo7kkgufcp4" path="res://UI/loader.tscn" id="10_eycge"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yraat"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uci7l"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="Sky" id="Sky_e0jfy"]
-sky_material = SubResource("ProceduralSkyMaterial_yraat")
+[sub_resource type="Sky" id="Sky_m6bj0"]
+sky_material = SubResource("ProceduralSkyMaterial_uci7l")
 
-[sub_resource type="Environment" id="Environment_fupma"]
-background_mode = 1
-background_color = Color(0.384314, 0.454902, 0.54902, 1)
-sky = SubResource("Sky_e0jfy")
-ambient_light_source = 3
-reflected_light_source = 2
+[sub_resource type="Environment" id="Environment_d0nkw"]
+background_mode = 2
+sky = SubResource("Sky_m6bj0")
 tonemap_mode = 2
 glow_enabled = true
 
@@ -40,7 +38,7 @@ albedo_color = Color(1, 0, 0, 0.498039)
 [sub_resource type="BoxShape3D" id="BoxShape3D_u6ljy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4tych"]
-albedo_color = Color(0.0984, 0.4, 0.088, 1)
+albedo_color = Color(0.0482631, 0.246961, 0.0412728, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_prg11"]
 size = Vector3(200, 1, 200)
@@ -119,11 +117,10 @@ _data = {
 script = ExtResource("1_7qdv2")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_fupma")
+environment = SubResource("Environment_d0nkw")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.258822, 0.836513, -0.482964, 1.28817e-08, 0.5, 0.866025, 0.965927, -0.224146, 0.129409, 0, 0, 0)
-light_energy = 1.2
+transform = Transform3D(0.258822, 0.836512, -0.482969, 6.11079e-08, 0.500006, 0.866022, 0.965925, -0.224145, 0.129412, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -169,7 +166,7 @@ shape = SubResource("BoxShape3D_u6ljy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
 material_override = SubResource("StandardMaterial3D_4tych")
 mesh = SubResource("BoxMesh_prg11")
-skeleton = NodePath("../WorldEnvironment")
+skeleton = NodePath("")
 
 [node name="spawn" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
@@ -298,22 +295,81 @@ visible = false
 layout_mode = 1
 mouse_filter = 1
 
-[node name="tutorial" type="RichTextLabel" parent="UI"]
+[node name="armtutorial" type="Control" parent="UI"]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = -80.0
-offset_right = -456.0
-offset_bottom = -38.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+
+[node name="basic" type="RichTextLabel" parent="UI/armtutorial"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -132.0
+offset_right = 192.0
+offset_bottom = 124.0
+grow_vertical = 2
+mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("5_la7bd")
 theme_override_font_sizes/normal_font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_kx77j")
 bbcode_enabled = true
+text = "press 1 to place a [color=00bfff]target[/color], the arm will send boxes to these
+
+press 2 to place an [color=red]avoid[/color], the arm will not pick up boxes from these
+
+press 3 to place a [color=green]priority[/color], the arm will pick up boxes from these first"
+fit_content = true
+
+[node name="tutorial" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("9_45wbb")
+
+[node name="text" type="RichTextLabel" parent="UI/tutorial"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -136.0
+offset_right = 696.0
+offset_bottom = -98.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("5_la7bd")
+theme_override_font_sizes/normal_font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_kx77j")
+bbcode_enabled = true
+text = "[center]tutorial stuff"
+fit_content = true
+
+[node name="basic" type="RichTextLabel" parent="UI/tutorial/text"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+offset_right = 688.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("5_la7bd")
+theme_override_font_sizes/normal_font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_kx77j")
+bbcode_enabled = true
+text = "[center]WASD to move, space to jump, scroll to zoom the camera, esc to pause
+press T to close the tutorial at any time"
 fit_content = true
 
 [node name="pause" parent="UI" instance=ExtResource("10_bu086")]

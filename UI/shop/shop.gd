@@ -20,9 +20,6 @@ func _input(_event: InputEvent) -> void: #runs when the user presses something
 	if Input.is_action_just_pressed("tab") and (not Main.building) and (not Main.irradicating): #if the user presed the 'tab' key,
 		visible = not visible #show/hide the shop!
 		if visible: Main.savegame()
-		
-		if Main.tutorial_progress == 5: #move onto the next tutorial text
-			Main.tutorial_progress += 1
 	
 	if visible and Input.is_action_just_pressed("esc"): #esc shortcut to hide the shop
 		Main.main.exitdelay.start() #start the timer so the pause menu dosent show
@@ -37,14 +34,8 @@ func add_machine(type : String) -> void: #add a machine
 	var inst: CreationShadow = load("res://shadow of the kreation/addshadow.tscn").instantiate()
 	inst.type = type
 	Main.main.get_node('machines').add_child(inst)
-	
-	if Main.tutorial_progress == 6: #move onto the next tutorial text
-		Main.tutorial_progress += 1
 
 func _on_create_pressed() -> void: #if the user presed the button to create a machine,
 	Main.main.get_node("UI/create").release_focus()
 	if (not Main.building) and (not Main.irradicating):
 		visible = true #show the shop!
-		
-		if Main.tutorial_progress == 5: #move onto the next tutorial text
-			Main.tutorial_progress += 1

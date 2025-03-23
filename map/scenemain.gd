@@ -17,6 +17,7 @@ class_name MainScene
 @onready var exitdelay: Timer = $exitdelay
 @onready var boxes: Node3D = $boxes
 @onready var machines: Node3D = $machines
+@onready var light: DirectionalLight3D = $DirectionalLight3D
 
 @onready var ui: UI = $UI
 @onready var player: Player = $player
@@ -102,8 +103,12 @@ func _process(delta: float) -> void: #runs every ~milisecond
 		boxkreationdelay.start()
 		if boxamount < Main.maxboxes: #if there's enough space to add more boxes and there's stuff in the queue
 			if not boxkreationqueue.is_empty():
-				var latest: Kreator = boxkreationqueue.pop_front()
-				if is_instance_valid(latest): latest.request_accepted() #accept the oldest item in the queue and delete it
+				if is_instance_valid(boxkreationqueue.pop_front()): #if it's still there
+					var latest: Kreator = boxkreationqueue.pop_front()
+					if is_instance_valid(latest): latest.request_accepted() #accept the oldest item in the queue and delete it
+				else: boxkreationqueue.pop_front() #if it's not valid just get rid of it
+	
+	light.rotation_degrees += Vector3(deg_to_rad(2), deg_to_rad(1), 0) * 0.05 ##day night cycle, FOR NOW
 
 func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton) and event.is_pressed(): #zoom camera

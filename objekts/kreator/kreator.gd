@@ -87,8 +87,6 @@ func _on_createbox_pressed() -> void: #runs when the create box button is presse
 		if (not dooranim.is_playing()) and (not animation_player.is_playing()): #make sure its not doing anything
 			timer.start() #begin the timer to wait
 			dooranim.play_backwards('open') #close the doors
-			if Main.tutorial_progress == 0: #move onto the next tutorial text
-				Main.tutorial_progress += 1
 
 func _on_timer_timeout() -> void: #when the waiting time ends and the box is ready, create a box
 	create_box()

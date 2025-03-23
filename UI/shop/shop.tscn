@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://pqgimsdre2da"]
+[gd_scene load_steps=11 format=3 uid="uid://pqgimsdre2da"]
 
 [ext_resource type="Script" path="res://UI/shop/shop.gd" id="1_p511o"]
 [ext_resource type="Texture2D" uid="uid://dyfriog8gdjgu" path="res://UI/shop/X.png" id="2_np1oo"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bsnmpb7v41bvp" path="res://UI/shop/images/multiplier.png" id="6_ogwwx"]
 [ext_resource type="Texture2D" uid="uid://ck5jhu2li3njf" path="res://UI/shop/images/belt.png" id="7_r30og"]
 [ext_resource type="Texture2D" uid="uid://crhi6iq5va2g2" path="res://UI/shop/images/splitbelt.png" id="8_1bne1"]
+[ext_resource type="Texture2D" uid="uid://b4gblhkuoxhyy" path="res://UI/shop/images/arm.png" id="9_84nol"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sviem"]
 
@@ -115,7 +116,7 @@ theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 30
-text = "creator"
+text = "kreator"
 
 [node name="TextureRect" type="TextureRect" parent="container/container/kreator"]
 layout_mode = 1
@@ -143,7 +144,7 @@ offset_bottom = 44.0
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 16
-text = "an automated machine that will generate boxes; they will put boxes only onto conveyor belts"
+text = "an automated machine that will generate boxes; they will put boxes only onto conveyor belts in the direction it's arrow is facing"
 vertical_alignment = 1
 autowrap_mode = 2
 
@@ -208,7 +209,7 @@ offset_bottom = 44.0
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 16
-text = "an automated machine that will sell boxes; they'll NOT grab boxes from multipliers"
+text = "an automated machine that will sell boxes when a box goes into it's slot"
 vertical_alignment = 1
 autowrap_mode = 2
 
@@ -273,7 +274,7 @@ offset_bottom = 44.0
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 16
-text = "adds to the amount of kredits a box will sell for; the max multiplied amount is x100"
+text = "adds to the amount of kredits a box will sell for when a box goes through it; the max multiplied amount is x100"
 vertical_alignment = 1
 autowrap_mode = 2
 
@@ -338,7 +339,7 @@ offset_bottom = 44.0
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 16
-text = "moves boxes in the direction it's pointing"
+text = "moves boxes on top of it in the direction it's pointing"
 vertical_alignment = 1
 autowrap_mode = 2
 
@@ -448,10 +449,11 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 12.0
-offset_top = -44.0
+offset_top = -22.0
 offset_right = 100.0
 offset_bottom = 44.0
 grow_vertical = 2
+texture = ExtResource("9_84nol")
 expand_mode = 1
 stretch_mode = 4
 
@@ -467,7 +469,7 @@ offset_bottom = 44.0
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 16
-text = "these arms dont have a purpose right now, but soon they will! you can play around with them for now so that's nice"
+text = "picks up boxes and drops them in targets, configurable by setting arm behaviours"
 vertical_alignment = 1
 autowrap_mode = 2
 

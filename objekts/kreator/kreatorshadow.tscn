@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=4 uid="uid://u6lpy4d8xi1q"]
+[gd_scene load_steps=10 format=4 uid="uid://u6lpy4d8xi1q"]
 
 [ext_resource type="ArrayMesh" uid="uid://b844s7fag2kmt" path="res://objekts/kreator/mesh.tres" id="1_ykxjf"]
+[ext_resource type="ArrayMesh" uid="uid://b4qrabo5mteb1" path="res://shadow of the kreation/buildarrow.obj" id="2_mdwtc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ohpuc"]
 resource_local_to_scene = true
@@ -77,6 +78,12 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_pc6w5")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vm72c"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0.74902, 1, 0.74902)
+
 [node name="kreator" type="Node3D"]
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
@@ -95,3 +102,8 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.256104, -4.43459e-
 material_override = SubResource("StandardMaterial3D_ohpuc")
 mesh = ExtResource("1_ykxjf")
 skeleton = NodePath("")
+
+[node name="arrow" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 1, 0.2, 0)
+material_override = SubResource("StandardMaterial3D_vm72c")
+mesh = ExtResource("2_mdwtc")
