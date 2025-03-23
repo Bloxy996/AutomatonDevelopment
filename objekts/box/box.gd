@@ -43,9 +43,6 @@ func _input(event: InputEvent) -> void: #when the player presses the button to p
 				#keep the box from doing goofy ahh stuff like flying around
 				top_level = true
 				freeze = true
-				
-				if Main.tutorial_progress == 1: #move onto the next tutorial text
-					Main.tutorial_progress += 1
 			else:
 				dropbox()
 		elif event.is_action_pressed('rightclick') and Main.kredits >= Main.deleteboxcost:

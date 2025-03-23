@@ -59,6 +59,3 @@ func _process(_delta: float) -> void: #runs on every frame
 		Main.main.exitdelay.start() #start the timer so the pause menu dosent show
 		Main.building = false #tell main skript that the shadow is done with it's job
 		queue_free() #do what needs to be done; remove it from the mortal plane of existence
-		
-		if Main.tutorial_progress == 7: #move onto the next tutorial text
-			Main.tutorial_progress += 1

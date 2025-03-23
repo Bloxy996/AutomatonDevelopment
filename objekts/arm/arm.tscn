@@ -1,7 +1,9 @@
-[gd_scene load_steps=31 format=4 uid="uid://dsjmhbu38urwo"]
+[gd_scene load_steps=33 format=4 uid="uid://dsjmhbu38urwo"]
 
 [ext_resource type="Script" path="res://objekts/arm/arm.gd" id="1_w6fob"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="2_6gtww"]
+[ext_resource type="Material" uid="uid://bmmpue6t7ii40" path="res://objekts/arm/settargetidle.tres" id="2_ioy3u"]
+[ext_resource type="Material" uid="uid://pcxososdf80d" path="res://objekts/unpausedlight.tres" id="4_4w270"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efugg"]
 resource_name = "Material.001"
@@ -348,15 +350,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_xxnw4")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1mjp"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0, 0.74902, 1, 0.282353)
-
 [sub_resource type="CylinderMesh" id="CylinderMesh_hlrkr"]
 top_radius = 2.5
 bottom_radius = 2.5
-height = 0.05
+height = 0.21
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kr8sf"]
 size = Vector3(0.25, 2, 0.25)
@@ -374,7 +371,10 @@ size = Vector3(3, 0.2, 3)
 albedo_color = Color(0.205111, 0.205111, 0.205111, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2y0q3"]
-size = Vector3(3, 0.2, 3)
+size = Vector3(2, 0.2, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ywbgd"]
+size = Vector3(0.05, 0.1, 0.15)
 
 [node name="Arm" type="StaticBody3D" groups=["arm", "machine", "save"]]
 input_ray_pickable = false
@@ -498,7 +498,7 @@ mesh = SubResource("ArrayMesh_i08p0")
 skeleton = NodePath("")
 
 [node name="finger2" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube_001/Cube_001/grabber/fingers"]
-transform = Transform3D(-20, -5.07037e-05, 0, 1.73417e-05, -6.84043, -18.7939, 4.76458e-05, -18.7939, 6.84043, 3.72529e-09, -0.253, -0.043)
+transform = Transform3D(-20, -5.07038e-05, 0, 1.73417e-05, -6.84043, -18.7939, 4.76458e-05, -18.7939, 6.84043, 3.72529e-09, -0.253, -0.043)
 material_override = SubResource("StandardMaterial3D_1r68d")
 mesh = SubResource("ArrayMesh_i08p0")
 skeleton = NodePath("")
@@ -521,7 +521,7 @@ tip_bone = &"Bone.001_end"
 target_node = NodePath("../../../Target")
 
 [node name="mesh" type="MeshInstance3D" parent="."]
-material_override = SubResource("StandardMaterial3D_d1mjp")
+material_override = ExtResource("2_ioy3u")
 mesh = SubResource("CylinderMesh_hlrkr")
 
 [node name="settarget" type="Area3D" parent="."]
@@ -533,11 +533,19 @@ shape = SubResource("BoxShape3D_kr8sf")
 
 [node name="holder" type="Node3D" parent="."]
 
-[node name="settarget" type="Button" parent="holder"]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="UIholder" type="VBoxContainer" parent="holder"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="settarget" type="Button" parent="holder/UIholder"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_6gtww")
-text = "set arm target"
+text = "edit arm behavior"
+
+[node name="pause" type="Button" parent="holder/UIholder"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_6gtww")
+text = "pause"
 
 [node name="proximity" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -552,8 +560,6 @@ input_ray_pickable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boxAoE"]
 shape = SubResource("SphereShape3D_m7fnx")
 
-[node name="targets" type="Node3D" parent="."]
-
 [node name="base2" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_1rw5m")
 
@@ -562,4 +568,18 @@ material_override = SubResource("StandardMaterial3D_v6y0h")
 mesh = SubResource("BoxMesh_2y0q3")
 skeleton = NodePath("../..")
 
-[connection signal="pressed" from="holder/settarget" to="." method="_on_settarget_pressed"]
+[node name="pause" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.19618, 0.316942, -0.465458)
+material_override = ExtResource("4_4w270")
+mesh = SubResource("BoxMesh_ywbgd")
+
+[node name="behaviours" type="Node3D" parent="."]
+
+[node name="targets" type="Node3D" parent="behaviours"]
+
+[node name="avoids" type="Node3D" parent="behaviours"]
+
+[node name="priorities" type="Node3D" parent="behaviours"]
+
+[connection signal="pressed" from="holder/UIholder/settarget" to="." method="_on_settarget_pressed"]
+[connection signal="pressed" from="holder/UIholder/pause" to="." method="_on_pause_pressed"]

@@ -18,7 +18,7 @@ func _ready() -> void: #runs when it appears
 	
 	for mesh: MeshInstance3D in shadow.get_children():
 		mesh.material_override.albedo_color = Color(0, 0.749, 1, 0.498) if mode == 'builder' else Color(1, 0, 0, 0.498) #sets the colors
-		if mesh.name == 'arrow' and mode == 'destroyer': mesh.queue_free() #arrows are not needed!
+		if mesh.name.contains('arrow') and mode == 'destroyer': mesh.queue_free() #arrows are not needed!
 	
 	shadow.scale *= 1.02 #make it a tad bit bigger
 

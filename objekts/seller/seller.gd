@@ -4,7 +4,6 @@ class_name Seller
 @export var original: bool = false #if it's the original or not
 
 @onready var area: Area3D = $Area3D
-@onready var collision2: CollisionShape3D = $Area3D/CollisionShape3D2
 @onready var timer: Timer = $Timer
 @onready var holder: Marker3D = $holder
 @onready var button: Button = $holder/Button
@@ -47,8 +46,6 @@ func _process(_delta: float) -> void: #runs every microsecond because of how fas
 			button.hide()
 	
 	collision.disabled = empty #blocker appears when there is something in the machine to stop overflow
-	if not original:
-		collision2.disabled = false
 	
 	if area2.get_overlapping_bodies().has(Main.main.get_node('player')) and (not original) and (not Main.building) and (not Main.irradicating): #if player is near button and not original
 		pause.visible = true #show button
@@ -83,9 +80,6 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void: #wh
 		Main.sell_box(Main.progression_price * box.price) #runs the function in the master branch to sell the box
 		box.queue_free() #remove the box because it was actually just going to get deleted forever and get turned into money, that 'customer' dosent actually exist
 		empty = true #tells everyone else that its ready to pick up more boxes
-		
-		if Main.tutorial_progress == 3: #move onto the next tutorial text
-			Main.tutorial_progress += 1
 
 func grab_box(body: Node3D) -> void: #function to grab boxes
 	empty = false #tells this function that the machine has a box in it
@@ -101,9 +95,6 @@ func grab_box(body: Node3D) -> void: #function to grab boxes
 	#show the waiting label and set it to something that let's the user know that they should wait
 	animation.play("set") #do the fancy animation for grabbing the box
 	light.material_override = load("res://objekts/seller/greenlight.tres") #machine is active
-	
-	if Main.tutorial_progress == 2: #move onto the next tutorial text
-		Main.tutorial_progress += 1
 
 func sell_box() -> void: #sell ze box
 	offer_avaliable = false #make sure that everyone knows that you accepted the offer (you cannot rejekt free money)

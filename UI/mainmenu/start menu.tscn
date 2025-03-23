@@ -227,22 +227,21 @@ text = "[center]automaton"
 
 [node name="detail" type="RichTextLabel" parent="maincontainer"]
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 72.0
-offset_top = -232.0
-offset_right = 456.0
+offset_left = -352.0
+offset_top = -144.0
+offset_right = -64.0
 offset_bottom = -72.0
+grow_horizontal = 0
 grow_vertical = 0
 theme_override_fonts/normal_font = ExtResource("1_lnbpc")
 theme_override_font_sizes/normal_font_size = 18
 bbcode_enabled = true
-text = "developer's notes:
-if it dosent work the first time, 
-try it again and it will work!
-
-put the game in a seperate window to keep it running!"
+text = "[right][color=red]< you may want to reset the game, a major update was made from 1.4 to 1.5 >"
 
 [node name="Entername" parent="." instance=ExtResource("8_cgt5w")]
 visible = false

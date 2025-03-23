@@ -58,7 +58,7 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_5qcnx")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "1.5 (00/00/2025)
+text = "1.5 (03/24/2025)
 [ul]multipliers expodentially increase box prices[/ul]
 [ul]sellers cant take boxes from multipliers[/ul]
 [ul]fixed box creation bugs[/ul]
@@ -76,7 +76,10 @@ text = "1.5 (00/00/2025)
 [ul]added a conveyor belt that splits into 2 directions[/ul]
 [ul]optimized all scene meshes[/ul]
 [ul]changed loading bar color[/ul]
-[ul]fixed tutorial saving state[/ul]
+[ul]fixed tutorial saving state, and remade the whole tutorial[/ul]
+[ul]updated room saving[/ul]
+[ul]creators drop boxes on only 1 direction, and sellers grab boxes only on top of them[/ul]
+[ul]added robotic arms for moving boxes[/ul]
 
 1.4 (02/28/2025)
 [ul]updated the creator models[/ul]
