@@ -138,11 +138,11 @@ far = 100.0
 [node name="machines" type="Node3D" parent="."]
 
 [node name="originalcreator" parent="machines" groups=["original"] instance=ExtResource("5_0efa7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 2)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 14, 0, 3)
 original = true
 
 [node name="originalseller" parent="machines" groups=["original"] instance=ExtResource("6_hng5h")]
-transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, 2, 0, 14)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3, 0, 14)
 original = true
 
 [node name="irradicate" type="Area3D" parent="."]

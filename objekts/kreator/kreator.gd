@@ -79,17 +79,13 @@ func boxcount() -> int: #counts how many nodes are boxes that are overlapping
 	return i
 
 func request_accepted() -> void: #when the kreators's desires have been accepted
-	automated.start() #start the timer to make a box
+	automated.start(randf_range(3.0, 6.0)) #start the timer to make a box
 	dooranim.play_backwards('open') #close the doors
-	
-	print('
-	accepted!
-	')
 
 func _on_createbox_pressed() -> void: #runs when the create box button is pressed
 	if boxcount() == 0:
 		if (not dooranim.is_playing()) and (not animation_player.is_playing()): #make sure its not doing anything
-			timer.start() #begin the timer to wait
+			timer.start(randf_range(3.0, 6.0)) #begin the timer to wait
 			dooranim.play_backwards('open') #close the doors
 
 func _on_timer_timeout() -> void: #when the waiting time ends and the box is ready, create a box
