@@ -1,6 +1,8 @@
 extends Area3D #skript for the shadow of the creator of creators
 class_name CreationShadow
 
+@onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
+
 @onready var buildradius_detection: Area3D = $buildradius_detection
 
 var type: String #the machine that is being created
@@ -13,6 +15,8 @@ func _process(_delta: float) -> void: #runs on every frame
 	#move it to the mouse, and keep it on the ground
 	global_position = snapped(Main.main.mouse_3d_pos(), Vector3.ONE)
 	global_position.y = 0
+	
+	Main.main.ui.buildingtext.text = str('[right]cost ', round(Main.prices[type])) #display the price when building
 	
 	if Input.is_action_just_pressed("R"): #rotate the shadow when R is pressed
 		global_rotation_degrees.y += 90
@@ -30,7 +34,13 @@ func _process(_delta: float) -> void: #runs on every frame
 			inst.global_rotation = global_rotation
 			
 			Main.kredits -= Main.prices[type] #take away money!
-			Main.progressions('buymachine', type)
+			
+			#indicate the change of kredits
+			var indkinst: Indikator = indikator.instantiate()
+			Main.main.ui.kreditindikator.add_child(indkinst)
+			indkinst.start(-Main.prices[type], global_position)
+			
+			Main.progressions('buymachine', type, null, null, global_position)
 		
 		if Input.is_action_just_pressed('rightclick') and has_overlapping_bodies(): #removing machines while building
 			var builderinarea: bool = false

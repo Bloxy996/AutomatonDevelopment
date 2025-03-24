@@ -80,6 +80,8 @@ text = "1.5 (03/24/2025)
 [ul]updated room saving[/ul]
 [ul]creators drop boxes on only 1 direction, and sellers grab boxes only on top of them[/ul]
 [ul]added robotic arms for moving boxes[/ul]
+[ul]show the current price of the machine while building[/ul]
+[ul]added indicators for price/multiplier changes[/ul]
 
 1.4 (02/28/2025)
 [ul]updated the creator models[/ul]

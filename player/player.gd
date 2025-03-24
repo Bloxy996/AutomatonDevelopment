@@ -1,6 +1,8 @@
 extends RigidBody3D #skript for the player!
 class_name Player
 
+@onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
+
 @onready var collision: CollisionShape3D = $CollisionShape3D
 @onready var hand: Marker3D = $CollisionShape3D/hand
 @onready var area3d: Area3D = $Area3D
@@ -91,8 +93,14 @@ func clearboxes() -> void: ##delete unused boxes in immediate area, please make 
 						break
 				
 				if not usingbox: 
-					node.queue_free() #if it's not being used, remove it
 					Main.kredits -= Main.deleteboxcost ##take away kredits, maaybe change this number somehow? (distance to player, increases with level or how many boxes you do it, etc.)
+					
+					#indicate the change of kredits
+					var indkinst: Indikator = indikator.instantiate()
+					Main.main.ui.kreditindikator.add_child(indkinst)
+					indkinst.start(-Main.deleteboxcost, node.global_position)
+					
+					node.queue_free() #if it's not being used, remove it
 		else: #stop the removal of boxes if you would run out of kredits
 			break
 	

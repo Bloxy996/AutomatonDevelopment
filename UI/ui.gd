@@ -8,6 +8,9 @@ class_name UI
 @onready var toomanyboxes: Label = $toomanyboxes
 @onready var TMBblinker: Timer = $toomanyboxes/blinker
 @onready var armtutorial: Control = $armtutorial
+@onready var building: Control = $building
+@onready var buildingtext: RichTextLabel = $building/detail
+@onready var kreditindikator: Control = $kreditindikator
 
 @onready var tutorial: Tutorial = $tutorial
 
@@ -40,3 +43,4 @@ func _process(delta: float) -> void: #runs every microsecond because this is a r
 		toomanyboxes.hide()
 	
 	armtutorial.visible = Main.settingbehavior #shows a tutorial when setting behaviours
+	building.visible = Main.building #shows the building UI when building

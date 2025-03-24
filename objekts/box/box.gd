@@ -1,6 +1,8 @@
 extends RigidBody3D #this script is for the box
 class_name Box
 
+@onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
+
 @onready var collision: CollisionShape3D = $CollisionShape3D
 @onready var marker: Marker3D = $Marker3D
 @onready var detector: Area3D = $detector
@@ -9,7 +11,7 @@ var player_position: Vector3 #varible for player position
 
 var onmouse: bool = false #varible for when the mouse is on the box
 
-var price: int = 1
+var price: float = 1
 
 var used_multipliers: Array = [StaticBody3D] ##find out how to save this
 
@@ -48,6 +50,12 @@ func _input(event: InputEvent) -> void: #when the player presses the button to p
 		elif event.is_action_pressed('rightclick') and Main.kredits >= Main.deleteboxcost:
 			dropbox() ##drop and remove the box when the user clicks to remove it, make this look nicer pls im begging upon a dying star
 			Main.kredits -= Main.deleteboxcost #take away money
+			
+			#indicate the change of kredits
+			var indkinst: Indikator = indikator.instantiate()
+			Main.main.ui.kreditindikator.add_child(indkinst)
+			indkinst.start(-Main.deleteboxcost, global_position)
+			
 			queue_free()
 
 func dropbox() -> void: #drop a box

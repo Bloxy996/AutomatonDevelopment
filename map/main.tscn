@@ -206,6 +206,15 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("8_vco2r")
 
+[node name="kreditindikator" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="ProgressBar" type="ProgressBar" parent="UI"]
 layout_mode = 1
 anchors_preset = 12
@@ -296,14 +305,16 @@ layout_mode = 1
 mouse_filter = 1
 
 [node name="armtutorial" type="Control" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="basic" type="RichTextLabel" parent="UI/armtutorial"]
+[node name="detail" type="RichTextLabel" parent="UI/armtutorial"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -322,6 +333,36 @@ text = "press 1 to place a [color=00bfff]target[/color], the arm will send boxes
 press 2 to place an [color=red]avoid[/color], the arm will not pick up boxes from these
 
 press 3 to place a [color=green]priority[/color], the arm will pick up boxes from these first"
+fit_content = true
+
+[node name="building" type="Control" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="detail" type="RichTextLabel" parent="UI/building"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -446.0
+offset_top = -110.0
+offset_right = -8.0
+offset_bottom = -88.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("5_la7bd")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "[right]cost"
 fit_content = true
 
 [node name="tutorial" type="Control" parent="UI"]

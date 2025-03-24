@@ -1,6 +1,8 @@
 extends StaticBody3D #skript for the multiplier 
 class_name Multiplier
 
+@onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
+
 @onready var area: Area3D = $Area3D
 
 var has_box: bool = false #true when there is a box on it
@@ -23,8 +25,16 @@ func _process(_delta: float) -> void: #runs on every frame
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body.is_in_group('box') and not body.used_multipliers.has(self):
 		body.used_multipliers.append(self)
+		
+		var oldprice: float = body.price
 		body.price *= Main.machinepricemultiplier ##made expodential, maybe put in the progressions thingy
-		body.price = clampi(body.price, 0, 100) ##clamp the price so ppl cant do crazy stuff, show that this is the max somewhere?
+		body.price = clamp(body.price, 0, 100) #clamp the price so ppl cant do crazy stuff
+		
+		if oldprice != body.price: #if the price actually changed
+			#indicate the change of kredits
+			var indkinst: Indikator = indikator.instantiate()
+			Main.main.ui.kreditindikator.add_child(indkinst)
+			indkinst.start(round(body.price * 100) / 100, body.global_position, true)
 
 func save() -> Dictionary: #saving function called from main, gets all the data from the node and pushes it to main
 	return {

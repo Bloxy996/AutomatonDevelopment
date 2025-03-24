@@ -47,7 +47,7 @@ func mouse_3d_pos() -> Vector3: #advanced math stuff to get the mouse position
 	return Vector3.ZERO
 
 func _on_irradicate_pressed() -> void: #if the user pressed the delete machines button
-	if not Main.building: #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
+	if (not Main.building) and (not Main.settingbehavior): #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
 		Main.irradicating = true
 
 func _process(delta: float) -> void: #runs every ~milisecond
@@ -103,7 +103,7 @@ func _process(delta: float) -> void: #runs every ~milisecond
 		boxkreationdelay.start()
 		if boxamount < Main.maxboxes: #if there's enough space to add more boxes and there's stuff in the queue
 			if not boxkreationqueue.is_empty():
-				if is_instance_valid(boxkreationqueue.pop_front()): #if it's still there
+				if is_instance_valid(boxkreationqueue[0]): #if it's still there
 					var latest: Kreator = boxkreationqueue.pop_front()
 					if is_instance_valid(latest): latest.request_accepted() #accept the oldest item in the queue and delete it
 				else: boxkreationqueue.pop_front() #if it's not valid just get rid of it
@@ -114,7 +114,7 @@ func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton) and event.is_pressed(): #zoom camera
 		zoom = clampf(zoom + (int(event.button_index == MOUSE_BUTTON_WHEEL_DOWN) - int(event.button_index == MOUSE_BUTTON_WHEEL_UP)), 5, 25)
 	elif event.is_action_pressed("delete"): #delete key can also be used to delete machines
-		if not Main.building: #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
+		if (not Main.building) and (not Main.settingbehavior): #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
 			Main.irradicating = true
 
 func _on_autosave_timeout() -> void: #save the game periodically
