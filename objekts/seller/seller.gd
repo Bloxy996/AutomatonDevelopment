@@ -77,7 +77,7 @@ func _on_button_pressed() -> void: #runs when the user decides that now is a gre
 func _on_animation_player_animation_finished(anim_name: StringName) -> void: #when the fancy animation is done
 	if anim_name == 'sell' and is_instance_valid(box): #if the animation was actually to take the box away
 		##price goes down and demand goes up (or is just fluctuates (like 'good' sales make price go up and 'bad' sales make it go down))
-		Main.sell_box(Main.progression_price * box.price) #runs the function in the master branch to sell the box
+		Main.sell_box(Main.progression_price * box.price, global_position) #runs the function in the master branch to sell the box
 		box.queue_free() #remove the box because it was actually just going to get deleted forever and get turned into money, that 'customer' dosent actually exist
 		empty = true #tells everyone else that its ready to pick up more boxes
 

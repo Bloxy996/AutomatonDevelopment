@@ -17,7 +17,7 @@ func _process(_delta: float) -> void: #sets the prices on the buttons to what th
 		panel.get_node('button').text = str('buy for ', round(Main.prices[panel.name]), ' kredits')
 
 func _input(_event: InputEvent) -> void: #runs when the user presses something
-	if Input.is_action_just_pressed("tab") and (not Main.building) and (not Main.irradicating): #if the user presed the 'tab' key,
+	if Input.is_action_just_pressed("tab") and (not Main.building) and (not Main.irradicating) and (not Main.settingbehavior): #if the user presed the 'tab' key,
 		visible = not visible #show/hide the shop!
 		if visible: Main.savegame()
 	
@@ -37,5 +37,5 @@ func add_machine(type : String) -> void: #add a machine
 
 func _on_create_pressed() -> void: #if the user presed the button to create a machine,
 	Main.main.get_node("UI/create").release_focus()
-	if (not Main.building) and (not Main.irradicating):
+	if (not Main.building) and (not Main.irradicating) and (not Main.settingbehavior):
 		visible = true #show the shop!

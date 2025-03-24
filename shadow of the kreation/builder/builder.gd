@@ -36,7 +36,7 @@ func _on_timer_timeout() -> void:
 		inst.global_rotation = global_rotation
 	
 	elif mode == 'destroyer': #if it's being used to destroy
-		Main.progressions('sellmachine', '', node)
+		Main.progressions('sellmachine', '', node, null, global_position)
 		
 		node.queue_free() #IRRADIKATE ZE MACHINE!!
 	

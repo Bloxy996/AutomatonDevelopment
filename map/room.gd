@@ -3,6 +3,8 @@ class_name Room
 
 ##show progress to get to expansion with 2 progressbars behind the button
 
+@onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
+
 @onready var wallFL: CollisionShape3D = $wallFL
 @onready var wallFR: CollisionShape3D = $wallFR
 @onready var wallBL: CollisionShape3D = $hidden/wallBL
@@ -82,9 +84,21 @@ func set_button(marker : Marker3D, prices : Dictionary) -> void:
 func _on_buttonL_pressed() -> void: #expand to the right
 	if Main.level >= expand_prices['left']['level'] and Main.kredits >= expand_prices['left']['kredits']:
 		Main.kredits -= expand_prices['left']['kredits']
+		
+		#indicate the change of kredits
+		var indkinst: Indikator = indikator.instantiate()
+		Main.main.ui.kreditindikator.add_child(indkinst)
+		indkinst.start(-expand_prices['left']['kredits'], wallFL.global_position)
+		
 		Main.main.add_room(location + Vector2(1, 0))
 
 func _on_buttonR_pressed() -> void: #expand to the left
 	if Main.level >= expand_prices['right']['level'] and Main.kredits >= expand_prices['right']['kredits']:
 		Main.kredits -= expand_prices['right']['kredits']
+		
+		#indicate the change of kredits
+		var indkinst: Indikator = indikator.instantiate()
+		Main.main.ui.kreditindikator.add_child(indkinst)
+		indkinst.start(-expand_prices['right']['kredits'], wallFR.global_position)
+		
 		Main.main.add_room(location + Vector2(0, 1))

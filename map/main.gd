@@ -1,5 +1,7 @@
 extends Node3D #everything here can be called with any script anywhere it wants, this is the MASTER BRANCH!!
 
+@onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
+
 var prices: Dictionary = { ##gets the prices of each of the machines, maybe combine with machinedata?
 	'kreator' : 20,
 	'seller' : 20,
@@ -78,15 +80,22 @@ var progression_demand: float = 8
 const machinepricemultiplier: float = 1.125 ##adjust this, raises the price whenever you buy a machine by this #, you can change it w/ upgrades soon
 const deletetimerspeedup: float = 2 ##the number to divide the time by when removing a machine (adjust and add a create speedup when doing upgrades)
 const beltspeed: float = 4 #speed for the belt/multipliers
-const deleteboxcost: float = 5 #cost to delete boxes
+const deleteboxcost: int = 5 #cost to delete boxes
 
 var factory_map: Dictionary = { ##dict for the rooms that you have in the factory, also make a machine map too for saving
 	'[0, 0]' : null #the position, and then the expansion prices
 }
 
-func sell_box(price: int) -> void: #runs when a box is sold
+func sell_box(price: int, pos: Vector3) -> void: #runs when a box is sold
 	boxes += 1 #you know what this does...
-	kredits += randi_range(price - 5, price + 5) #give the player credits for a box
+	var gained: int = randi_range(price - 5, price + 5)
+	kredits += gained #give the player credits for a box
+	
+	#indicate the change of kredits
+	var indkinst: Indikator = indikator.instantiate()
+	main.ui.kreditindikator.add_child(indkinst)
+	indkinst.start(gained, pos)
+	
 	levelbar+=1 #increase level pts by 1
 	if levelbar==maxLB: #if the level pts are up to the max,
 		levelbar=0 #reset level pts
@@ -101,19 +110,25 @@ func group_to_type(node: Node3D) -> String: #amazing piece of code here
 	return ''
 
 ##I WILL do progression price and demand!!
-func progressions(mode: String, type: String = '', node: Node3D = null, room: Room = null) -> void: #universal place for all progression stuff
+func progressions(mode: String, type: String = '', node: Node3D = null, room: Room = null, pos: Vector3 = Vector3.ZERO) -> void: #universal place for all progression stuff
 	match mode:
 		'buymachine': #buying a machine
 			prices[type] *= machinepricemultiplier #increase the price
 			##keep the prices from going over the max (based on level); maybe I was going to do something different!
 			##a price for a random machine goes down when you sell a box and add minimum clamp
-			prices[type] = clamp(prices[type], 0, machinedata[type]['originalprice'] * maxLB)
+			prices[type] = clampi(prices[type], 0, machinedata[type]['originalprice'] * maxLB)
 			
 		'sellmachine': #selling a machine
 			#give the credits back that were lost for each of the machines
 			var machinetype: String = group_to_type(node)
 			
 			kredits += prices[machinetype] / machinepricemultiplier
+			
+			#indicate the change of kredits
+			var indkinst: Indikator = indikator.instantiate()
+			main.ui.kreditindikator.add_child(indkinst)
+			indkinst.start(prices[machinetype] / machinepricemultiplier, pos)
+			
 			prices[machinetype] /= ((machinepricemultiplier - 1) / 2) + 1 ##bring down the price for the machine, maybe have a floor clamp?
 			prices[machinetype] = round(prices[machinetype])
 		
@@ -177,8 +192,8 @@ func savegame(menu: bool = false) -> void: #function to save game
 			
 			#set those variables from earlier, machines are added into a list for later
 			if data.has('kredits'):
-				playertransform = [data['playertransform']]
-				lightdir = [data['lightdir']]
+				playertransform = data['playertransform']
+				lightdir = data['lightdir']
 				tutorialvisible = data['tutorialvisible']
 			elif data.has('transform'):
 				nodes.append(data)
@@ -288,6 +303,7 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 	Global._updateleaderboard()
 	
 	kredits += 9999999999 #TEST
+	level += 9999999999
 
 func setboxesdependencies(calcboxes: int) -> void:
 	var calclevel: int = 0 #recreates the beginning
