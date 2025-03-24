@@ -301,9 +301,6 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 		first_time = true #it's the first time if there's no save file
 	
 	Global._updateleaderboard()
-	
-	kredits += 9999999999 #TEST
-	level += 9999999999
 
 func setboxesdependencies(calcboxes: int) -> void:
 	var calclevel: int = 0 #recreates the beginning
