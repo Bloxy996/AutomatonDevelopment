@@ -4,6 +4,8 @@
 [ext_resource type="Script" path="res://UI/contacts/contacts.gd" id="1_n0ekm"]
 [ext_resource type="PackedScene" uid="uid://cvpo7kkgufcp4" path="res://UI/loader.tscn" id="3_w6uny"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lv7lh"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kif1s"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bn8sb"]
@@ -25,8 +27,6 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nntxo"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b405k"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lv7lh"]
 
 [node name="Contacts" type="Control"]
 layout_mode = 3
@@ -86,6 +86,26 @@ text = "[center]here is our feedback form for feedback and contributions:
 
 thank you!"
 
+[node name="LinkButton" type="LinkButton" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -16.0
+offset_right = 90.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_5uwmc")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lv7lh")
+text = "click here"
+underline = 2
+uri = "https://forms.gle/K1kP2twuKs4PKTDn7"
+
 [node name="exit" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 7
@@ -116,25 +136,5 @@ text = "back"
 
 [node name="loader" parent="." instance=ExtResource("3_w6uny")]
 layout_mode = 1
-
-[node name="LinkButton" type="LinkButton" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -90.0
-offset_top = -16.0
-offset_right = 90.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_5uwmc")
-theme_override_font_sizes/font_size = 30
-theme_override_styles/focus = SubResource("StyleBoxEmpty_lv7lh")
-text = "click here"
-underline = 2
-uri = "https://forms.gle/K1kP2twuKs4PKTDn7"
 
 [connection signal="pressed" from="exit" to="." method="_on_exit_pressed"]

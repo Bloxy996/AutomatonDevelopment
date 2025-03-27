@@ -2,7 +2,7 @@ extends Node3D #everything here can be called with any script anywhere it wants,
 
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
-var prices: Dictionary = { ##gets the prices of each of the machines, maybe combine with machinedata?
+var prices: Dictionary = { #gets the prices of each of the machines
 	'kreator' : 20,
 	'seller' : 20,
 	'belt' : 25,
@@ -50,6 +50,14 @@ var machinedata: Dictionary = {
 	}
 }
 
+var settings: Dictionary = { #all of the settings for the game
+	'indikator' : {
+		'kredit' : true,
+		'multiplier' : true
+	},
+	'daynight' : true
+}
+
 var main: MainScene #the main scene
 
 var kredits: float = 0 #the amount of kredits the player has from selling boxes
@@ -72,17 +80,15 @@ var maxserveriterations: float = 20 #the max amount of times the silentwolf iter
 var boxesperroom: int = 50 #the amount of boxes for every room, just so I can change the number wheverer I need it quickly
 var Tprogress: int = 0 #how much progress is made through the tutorial
 
-##the price and demand for ALL sellers, reset at each level up but it's a tad bit different
-##also have UI for this
 var progression_price: float = 15
 var progression_demand: float = 8
 
-const machinepricemultiplier: float = 1.125 ##adjust this, raises the price whenever you buy a machine by this #, you can change it w/ upgrades soon
-const deletetimerspeedup: float = 2 ##the number to divide the time by when removing a machine (adjust and add a create speedup when doing upgrades)
+const machinepricemultiplier: float = 1.125 #adjust this, raises the price whenever you buy a machine by this #
+const deletetimerspeedup: float = 2 #the number to divide the time by when removing a machine
 const beltspeed: float = 4 #speed for the belt/multipliers
 const deleteboxcost: int = 5 #cost to delete boxes
 
-var factory_map: Dictionary = { ##dict for the rooms that you have in the factory, also make a machine map too for saving
+var factory_map: Dictionary = { #dict for the rooms that you have in the factory
 	'[0, 0]' : null #the position, and then the expansion prices
 }
 
@@ -92,9 +98,10 @@ func sell_box(price: int, pos: Vector3) -> void: #runs when a box is sold
 	kredits += gained #give the player credits for a box
 	
 	#indicate the change of kredits
-	var indkinst: Indikator = indikator.instantiate()
-	main.ui.kreditindikator.add_child(indkinst)
-	indkinst.start(gained, pos)
+	if Main.settings.indikator.kredit:
+		var indkinst: Indikator = indikator.instantiate()
+		main.ui.kreditindikator.add_child(indkinst)
+		indkinst.start(gained, pos)
 	
 	levelbar+=1 #increase level pts by 1
 	if levelbar==maxLB: #if the level pts are up to the max,
@@ -109,13 +116,11 @@ func group_to_type(node: Node3D) -> String: #amazing piece of code here
 			return group
 	return ''
 
-##I WILL do progression price and demand!!
 func progressions(mode: String, type: String = '', node: Node3D = null, room: Room = null, pos: Vector3 = Vector3.ZERO) -> void: #universal place for all progression stuff
 	match mode:
 		'buymachine': #buying a machine
 			prices[type] *= machinepricemultiplier #increase the price
-			##keep the prices from going over the max (based on level); maybe I was going to do something different!
-			##a price for a random machine goes down when you sell a box and add minimum clamp
+			#keep the prices from going over the max (based on level)
 			prices[type] = clampi(prices[type], 0, machinedata[type]['originalprice'] * maxLB)
 			
 		'sellmachine': #selling a machine
@@ -125,24 +130,25 @@ func progressions(mode: String, type: String = '', node: Node3D = null, room: Ro
 			kredits += prices[machinetype] / machinepricemultiplier
 			
 			#indicate the change of kredits
-			var indkinst: Indikator = indikator.instantiate()
-			main.ui.kreditindikator.add_child(indkinst)
-			indkinst.start(prices[machinetype] / machinepricemultiplier, pos)
+			if Main.settings.indikator.kredit:
+				var indkinst: Indikator = indikator.instantiate()
+				main.ui.kreditindikator.add_child(indkinst)
+				indkinst.start(prices[machinetype] / machinepricemultiplier, pos)
 			
-			prices[machinetype] /= ((machinepricemultiplier - 1) / 2) + 1 ##bring down the price for the machine, maybe have a floor clamp?
+			prices[machinetype] /= ((machinepricemultiplier - 1) / 2) + 1 #bring down the price for the machine
 			prices[machinetype] = round(prices[machinetype])
 		
 		'levelup': #when you level up
 			maxLB = round(maxLB*machinepricemultiplier) #make the max level thingy bigger
 		
 		'addroom': #when a room is created
-			##set prices, pls update calculations
+			#set prices
 			room.expand_prices['left']['level'] = round(randf_range(4, 8) * (room.location.x + 1) ** machinepricemultiplier)
 			room.expand_prices['left']['kredits'] = round(randf_range(40000, 80000) * (room.location.x + 1) ** machinepricemultiplier)
 			room.expand_prices['right']['level'] = round(randf_range(4, 8) * (room.location.y + 1) ** machinepricemultiplier)
 			room.expand_prices['right']['kredits'] = round(randf_range(40000, 80000) * (room.location.y + 1) ** machinepricemultiplier)
 
-func resetgame() -> void: ##resets all the variables to their original values, update this when updating other variables
+func resetgame() -> void: #resets all the variables to their original values
 	#removes the player from the leaderboard
 	var sw_result: Dictionary
 	while not sw_result.has('scores'):
@@ -153,7 +159,6 @@ func resetgame() -> void: ##resets all the variables to their original values, u
 			if score["player_name"] == playername:
 				SilentWolf.Scores.delete_score(score["score_id"])
 	
-	##probaly a better way of doing this...
 	kredits = 0
 	level = 0
 	levelbar = 0
@@ -226,7 +231,7 @@ func savegame(menu: bool = false) -> void: #function to save game
 			main.player.global_rotation.y
 		],
 		
-		##day/night cycle stuff, wont need this when I synchronize with realtime soon
+		#day/night cycle stuff
 		'lightdir' : lightdir if menu else [
 			main.light.rotation_degrees.x,
 			main.light.rotation_degrees.y,
@@ -288,7 +293,7 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 				var inst: Node3D = load(data["filename"]).instantiate() #create the node
 				if inst.has_method('primaryload'): inst.primaryload(data)
 				
-				##add the node, I'll have to update this if I decide to save more types of things
+				#add the node
 				if inst.is_in_group('box'): main.boxes.add_child(inst)
 				elif inst.is_in_group('machine') or inst.is_in_group('shadow'): main.machines.add_child(inst)
 				if inst.has_method('secondaryload'): inst.secondaryload(data)
@@ -301,6 +306,8 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 		first_time = true #it's the first time if there's no save file
 	
 	Global._updateleaderboard()
+	
+	kredits += 999999999999999 ##
 
 func setboxesdependencies(calcboxes: int) -> void:
 	var calclevel: int = 0 #recreates the beginning
@@ -309,7 +316,7 @@ func setboxesdependencies(calcboxes: int) -> void:
 	while calcboxes >= calcmaxLB: #until you cannot fill the levelbar anymore
 		calcboxes -= calcmaxLB #take away the max amount of boxes to increase the level
 		calclevel += 1
-		calcmaxLB = round(calcmaxLB * machinepricemultiplier) ##increase the maxLB like how it usualy wound be make synchonous with progressions function
+		calcmaxLB = round(calcmaxLB * machinepricemultiplier) #increase the maxLB like how it usualy wound be
 	
 	#set all of the variables after because they should be determined now
 	levelbar = calcboxes

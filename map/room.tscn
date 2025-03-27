@@ -183,29 +183,14 @@ _data = {
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kyvj7"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b12gn"]
-bg_color = Color(0, 0, 0, 0.313726)
-border_color = Color(0, 0, 0, 0.313726)
-border_blend = true
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 4.0
-expand_margin_top = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oabtb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tfhmo"]
-bg_color = Color(0, 1, 0, 1)
+bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
-expand_margin_left = 4.0
-expand_margin_top = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a5323"]
 size = Vector3(1, 14, 15)
@@ -642,7 +627,7 @@ _data = {
 "show": SubResource("Animation_eelxr")
 }
 
-[node name="room" type="StaticBody3D"]
+[node name="room" type="StaticBody3D" groups=["wall"]]
 input_ray_pickable = false
 script = ExtResource("1_lknie")
 
@@ -687,9 +672,8 @@ speed_scale = 4.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="Button" type="Button" parent="wallFL/expandL"]
-visible = false
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 116.0
+offset_bottom = 66.0
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("4_1g4y5")
@@ -708,7 +692,18 @@ text = "expansion at
 level 000
 000 kredits"
 
-[node name="ProgressBar" type="ProgressBar" parent="wallFL/expandL/Button"]
+[node name="Panel" type="Panel" parent="wallFL/expandL/Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="B" type="ProgressBar" parent="wallFL/expandL/Button"]
+modulate = Color(0.4, 1, 0.4, 1)
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -717,10 +712,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_b12gn")
+theme_override_styles/background = SubResource("StyleBoxEmpty_oabtb")
 theme_override_styles/fill = SubResource("StyleBoxFlat_tfhmo")
 max_value = 1.0
-value = 1.0
+step = 0.001
+value = 0.3
+show_percentage = false
+
+[node name="F" type="ProgressBar" parent="wallFL/expandL/Button"]
+modulate = Color(0, 1, 0, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_oabtb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tfhmo")
+max_value = 1.0
+step = 0.001
+value = 0.1
 show_percentage = false
 
 [node name="Area3D" type="Area3D" parent="wallFL"]
@@ -766,7 +779,6 @@ speed_scale = 4.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="Button" type="Button" parent="wallFR/expandR"]
-visible = false
 offset_right = 8.0
 offset_bottom = 8.0
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
@@ -787,7 +799,18 @@ text = "expansion at
 level 000
 000 kredits"
 
-[node name="ProgressBar" type="ProgressBar" parent="wallFR/expandR/Button"]
+[node name="Panel" type="Panel" parent="wallFR/expandR/Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="B" type="ProgressBar" parent="wallFR/expandR/Button"]
+modulate = Color(0.4, 1, 0.4, 1)
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -796,10 +819,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_b12gn")
+theme_override_styles/background = SubResource("StyleBoxEmpty_oabtb")
 theme_override_styles/fill = SubResource("StyleBoxFlat_tfhmo")
 max_value = 1.0
-value = 1.0
+step = 0.001
+value = 0.3
+show_percentage = false
+
+[node name="F" type="ProgressBar" parent="wallFR/expandR/Button"]
+modulate = Color(0, 1, 0, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_oabtb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tfhmo")
+max_value = 1.0
+step = 0.001
+value = 0.1
 show_percentage = false
 
 [node name="Area3D" type="Area3D" parent="wallFR"]
@@ -813,7 +854,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -5,
 material_override = SubResource("StandardMaterial3D_cxuv5")
 mesh = SubResource("BoxMesh_7l16j")
 
-[node name="hidden" type="StaticBody3D" parent="." groups=["exclude_from_raycast"]]
+[node name="hidden" type="StaticBody3D" parent="." groups=["exclude_from_raycast", "wall"]]
 input_ray_pickable = false
 
 [node name="roof" type="CollisionShape3D" parent="hidden"]

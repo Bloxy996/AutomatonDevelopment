@@ -163,7 +163,7 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -120.0
 offset_top = -112.0
-offset_right = 126.0
+offset_right = 120.0
 offset_bottom = -72.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -205,6 +205,34 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_405wu")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_g6h7m")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_5pilw")
 text = "changelog"
+
+[node name="settings" type="Button" parent="maincontainer"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -152.0
+offset_right = 64.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_lnbpc")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_igmte")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_tp5wp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qkvwy")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3qgi6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a4hns")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_gr7ob")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_t2v2n")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_1iem0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_405wu")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_g6h7m")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5pilw")
+text = "settings"
 
 [node name="title" type="RichTextLabel" parent="maincontainer"]
 clip_contents = false
@@ -259,3 +287,4 @@ layout_mode = 1
 [connection signal="pressed" from="maincontainer/contacts" to="maincontainer" method="_on_contacts_pressed"]
 [connection signal="pressed" from="maincontainer/leaderboard" to="maincontainer" method="_on_leaderboard_pressed"]
 [connection signal="pressed" from="maincontainer/changelog" to="maincontainer" method="_on_changelog_pressed"]
+[connection signal="pressed" from="maincontainer/settings" to="maincontainer" method="_on_settings_pressed"]

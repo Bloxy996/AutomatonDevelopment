@@ -59,11 +59,12 @@ func _process(_delta: float) -> void:
 	
 	if progress == 0: #create a box
 		originalcreator.createbox.pressed.connect(func() -> void:
-			progress = 1
-			basic.hide()
-			
-			while not is_instance_valid(originalcreator.inst): await get_tree().process_frame
-			box = originalcreator.inst
+			if progress == 0:
+				progress = 1
+				basic.hide()
+				
+				while not is_instance_valid(originalcreator.inst): await get_tree().process_frame
+				box = originalcreator.inst
 		)
 	
 	elif progress == 1: #pick up the box
@@ -76,7 +77,8 @@ func _process(_delta: float) -> void:
 	
 	elif progress == 3: #press the sell box button
 		originalseller.button.pressed.connect(func() -> void:
-			progress = 4
+			if progress == 3:
+				progress = 4
 		)
 	
 	elif progress == 4: #get enough credits to buy a seller
@@ -89,7 +91,8 @@ func _process(_delta: float) -> void:
 	
 	elif progress == 6: #buy a seller
 		shop.container.get_node('seller/button').pressed.connect(func() -> void:
-			progress = 7
+			if progress == 6:
+				progress = 7
 		)
 	
 	elif progress == 7: #finish placing the seller

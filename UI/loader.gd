@@ -1,6 +1,5 @@
 extends Control
 class_name Loader
-##yeah this is a pretty useless script idk why it exists
 
 @onready var anim: AnimationPlayer = $anim
 

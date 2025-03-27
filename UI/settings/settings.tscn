@@ -1,0 +1,260 @@
+[gd_scene load_steps=17 format=3 uid="uid://bi4ru7qxhswnu"]
+
+[ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_bevvk"]
+[ext_resource type="Script" path="res://UI/settings/settings.gd" id="1_f8kbo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_52kdd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ik25a"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qpbyi"]
+font = ExtResource("1_bevvk")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xl5r5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nem41"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nxsua"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1vbbn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1dtyt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g30n7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xaa5n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0kt8a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jv0sa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3tshk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2mtls"]
+
+[node name="settings" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f8kbo")
+
+[node name="backround" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="title" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -260.0
+offset_right = 262.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_bevvk")
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center]settings"
+
+[node name="indikators" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -208.0
+offset_top = -100.0
+offset_right = 208.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title" type="RichTextLabel" parent="indikators"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -208.0
+offset_right = 208.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("1_bevvk")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]indicators"
+
+[node name="container" type="VBoxContainer" parent="indikators"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -168.0
+offset_top = -42.0
+offset_right = 232.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="kredits" type="Panel" parent="indikators/container"]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_52kdd")
+
+[node name="kreditindikator" type="CheckButton" parent="indikators/container/kredits"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 48.0
+offset_bottom = 7.0
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ik25a")
+
+[node name="Label" type="Label" parent="indikators/container/kredits"]
+layout_mode = 0
+offset_left = 80.0
+offset_right = 244.0
+offset_bottom = 40.0
+text = "gain/lose kredits"
+label_settings = SubResource("LabelSettings_qpbyi")
+vertical_alignment = 1
+
+[node name="multipliers" type="Panel" parent="indikators/container"]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_52kdd")
+
+[node name="multiplierindikator" type="CheckButton" parent="indikators/container/multipliers"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 48.0
+offset_bottom = 7.0
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ik25a")
+
+[node name="Label" type="Label" parent="indikators/container/multipliers"]
+layout_mode = 0
+offset_left = 80.0
+offset_right = 244.0
+offset_bottom = 40.0
+text = "multiplying box prices"
+label_settings = SubResource("LabelSettings_qpbyi")
+vertical_alignment = 1
+
+[node name="exit" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -72.0
+offset_right = 126.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_bevvk")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xl5r5")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_nem41")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_nxsua")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_1vbbn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_1dtyt")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_g30n7")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xaa5n")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_0kt8a")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jv0sa")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_3tshk")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2mtls")
+text = "back"
+
+[node name="save" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -112.0
+offset_right = 126.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_bevvk")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xl5r5")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_nem41")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_nxsua")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_1vbbn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_1dtyt")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_g30n7")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xaa5n")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_0kt8a")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jv0sa")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_3tshk")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2mtls")
+text = "save settings"
+
+[node name="daynight" type="Panel" parent="."]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -168.0
+offset_top = 124.0
+offset_right = 232.0
+offset_bottom = 164.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_52kdd")
+
+[node name="daynight" type="CheckButton" parent="daynight"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 48.0
+offset_bottom = 7.0
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ik25a")
+
+[node name="Label" type="Label" parent="daynight"]
+layout_mode = 0
+offset_left = 80.0
+offset_right = 244.0
+offset_bottom = 40.0
+text = "day/night cycle"
+label_settings = SubResource("LabelSettings_qpbyi")
+vertical_alignment = 1
+
+[connection signal="pressed" from="exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="save" to="." method="_on_save_pressed"]

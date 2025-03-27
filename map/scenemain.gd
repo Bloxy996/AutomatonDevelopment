@@ -18,6 +18,7 @@ class_name MainScene
 @onready var boxes: Node3D = $boxes
 @onready var machines: Node3D = $machines
 @onready var light: DirectionalLight3D = $DirectionalLight3D
+@onready var shop: Shop = $UI/Shop
 
 @onready var ui: UI = $UI
 @onready var player: Player = $player
@@ -76,8 +77,9 @@ func _process(delta: float) -> void: #runs every ~milisecond
 							inst.type = Main.group_to_type(node)
 							
 							Main.main.get_node('machines').add_child(inst) #add the node and set the timer stuff
-							inst.wait.start(Main.machinedata[inst.type]['type_to_waittime'] / Main.deletetimerspeedup)
-							inst.bar.max_value = Main.machinedata[inst.type]['type_to_waittime'] / Main.deletetimerspeedup
+							var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-2, 2)
+							inst.wait.start(buildtime / Main.deletetimerspeedup)
+							inst.bar.max_value = buildtime / Main.deletetimerspeedup
 							
 							inst.global_position = node.global_position #move it to the correct position
 							inst.global_rotation = node.global_rotation
@@ -108,14 +110,16 @@ func _process(delta: float) -> void: #runs every ~milisecond
 					if is_instance_valid(latest): latest.request_accepted() #accept the oldest item in the queue and delete it
 				else: boxkreationqueue.pop_front() #if it's not valid just get rid of it
 	
-	light.rotation_degrees += Vector3(deg_to_rad(2), deg_to_rad(1), 0) * 0.05 ##day night cycle, FOR NOW
+	if Main.settings.daynight: light.rotation_degrees += Vector3(2, 1, 0) * 0.001 #day night cycle
+	else: light.rotation_degrees = Vector3(-60, -75, 0) #if the cycle is disabled, go to default
 
 func _input(event: InputEvent) -> void:
-	if (event is InputEventMouseButton) and event.is_pressed(): #zoom camera
-		zoom = clampf(zoom + (int(event.button_index == MOUSE_BUTTON_WHEEL_DOWN) - int(event.button_index == MOUSE_BUTTON_WHEEL_UP)), 5, 25)
-	elif event.is_action_pressed("delete"): #delete key can also be used to delete machines
-		if (not Main.building) and (not Main.settingbehavior): #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
-			Main.irradicating = true
+	if not shop.visible: #if the user isnt in the shop
+		if (event is InputEventMouseButton) and event.is_pressed(): #zoom camera
+			zoom = clampf(zoom + (int(event.button_index == MOUSE_BUTTON_WHEEL_DOWN) - int(event.button_index == MOUSE_BUTTON_WHEEL_UP)), 5, 25)
+		elif event.is_action_pressed("delete"): #delete key can also be used to delete machines
+			if (not Main.building) and (not Main.settingbehavior): #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
+				Main.irradicating = true
 
 func _on_autosave_timeout() -> void: #save the game periodically
 	Main.savegame()
@@ -136,11 +140,6 @@ func add_room(location : Vector2) -> void:
 	inst.global_position = Vector3(location.x, 0, location.y) * room_size #set the physical position
 	
 	remove_walls_for_room(location, inst) #removes the walls
-	
-	##WELPS I WANT A FIXED CAMERA, but for now the camera follows the player...
-	###positions /= factory.get_child_count() #gets the average of all the positions of the rooms
-	###camera.global_position = Vector3(positions.x + 2, 10, positions.z + 2) #set the position and FOV of the cameras
-	###camera.size = factory.get_child_count() * 12.5
 	
 	Main.maxboxes += Main.boxesperroom #increases the max amount of boxes when you expand
 

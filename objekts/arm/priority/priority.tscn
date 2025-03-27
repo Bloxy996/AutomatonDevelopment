@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cq2c6yvxeca51" path="res://objekts/arm/img.png" id="2_ov5kk"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y187x"]
-size = Vector3(0.8, 2, 0.8)
+size = Vector3(0.5, 2, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mg0qt"]
 resource_local_to_scene = true

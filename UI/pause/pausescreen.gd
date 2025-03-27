@@ -1,5 +1,7 @@
-extends ColorRect #skript for the pause screen, sadly it's not its own scene
+extends ColorRect #skript for the pause screen
 class_name Pause
+
+@onready var settings: PackedScene = preload("res://UI/settings/settings.tscn")
 
 @onready var loader: Loader = $"../../loader"
 
@@ -33,7 +35,10 @@ func _on_reset_pressed() -> void: #reset the player
 	get_tree().paused = false #unpause the game
 	Main.main.player.reset() #do the reset thingy
 
-func _on_clearboxes_pressed() -> void: ##maybe you can only do this durring the panic warning thingies
+func _on_clearboxes_pressed() -> void: 
 	get_tree().paused = false #unpause the game
 	hide()
 	Main.main.player.clearboxes() #clear the boxes
+
+func _on_settings_pressed() -> void: #open settings
+	add_child(settings.instantiate())

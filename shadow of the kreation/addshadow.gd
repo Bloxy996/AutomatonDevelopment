@@ -25,9 +25,11 @@ func _process(_delta: float) -> void: #runs on every frame
 		if Input.is_action_just_pressed('leftclick') and (not has_overlapping_bodies()) and (not Main.main.spawn.get_overlapping_areas().has(self)): #if you click to place it and it's not touching other machines or the spawn area
 			var inst: Builder = Main.main.buildshadow.instantiate() #create the builder to make a machine
 			inst.type = type #set the shadow to the type needed
-			Main.main.get_node('machines').add_child(inst) ##add to the machines, maybe add to a seperate shadow node instead
-			inst.wait.start(Main.machinedata[type]['type_to_waittime']) #start the timer, when it finished a machine will be created
-			inst.bar.max_value = Main.machinedata[type]['type_to_waittime'] #sets the max value for UI purposes
+			Main.main.get_node('machines').add_child(inst) #add to the machines
+			
+			var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-2, 2)
+			inst.wait.start(buildtime) #start the timer, when it finished a machine will be created
+			inst.bar.max_value = buildtime #sets the max value for UI purposes
 			
 			#move the build shadow to the shadow's position/rotation
 			inst.global_position = global_position
@@ -36,9 +38,10 @@ func _process(_delta: float) -> void: #runs on every frame
 			Main.kredits -= Main.prices[type] #take away money!
 			
 			#indicate the change of kredits
-			var indkinst: Indikator = indikator.instantiate()
-			Main.main.ui.kreditindikator.add_child(indkinst)
-			indkinst.start(-Main.prices[type], global_position)
+			if Main.settings.indikator.kredit:
+				var indkinst: Indikator = indikator.instantiate()
+				Main.main.ui.kreditindikator.add_child(indkinst)
+				indkinst.start(-Main.prices[type], global_position)
 			
 			Main.progressions('buymachine', type, null, null, global_position)
 		
@@ -57,8 +60,9 @@ func _process(_delta: float) -> void: #runs on every frame
 							inst.type = Main.group_to_type(node)
 							
 							Main.main.get_node('machines').add_child(inst) #add the node and set the timer stuff
-							inst.wait.start(Main.machinedata[inst.type]['type_to_waittime'] / Main.deletetimerspeedup)
-							inst.bar.max_value = Main.machinedata[inst.type]['type_to_waittime'] / Main.deletetimerspeedup
+							var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-2, 2)
+							inst.wait.start(buildtime / Main.deletetimerspeedup)
+							inst.bar.max_value = buildtime / Main.deletetimerspeedup
 							
 							inst.global_position = global_position #move it to the correct position
 							inst.global_rotation = global_rotation

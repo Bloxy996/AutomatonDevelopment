@@ -6,7 +6,7 @@ func _ready() -> void:
 	SilentWolf.configure({
 		"api_key": "IU6NBBMzZJ38Vdl20XFi73RvnUk3vgM2COTfi2I1",
 		"game_id": "automaton",
-		"log_level": 1
+		"log_level": 0
 	})
 
 	SilentWolf.configure_scores({
