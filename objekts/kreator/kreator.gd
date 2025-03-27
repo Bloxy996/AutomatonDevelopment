@@ -29,7 +29,7 @@ func _process(_delta: float) -> void: #runs every single nanosecond because your
 	area.collision_mask = 1 #keep it from lagging, a godot thing
 	
 	if area.get_overlapping_bodies().has(Main.main.get_node('player')) and original and get_tree().get_nodes_in_group('box').size() < Main.maxboxes: #if the player is near the kreator and there's not too much boxes
-		createbox.visible = timer.is_stopped() ##if the machine is ready show the button to make boxes, maybe show either way?
+		createbox.visible = timer.is_stopped() #if the machine is ready show the button to make boxes
 	else:
 		createbox.hide() #hide ze button
 
@@ -61,7 +61,7 @@ func _process(_delta: float) -> void: #runs every single nanosecond because your
 				send_to_belt(node)
 				break
 		
-		##if you actually paid for this kreator and there is nothing in it, start the automated timer to make another box (change so you can have a stack of 2 boxes before it stops??)
+		#if you actually paid for this kreator and there is nothing in it, start the automated timer to make another box
 		if (not original): #also makes sure that the machine isnt in the queue already
 			if boxcount() == 0:
 				await get_tree().create_timer(0.1).timeout #double check!!
@@ -95,7 +95,6 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void: #w
 	if inst.get_parent().name != 'hand': #if a mischevious player didnt already pick up the box WHILE THE BOX WAS IN THE ANIMATION,
 		#unstatcify the box
 		inst.freeze = false
-		inst.top_level = true
 		inst.reparent(Main.main.boxes) #make grabbable by arms
 
 func send_to_belt(box : RigidBody3D) -> void: #sends boxes to any belt near the kreator
@@ -115,7 +114,6 @@ func create_box() -> void:
 	spawnbox.add_child(inst) #create the box from the ashes of a lost world and put it in the scene
 	#make the box static
 	inst.freeze = true
-	inst.top_level = false
 	dooranim.play('open') #open the doors
 	animation_player.play("spawn") #play the spawn animation for fancy stuff
 

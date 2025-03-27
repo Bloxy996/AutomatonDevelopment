@@ -1,5 +1,7 @@
 extends Control
 
+@onready var settings: PackedScene = preload("res://UI/settings/settings.tscn")
+
 @onready var loader: Loader = $"../loader"
 
 var opacity: int = 0
@@ -43,3 +45,6 @@ func _on_leaderboard_pressed() -> void:
 
 func _on_changelog_pressed() -> void:
 	$"../Changelog".show()
+
+func _on_settings_pressed() -> void: #open settings
+	$"..".add_child(settings.instantiate())

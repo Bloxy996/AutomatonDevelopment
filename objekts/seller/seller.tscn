@@ -211,6 +211,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="blocker"]
 shape = SubResource("BoxShape3D_8rxol")
+disabled = true
 
 [node name="light" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.423316, 0.517821, 0.270704)

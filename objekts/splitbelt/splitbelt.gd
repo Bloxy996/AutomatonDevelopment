@@ -36,8 +36,7 @@ func _process(_delta: float) -> void: #runs on every frame
 			#adds forces from adjusters
 			if adjustL.get_overlapping_bodies().has(box): forces += (transform.basis * Vector3.RIGHT).normalized() * 4
 			elif adjustR.get_overlapping_bodies().has(box): forces += (transform.basis * Vector3.LEFT).normalized() * 4
-			##applies the forces needed with dampner, linear_velocities has won the fight for now
-			##body.apply_impulse(forces - body.linear_velocity, body.forceapplier.position)
+			#sets the force
 			box.linear_velocity = forces
 	
 	#manual flipping of the belt
@@ -55,7 +54,6 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 	return {
 		'filename' : get_scene_file_path(),
 		'transform' : [global_position.x, global_position.y, global_position.z, global_rotation.y]
-		##maybe save nextdir?
 	}
 
 func secondaryload(data : Dictionary) -> void: #load after the node has been institnated

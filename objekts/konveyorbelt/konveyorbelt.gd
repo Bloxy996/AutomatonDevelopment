@@ -22,14 +22,10 @@ func _process(_delta: float) -> void: #runs on every frame
 				#adds forces from adjusters
 				if adjustL.get_overlapping_bodies().has(body): forces += (transform.basis * Vector3.RIGHT).normalized() * 4
 				elif adjustR.get_overlapping_bodies().has(body): forces += (transform.basis * Vector3.LEFT).normalized() * 4
-				##applies the forces needed with dampner, linear_velocities has won the fight for now
-				##body.apply_impulse(forces - body.linear_velocity, body.forceapplier.position)
+				#sets the force
 				body.linear_velocity = forces 
 				
 				temphasbox = true #there is a box
-				
-			##elif body.is_in_group('player'): #if it's the player also move it, for funsies! (maybe bring back some ppl liked it as transportation so)
-			##body.apply_impulse(((transform.basis * Vector3.FORWARD).normalized() * Main.beltspeed) - body.linear_velocity)
 	
 	has_box = temphasbox #update the actual has box variable
 

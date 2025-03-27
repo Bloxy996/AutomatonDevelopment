@@ -53,14 +53,13 @@ func _process(_delta: float) -> void:
 		die()
 	
 	if deathradius.get_overlapping_bodies().size() - 1 > 0: #get clipped body count not including the player, if it's larger (the player is clipping)
-		if deathconfirmation.is_stopped(): deathconfirmation.start() ##start the timer to confirm the death, maybe flash the screen here too?
+		if deathconfirmation.is_stopped(): deathconfirmation.start() #start the timer to confirm the death
 
 func die() -> void:
 	if Main.picked: hand.get_child(0).dropbox() #drops any held boxes
 	Main.building = false #resets these because why not?
 	Main.irradicating = false
 	
-	##maybe you also lose something, like kredits/levels when you die?
 	deathanim.play('death') #play the animation for the death screen
 	dead = true #kill the player
 
@@ -78,10 +77,9 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	waitforrestart = true #set to true to wait for the user to press R
 
 func _on_confirmation_timeout() -> void: #if the confirmation timer is over and the player is still clipped, kill it
-	##ppl are constantly dying, maybe the radius or the wait time is too big, and also death should happen when you go into a multiplier even if not clipped
 	if deathradius.get_overlapping_bodies().size() - 1 > 0: die()
 
-func clearboxes() -> void: ##delete unused boxes in immediate area, please make this look nicer
+func clearboxes() -> void: #delete unused boxes in immediate area
 	for node: Node3D in boxdetection.get_overlapping_bodies():
 		if Main.kredits >= Main.deleteboxcost:
 			if node is Box and node.get_parent().name != 'hand': #iterates through all the boxes that arent being held
@@ -93,12 +91,13 @@ func clearboxes() -> void: ##delete unused boxes in immediate area, please make 
 						break
 				
 				if not usingbox: 
-					Main.kredits -= Main.deleteboxcost ##take away kredits, maaybe change this number somehow? (distance to player, increases with level or how many boxes you do it, etc.)
+					Main.kredits -= Main.deleteboxcost #take away kredits
 					
 					#indicate the change of kredits
-					var indkinst: Indikator = indikator.instantiate()
-					Main.main.ui.kreditindikator.add_child(indkinst)
-					indkinst.start(-Main.deleteboxcost, node.global_position)
+					if Main.settings.indikator.kredit:
+						var indkinst: Indikator = indikator.instantiate()
+						Main.main.ui.kreditindikator.add_child(indkinst)
+						indkinst.start(-Main.deleteboxcost, node.global_position)
 					
 					node.queue_free() #if it's not being used, remove it
 		else: #stop the removal of boxes if you would run out of kredits

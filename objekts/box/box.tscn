@@ -16,7 +16,7 @@ size = Vector3(0.51, 0.51, 0.51)
 input_capture_on_drag = true
 mass = 5.0
 physics_material_override = SubResource("PhysicsMaterial_1alt7")
-sleeping = true
+can_sleep = false
 script = ExtResource("1_p6f6l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

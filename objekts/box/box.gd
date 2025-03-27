@@ -13,7 +13,7 @@ var onmouse: bool = false #varible for when the mouse is on the box
 
 var price: float = 1
 
-var used_multipliers: Array = [StaticBody3D] ##find out how to save this
+var used_multipliers: Array = [StaticBody3D]
 
 func _process(delta: float) -> void: #runs every nanosecond because this is a fast computer
 	player_position = Main.main.get_node('player').global_position #set the player position to the actual player position
@@ -23,6 +23,9 @@ func _process(delta: float) -> void: #runs every nanosecond because this is a fa
 		global_position = lerp(global_position, get_parent().global_position, delta * 16) #move the position to the player's hand, but lerp it
 		global_rotation = get_parent().global_rotation #keep original rotations as the hand
 		collision.disabled = true
+		top_level = true
+	else:
+		top_level = false
 	
 	#boxes are just removed if they fall out
 	if global_position.y < -2: queue_free()
@@ -33,28 +36,30 @@ func _on_mouse_entered() -> void: #runs when the mouse touches the box
 func _on_mouse_exited() -> void: #runs when the mouse leaves the box
 	onmouse = false #self explainatory
 
-func _input(event: InputEvent) -> void: #when the player presses the button to pick it up
+func _input(event: InputEvent) -> void:
 	if onmouse and global_position.distance_to(Main.main.player.global_position) < 2:
-		if event.is_action_pressed('leftclick'):
+		if event.is_action_pressed('leftclick'): #when the player presses the button to pick it up
 			if get_parent().name != 'hand':
-				reparent(Main.main.get_node('player/CollisionShape3D/hand')) #move the box to the player's hand
-				#set the position/rotation to the hand
-				global_position = get_parent().global_position
-				global_rotation = get_parent().global_rotation
-				Main.picked = true #tell ze master branch that the player has already picked up something so it dosent pick up something else
-				#keep the box from doing goofy ahh stuff like flying around
-				top_level = true
-				freeze = true
+				if not Main.picked: #if the player isnt already holding a box and the box isnt in the hand
+					reparent(Main.main.get_node('player/CollisionShape3D/hand')) #move the box to the player's hand
+					#set the position/rotation to the hand
+					global_position = get_parent().global_position
+					global_rotation = get_parent().global_rotation
+					Main.picked = true #tell ze master branch that the player has already picked up something so it dosent pick up something else
+					#keep the box from doing goofy ahh stuff like flying around
+					freeze = true
 			else:
 				dropbox()
-		elif event.is_action_pressed('rightclick') and Main.kredits >= Main.deleteboxcost:
-			dropbox() ##drop and remove the box when the user clicks to remove it, make this look nicer pls im begging upon a dying star
+		##i dont like how the tutorial is here, but it's ok i guess
+		elif event.is_action_pressed('rightclick') and Main.kredits >= Main.deleteboxcost and Main.main.ui.tutorial.box != self:
+			dropbox() #drop and remove the box when the user clicks to remove it
 			Main.kredits -= Main.deleteboxcost #take away money
 			
 			#indicate the change of kredits
-			var indkinst: Indikator = indikator.instantiate()
-			Main.main.ui.kreditindikator.add_child(indkinst)
-			indkinst.start(-Main.deleteboxcost, global_position)
+			if Main.settings.indikator.kredit:
+				var indkinst: Indikator = indikator.instantiate()
+				Main.main.ui.kreditindikator.add_child(indkinst)
+				indkinst.start(-Main.deleteboxcost, global_position)
 			
 			queue_free()
 

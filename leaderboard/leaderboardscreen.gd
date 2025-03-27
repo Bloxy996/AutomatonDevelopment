@@ -10,9 +10,8 @@ func _ready() -> void:
 	Main.loadgame(true)
 	await get_tree().create_timer(0.1).timeout
 	Global._updateleaderboard()
-	getanddisplayscores()
-
-func getanddisplayscores() -> void:
+	await get_tree().create_timer(0.1).timeout
+	
 	var usedplayers: Array[String] = []
 	
 	#gets scores from leaderboard
@@ -63,7 +62,7 @@ func getanddisplayscores() -> void:
 		'november',
 		'december'
 	][Time.get_date_dict_from_system().month]
-	##show the month in the leaderboard's name, because it resets each month (maybe dont?)
+	#show the month in the leaderboard's name, because it resets each month
 	title.text = '[center]' + month + "'s leaderboard"
 
 func _on_button_9_pressed() -> void: #go back to the main menu

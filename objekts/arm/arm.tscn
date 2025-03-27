@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=4 uid="uid://dsjmhbu38urwo"]
+[gd_scene load_steps=32 format=4 uid="uid://dsjmhbu38urwo"]
 
 [ext_resource type="Script" path="res://objekts/arm/arm.gd" id="1_w6fob"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="2_6gtww"]
@@ -195,9 +195,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ydt1t")
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_6bp77"]
-points = PackedVector3Array(-2.10712e-08, -0.0005, -0.000822234, 0.0005, -0.0005, -0.000822234, -0.000296, -0.0005, -0.000446329, -2.10712e-08, 0.000499902, -0.000822234, 0.0005, 0.000499902, -0.000822234, 0.0005, -0.0005, 0.000499966, -0.000296, 0.000499902, -0.000446329, -0.000296, -0.0005, 0.000499966, -0.000384386, -0.000384397, 0.000231405, 0.0005, 0.000499902, 0.000499966, 0.000345908, -0.000346026, 0.000553706, -0.000384386, 0.000384299, 0.000231405, -0.000296, 0.000499902, 0.000499966, -0.00034595, -0.000346026, 0.000553706, -0.000384386, -0.000384397, 0.000499966, 0.000345908, 0.000345928, 0.000553706, -0.000384386, 0.000384299, 0.000499966, -0.00034595, 0.000345928, 0.000553706)
-
 [sub_resource type="Animation" id="Animation_fu0yh"]
 length = 0.001
 tracks/0/type = "value"
@@ -356,7 +353,7 @@ bottom_radius = 2.5
 height = 0.21
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kr8sf"]
-size = Vector3(0.25, 2, 0.25)
+size = Vector3(0.25, 1.9, 0.25)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x7jqe"]
 size = Vector3(1, 2, 1)
@@ -462,12 +459,6 @@ bone_idx = 3
 [node name="Cube_001" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube_001"]
 mesh = SubResource("ArrayMesh_gwhci")
 skeleton = NodePath("")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Armature/Skeleton3D/Cube_001/Cube_001"]
-input_ray_pickable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Armature/Skeleton3D/Cube_001/Cube_001/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_6bp77")
 
 [node name="grabber" type="Node3D" parent="Armature/Skeleton3D/Cube_001/Cube_001"]
 transform = Transform3D(0.00156986, 1.19227e-10, 2.32831e-10, -6.1156e-11, 0.00156986, 4.59869e-11, -2.91038e-11, -1.35956e-11, 0.000826242, 3.49246e-10, 1.03221e-10, 0.00054427)
@@ -580,6 +571,8 @@ mesh = SubResource("BoxMesh_ywbgd")
 [node name="avoids" type="Node3D" parent="behaviours"]
 
 [node name="priorities" type="Node3D" parent="behaviours"]
+
+[node name="doublecheck" type="Timer" parent="."]
 
 [connection signal="pressed" from="holder/UIholder/settarget" to="." method="_on_settarget_pressed"]
 [connection signal="pressed" from="holder/UIholder/pause" to="." method="_on_pause_pressed"]

@@ -1,8 +1,6 @@
 extends StaticBody3D
 class_name Room
 
-##show progress to get to expansion with 2 progressbars behind the button
-
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
 @onready var wallFL: CollisionShape3D = $wallFL
@@ -55,9 +53,9 @@ func _ready() -> void:
 	detectR.mouse_entered.connect(func() -> void: buttonR.show())
 	detectR.mouse_exited.connect(func() -> void: buttonR.hide())
 
-func _process(_delta: float) -> void:
-	if is_instance_valid(expandLM): set_button(expandLM, expand_prices['left'])
-	if is_instance_valid(expandRM): set_button(expandRM, expand_prices['right'])
+func _process(delta: float) -> void:
+	if is_instance_valid(expandLM): set_button(expandLM, expand_prices['left'], delta)
+	if is_instance_valid(expandRM): set_button(expandRM, expand_prices['right'], delta)
 	
 	var usable_walls: Array[StaticBody3D] = [] #make an array of the walls that the room can use and show the meshes too
 	if is_instance_valid(wallBL): usable_walls.append(wallBL.get_node('mesh/StaticBody3D'))
@@ -77,18 +75,25 @@ func _process(_delta: float) -> void:
 		if is_instance_valid(buttonL): buttonL.hide()
 		if is_instance_valid(buttonR): buttonR.hide()
 
-func set_button(marker : Marker3D, prices : Dictionary) -> void:
-	marker.get_node('Button').global_position = get_viewport().get_camera_3d().unproject_position(marker.global_position) - (marker.get_node('Button').size / 2) #move to the wall
-	marker.get_node('Button/ProgressBar').value = 1 if Main.level >= prices['level'] and Main.kredits >= prices['kredits'] else 0 ##turn the button green when you can buy the room, maybe change to an actual progress bar?
+func set_button(marker : Marker3D, prices : Dictionary, delta : float) -> void:
+	var button: Button = marker.get_node('Button') #the button, to make life easier
+	button.global_position = get_viewport().get_camera_3d().unproject_position(marker.global_position) - (marker.get_node('Button').size / 2) #move to the wall
+	#get the levelbar and kreditbar values
+	var levelbar: float = clampf(Main.level / prices.level, 0, 1)
+	var kreditbar: float = clampf(Main.kredits / prices.kredits, 0, 1)
+	#put the smaller one on the front bar and the larger one on the back
+	button.get_node('B').value = lerpf(button.get_node('B').value, levelbar if levelbar > kreditbar else kreditbar, delta * 4)
+	button.get_node('F').value = lerpf(button.get_node('F').value, levelbar if levelbar < kreditbar else kreditbar, delta * 4)
 
 func _on_buttonL_pressed() -> void: #expand to the right
 	if Main.level >= expand_prices['left']['level'] and Main.kredits >= expand_prices['left']['kredits']:
 		Main.kredits -= expand_prices['left']['kredits']
 		
 		#indicate the change of kredits
-		var indkinst: Indikator = indikator.instantiate()
-		Main.main.ui.kreditindikator.add_child(indkinst)
-		indkinst.start(-expand_prices['left']['kredits'], wallFL.global_position)
+		if Main.settings.indikator.kredit:
+			var indkinst: Indikator = indikator.instantiate()
+			Main.main.ui.kreditindikator.add_child(indkinst)
+			indkinst.start(-expand_prices['left']['kredits'], wallFL.global_position)
 		
 		Main.main.add_room(location + Vector2(1, 0))
 
@@ -97,8 +102,9 @@ func _on_buttonR_pressed() -> void: #expand to the left
 		Main.kredits -= expand_prices['right']['kredits']
 		
 		#indicate the change of kredits
-		var indkinst: Indikator = indikator.instantiate()
-		Main.main.ui.kreditindikator.add_child(indkinst)
-		indkinst.start(-expand_prices['right']['kredits'], wallFR.global_position)
+		if Main.settings.indikator.kredit:
+			var indkinst: Indikator = indikator.instantiate()
+			Main.main.ui.kreditindikator.add_child(indkinst)
+			indkinst.start(-expand_prices['right']['kredits'], wallFR.global_position)
 		
 		Main.main.add_room(location + Vector2(0, 1))

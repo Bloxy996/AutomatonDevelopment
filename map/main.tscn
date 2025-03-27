@@ -413,10 +413,6 @@ text = "[center]WASD to move, space to jump, scroll to zoom the camera, esc to p
 press T to close the tutorial at any time"
 fit_content = true
 
-[node name="pause" parent="UI" instance=ExtResource("10_bu086")]
-visible = false
-layout_mode = 1
-
 [node name="irradicate" type="Button" parent="UI"]
 layout_mode = 1
 anchors_preset = 3
@@ -474,6 +470,10 @@ libraries = {
 "": SubResource("AnimationLibrary_qbptl")
 }
 speed_scale = 4.0
+
+[node name="pause" parent="UI" instance=ExtResource("10_bu086")]
+visible = false
+layout_mode = 1
 
 [node name="player" parent="." instance=ExtResource("3_5xs4b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4)

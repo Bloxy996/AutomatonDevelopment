@@ -5,7 +5,7 @@ class_name Builder
 @onready var holder: Marker3D = $holder
 @onready var bar: ProgressBar = $holder/ProgressBar
 
-var node: Node3D ##machine to remove, FIND A WAY TO SAVE THIS IN JSON SO I CAN SAVE THE SHADOWS OF THE DESTROYER
+var node: Node3D #machine to remove
 
 var type: String #the machine that is being created
 var mode: String = 'builder' #on deafault it creates
@@ -63,6 +63,5 @@ func secondaryload(data : Dictionary) -> void: #load after the node has been ins
 	if mode == 'builder': #start the timer stuff for the build shadow stuff
 		wait.start(data['timeleft'])
 		bar.max_value = data['waittime']
-	elif mode == 'destroyer': ##destroyer shadows cant be saved yet 
-		##maybe find the machine based on the position? (I'll have to put machines/shadows/boxes in queues to load them in the right order though)
+	elif mode == 'destroyer': #destroyer shadows cant be saved yet 
 		queue_free()

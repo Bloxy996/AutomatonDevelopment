@@ -58,7 +58,16 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_5qcnx")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "1.5 (03/24/2025)
+text = "1.5.1 (03/28/2025)
+[ul]time to make boxes/machines fluctuates[/ul]
+[ul]cant zoom the camera while in the shop[/ul]
+[ul]fixed all the annoying arm bugs[/ul]
+[ul]added progress bars to expansion buttons[/ul]
+[ul]stopped the tutorial from crashing out when you delete a box[/ul]
+[ul]boxes cannot idle around anymore[/ul]
+[ul]added a settings menu[/ul]
+
+1.5 (03/24/2025)
 [ul]multipliers expodentially increase box prices[/ul]
 [ul]sellers cant take boxes from multipliers[/ul]
 [ul]fixed box creation bugs[/ul]

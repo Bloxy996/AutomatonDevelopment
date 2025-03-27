@@ -29,6 +29,8 @@ func _process(_delta: float) -> void: #runs every microsecond because of how fas
 	button.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (button.size / 2)
 	pause.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position + Vector3.DOWN) - (pause.size / 2)
 	
+	empty = not is_instance_valid(box) #it's empty if it dosent have a box!
+	
 	if empty: #run this if it's actually looking for stuff to grab
 		for body: Node3D in area.get_overlapping_bodies(): #iterates through all the thingies, ANYTHING that is near the intake
 			if body is Box and pause.text == 'pause': #if the thingy is a box and the machine is unpaused,
@@ -40,7 +42,7 @@ func _process(_delta: float) -> void: #runs every microsecond because of how fas
 	if offer_avaliable: #if the machine is waiting for the player to accept a offer
 		if area2.get_overlapping_bodies().has(Main.main.get_node('player')): #if the player is near the seller
 			#show the button to accept the offer and hide the other button
-			button.show() ##maybe show how much the box is selling for
+			button.show() 
 		else:
 			#vice versa!
 			button.hide()
@@ -76,17 +78,13 @@ func _on_button_pressed() -> void: #runs when the user decides that now is a gre
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void: #when the fancy animation is done
 	if anim_name == 'sell' and is_instance_valid(box): #if the animation was actually to take the box away
-		##price goes down and demand goes up (or is just fluctuates (like 'good' sales make price go up and 'bad' sales make it go down))
 		Main.sell_box(Main.progression_price * box.price, global_position) #runs the function in the master branch to sell the box
 		box.queue_free() #remove the box because it was actually just going to get deleted forever and get turned into money, that 'customer' dosent actually exist
-		empty = true #tells everyone else that its ready to pick up more boxes
 
 func grab_box(body: Node3D) -> void: #function to grab boxes
-	empty = false #tells this function that the machine has a box in it
 	box = body #set the box varible to the 'thing'
 	box.reparent(boxholder) #move the box to the node for the seller to take it away into the glorious light of modern society
 	#all of this is to get the box from escaping the grasp of the seller's reach
-	box.top_level = false
 	box.freeze = true
 	box.global_position = boxholder.global_position
 	box.global_rotation = boxholder.global_rotation

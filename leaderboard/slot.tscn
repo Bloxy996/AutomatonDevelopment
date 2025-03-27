@@ -24,7 +24,7 @@ offset_bottom = 40.0
 theme_override_fonts/normal_font = ExtResource("1_wkkbw")
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
-text = "[right]0000"
+text = "[right]00"
 scroll_active = false
 
 [node name="name" type="RichTextLabel" parent="."]
@@ -36,7 +36,7 @@ offset_bottom = 40.0
 theme_override_fonts/normal_font = ExtResource("1_wkkbw")
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
-text = "name"
+text = "N/A, please try again!"
 scroll_active = false
 
 [node name="level" type="RichTextLabel" parent="."]
@@ -53,7 +53,7 @@ offset_bottom = 44.0
 theme_override_fonts/normal_font = ExtResource("1_wkkbw")
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
-text = "0000000000"
+text = "00"
 scroll_active = false
 
 [node name="boxes" type="RichTextLabel" parent="."]
@@ -70,5 +70,5 @@ offset_bottom = 44.0
 theme_override_fonts/normal_font = ExtResource("1_wkkbw")
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
-text = "00000000000000000000"
+text = "00"
 scroll_active = false
