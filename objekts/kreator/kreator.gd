@@ -57,8 +57,8 @@ func _process(_delta: float) -> void: #runs every single nanosecond because your
 	if pause.text == 'pause': #if the machine is unpaused
 		#iterates through all the boxes still in the kreator and inactive
 		for node: Node in spawnbox.get_overlapping_bodies():
-			if node is Box and (not node.freeze):
-				send_to_belt(node)
+			if node is Box and (not node.freeze) and (not Main.main.boxsendqueue.has(node)):
+				Main.main.boxsendqueue.append(node) #adds it to the queue to be sent away
 				break
 		
 		#if you actually paid for this kreator and there is nothing in it, start the automated timer to make another box
@@ -82,6 +82,9 @@ func request_accepted() -> void: #when the kreators's desires have been accepted
 	automated.start(randf_range(3.0, 6.0)) #start the timer to make a box
 	dooranim.play_backwards('open') #close the doors
 
+func send_request_accepted(box : Box) -> void: #when the box is allowed to be sent away
+	send_to_belt(box)
+
 func _on_createbox_pressed() -> void: #runs when the create box button is pressed
 	if boxcount() == 0:
 		if (not dooranim.is_playing()) and (not animation_player.is_playing()): #make sure its not doing anything
@@ -100,7 +103,7 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void: #w
 func send_to_belt(box : RigidBody3D) -> void: #sends boxes to any belt near the kreator
 	#if any of the nodes near the kreator is a konveyor belt and it dosent have a box,
 	for node: Node in sender.get_overlapping_bodies():
-		if node is Belt and not node.has_box:
+		if (node is Belt or node is SplitBelt) and not node.has_box:
 			box.global_position = node.global_position + Vector3.UP #move the new box over to the konveyor belt
 			box.reparent(Main.main.get_node('boxes')) #send the box to the global box node so you can move it around
 			break #end this twisted loop to save on time
@@ -125,9 +128,10 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 	}
 
 func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
-	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
-	global_rotation.y = data["transform"][3]
-	pause.text = data['paused']
+	if data.has('transform'):
+		global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+		global_rotation.y = data["transform"][3]
+	if data.has('paused'): pause.text = data['paused']
 
 func _on_pause_pressed() -> void:
 	pause.release_focus()

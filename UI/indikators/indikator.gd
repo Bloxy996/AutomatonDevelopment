@@ -6,7 +6,7 @@ class_name Indikator
 
 var target: Vector3
 
-func start(num: float, pos: Vector3, multiplier: bool = false) -> void: #the new ready function
+func start(num: int, pos: Vector3, multiplier: bool = false) -> void: #the new ready function
 	if multiplier:
 		label.text = str('x ', num); modulate = Color('00bfff') #when a box is getting it's price multiplied
 	else:

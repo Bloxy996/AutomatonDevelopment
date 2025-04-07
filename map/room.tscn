@@ -1,7 +1,7 @@
 [gd_scene load_steps=54 format=3 uid="uid://igpmsyoxijud"]
 
 [ext_resource type="Texture2D" uid="uid://bjrvu65c1u03c" path="res://map/floor.png" id="1_ev4ph"]
-[ext_resource type="Script" path="res://map/room.gd" id="1_lknie"]
+[ext_resource type="Script" uid="uid://bn28crwx2smoa" path="res://map/room.gd" id="1_lknie"]
 [ext_resource type="Texture2D" uid="uid://ndqvrubmkvly" path="res://map/brick.png" id="2_ofjqq"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="4_1g4y5"]
 
@@ -156,9 +156,9 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wijyf"]
 _data = {
-"RESET": SubResource("Animation_unnjj"),
-"hide": SubResource("Animation_xl8i3"),
-"show": SubResource("Animation_mbhoo")
+&"RESET": SubResource("Animation_unnjj"),
+&"hide": SubResource("Animation_xl8i3"),
+&"show": SubResource("Animation_mbhoo")
 }
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yt5hs"]
@@ -337,9 +337,9 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1hmi7"]
 _data = {
-"RESET": SubResource("Animation_aqorn"),
-"hide": SubResource("Animation_k62po"),
-"show": SubResource("Animation_d1aa7")
+&"RESET": SubResource("Animation_aqorn"),
+&"hide": SubResource("Animation_k62po"),
+&"show": SubResource("Animation_d1aa7")
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ukk3n"]
@@ -484,9 +484,9 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bihgb"]
 _data = {
-"RESET": SubResource("Animation_o113o"),
-"hide": SubResource("Animation_2tf2v"),
-"show": SubResource("Animation_yq8jb")
+&"RESET": SubResource("Animation_o113o"),
+&"hide": SubResource("Animation_2tf2v"),
+&"show": SubResource("Animation_yq8jb")
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_58nek"]
@@ -622,9 +622,9 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t48or"]
 _data = {
-"RESET": SubResource("Animation_iymph"),
-"hide": SubResource("Animation_01mtk"),
-"show": SubResource("Animation_eelxr")
+&"RESET": SubResource("Animation_iymph"),
+&"hide": SubResource("Animation_01mtk"),
+&"show": SubResource("Animation_eelxr")
 }
 
 [node name="room" type="StaticBody3D" groups=["wall"]]
@@ -664,7 +664,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="wallFL/mesh"]
 libraries = {
-"": SubResource("AnimationLibrary_wijyf")
+&"": SubResource("AnimationLibrary_wijyf")
 }
 speed_scale = 4.0
 
@@ -771,7 +771,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="wallFR/mesh"]
 libraries = {
-"": SubResource("AnimationLibrary_1hmi7")
+&"": SubResource("AnimationLibrary_1hmi7")
 }
 speed_scale = 4.0
 
@@ -891,7 +891,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.15256e-07, 0, 8)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="hidden/wallBL/mesh"]
 libraries = {
-"": SubResource("AnimationLibrary_bihgb")
+&"": SubResource("AnimationLibrary_bihgb")
 }
 speed_scale = 4.0
 
@@ -925,7 +925,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="hidden/wallBR/mesh"]
 libraries = {
-"": SubResource("AnimationLibrary_t48or")
+&"": SubResource("AnimationLibrary_t48or")
 }
 speed_scale = 4.0
 

@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://byqahfv3rl842"]
+[gd_scene load_steps=11 format=3 uid="uid://byqahfv3rl842"]
 
 [ext_resource type="ArrayMesh" uid="uid://dljhfwngjgvd8" path="res://objekts/multiplier/mesh.tres" id="1_6dpd4"]
-[ext_resource type="Script" path="res://objekts/multiplier/mutiplier.gd" id="1_d8isr"]
+[ext_resource type="Script" uid="uid://ovn3kfdde70d" path="res://objekts/multiplier/mutiplier.gd" id="1_d8isr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5t78x"]
 albedo_color = Color(0.205111, 0.205111, 0.205111, 1)
@@ -15,13 +15,16 @@ points = PackedVector3Array(0.4, 0.25, 0.5, 0.4, -0.25, 0.5, 0.4, 0.25, -0.5, -0
 [sub_resource type="BoxShape3D" id="BoxShape3D_j3iod"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qg3pv"]
-size = Vector3(0.05, 0.4, 0.9)
+size = Vector3(0.7, 0.1, 0.8)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nm8py"]
 points = PackedVector3Array(0.01, 0.5, 0.5, 0.01, 0.5, -0.5, -0.01, -0.5, 0.5, 0.01, -0.5, 0.5, 0.01, -0.5, -0.5, -0.01, -0.5, -0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_02sys"]
-size = Vector3(1.3, 1, 0.1)
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qqyce"]
+size = Vector3(0.5, 0.25, 0.8)
 
 [node name="Multiplier" type="StaticBody3D" groups=["machine", "multiplier", "save"]]
 input_ray_pickable = false
@@ -48,11 +51,10 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.165289, 0)
 shape = SubResource("BoxShape3D_j3iod")
 
 [node name="Area3D" type="Area3D" parent="." groups=["inmultiplier", "usingbox"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.191089, 0)
 shape = SubResource("BoxShape3D_qg3pv")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
@@ -71,5 +73,11 @@ disabled = true
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.00232167, 0.56766, 0.0147433)
 shape = SubResource("BoxShape3D_02sys")
+
+[node name="nextbelt" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelt"]
+shape = SubResource("BoxShape3D_qqyce")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

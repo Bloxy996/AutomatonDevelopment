@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://cbcgp0nk24xtj"]
+[gd_scene load_steps=8 format=4 uid="uid://cbcgp0nk24xtj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yrgw1"]
 resource_local_to_scene = true
@@ -77,6 +77,9 @@ shadow_mesh = SubResource("ArrayMesh_dideq")
 [sub_resource type="BoxMesh" id="BoxMesh_5ltd1"]
 size = Vector3(3, 0.2, 3)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_k7npl"]
+size = Vector3(0.85, 0.2, 3)
+
 [node name="arm" type="Node3D"]
 
 [node name="base" type="MeshInstance3D" parent="."]
@@ -89,3 +92,12 @@ skeleton = NodePath("")
 material_override = SubResource("StandardMaterial3D_yrgw1")
 mesh = SubResource("BoxMesh_5ltd1")
 skeleton = NodePath("../..")
+
+[node name="exclude" type="Area3D" parent="." groups=["arm_teritory"]]
+
+[node name="collision" type="CollisionShape3D" parent="exclude"]
+shape = SubResource("BoxShape3D_k7npl")
+
+[node name="collision2" type="CollisionShape3D" parent="exclude"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_k7npl")

@@ -15,7 +15,7 @@ class_name Room
 @onready var buttonL: Button = $wallFL/expandL/Button
 @onready var buttonR: Button = $wallFR/expandR/Button
 
-var location: Vector2 = Vector2(0, 0) #location on the factory map array
+var location: Vector2i = Vector2i(0, 0) #location on the factory map array
 
 var expand_prices: Dictionary = { #prices needed to expand
 	'left' : {
@@ -38,13 +38,13 @@ func _ready() -> void:
 	#set the buttons
 	expandLM.get_node('Button').text = str(
 		'expansion at
-		level ', expand_prices['left']['level'], '
-		', expand_prices['left']['kredits'], ' kredits'
+		level ', int(expand_prices['left']['level']), '
+		', int(expand_prices['left']['kredits']), ' kredits'
 	)
 	expandRM.get_node('Button').text = str(
 		'expansion at
-		level ', expand_prices['right']['level'], '
-		', expand_prices['right']['kredits'], ' kredits'
+		level ', int(expand_prices['right']['level']), '
+		', int(expand_prices['right']['kredits']), ' kredits'
 	)
 	
 	#buttons will show/hide when their walls are hovered over
@@ -95,7 +95,7 @@ func _on_buttonL_pressed() -> void: #expand to the right
 			Main.main.ui.kreditindikator.add_child(indkinst)
 			indkinst.start(-expand_prices['left']['kredits'], wallFL.global_position)
 		
-		Main.main.add_room(location + Vector2(1, 0))
+		Main.main.add_room(location + Vector2i(1, 0))
 
 func _on_buttonR_pressed() -> void: #expand to the left
 	if Main.level >= expand_prices['right']['level'] and Main.kredits >= expand_prices['right']['kredits']:
@@ -107,4 +107,4 @@ func _on_buttonR_pressed() -> void: #expand to the left
 			Main.main.ui.kreditindikator.add_child(indkinst)
 			indkinst.start(-expand_prices['right']['kredits'], wallFR.global_position)
 		
-		Main.main.add_room(location + Vector2(0, 1))
+		Main.main.add_room(location + Vector2i(0, 1))

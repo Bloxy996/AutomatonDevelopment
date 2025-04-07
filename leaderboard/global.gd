@@ -16,6 +16,9 @@ func _ready() -> void:
 func _updateleaderboard() -> void:
 	#saves score with username, boxes sold, leaderboard name, and metadata (display name and level)
 	SilentWolf.Scores.save_score(Main.playername, Main.boxes, "main", {"display": Main.displayname, "level": Main.level})
+	print('
+	SCORE SAAVED!
+	')
 
 #ran when creating new username, checks if someone in leaderboard already has username
 func _checkiftaken(writtenname: String) -> bool:

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Automaton"
 run/main_scene="res://UI/mainmenu/start menu.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://icon.png"
 config/icon="res://icon.png"
@@ -27,6 +27,10 @@ Global="*res://leaderboard/global.gd"
 
 gdscript/warnings/untyped_declaration=1
 gdscript/warnings/inferred_declaration=1
+
+[display]
+
+window/subwindows/embed_subwindows=false
 
 [editor_plugins]
 
@@ -52,6 +56,7 @@ save=""
 inkreator=""
 arm=""
 wall=""
+arm_teritory=""
 
 [input]
 

@@ -74,6 +74,9 @@ var first_time: bool = true #is true when the player opens the game for the firs
 var playername: String = ""
 var displayname: String = ""
 
+var version: String = '1.5.2' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
+var needrestart: bool = true ##if the current version needs a restart, UPDATE THIS TOO
+
 var boxes: int = 0
 var maxboxes: int = 50 #the max amount of boxes that can be in the game, increases with every new expansion
 var maxserveriterations: float = 20 #the max amount of times the silentwolf iterations can run until a error appears
@@ -149,15 +152,20 @@ func progressions(mode: String, type: String = '', node: Node3D = null, room: Ro
 			room.expand_prices['right']['kredits'] = round(randf_range(40000, 80000) * (room.location.y + 1) ** machinepricemultiplier)
 
 func resetgame() -> void: #resets all the variables to their original values
+	DirAccess.remove_absolute("user://savegame.save") #clears the file
+	
 	#removes the player from the leaderboard
 	var sw_result: Dictionary
 	while not sw_result.has('scores'):
-		sw_result = await SilentWolf.Scores.get_scores(0).sw_get_scores_complete
+		sw_result = await SilentWolf.Scores.get_scores_by_player(playername).sw_get_player_scores_complete
 		if not sw_result.has('scores'): continue
 		
-		for score: Dictionary in sw_result.scores:
-			if score["player_name"] == playername:
-				SilentWolf.Scores.delete_score(score["score_id"])
+		while true:
+			var sw_result2: Dictionary = await SilentWolf.Scores.get_scores_by_player(playername).sw_get_player_scores_complete
+			if sw_result2.scores.is_empty(): break
+			
+			for score: Dictionary in sw_result2.scores:
+				await SilentWolf.Scores.delete_score(score.score_id).sw_delete_score_complete
 	
 	kredits = 0
 	level = 0
@@ -174,11 +182,14 @@ func resetgame() -> void: #resets all the variables to their original values
 	
 	for machine: String in prices.keys():
 		prices[machine] = machinedata[machine]['originalprice']
-	
-	while FileAccess.file_exists("user://savegame.save"):
-		DirAccess.remove_absolute("user://savegame.save") #clears the file
+
+func saveversion() -> void: #seperate func to save the game version
+	var savedversion: FileAccess = FileAccess.open("user://version.save", FileAccess.WRITE) #file for the version
+	savedversion.store_line(JSON.stringify({'version' : version})) #save the version onto the file
 
 func savegame(menu: bool = false) -> void: #function to save game
+	saveversion()
+	
 	#all of the variables that need to be gotten from a older save if on a menu
 	var playertransform: Array = [4, 1, 4, 0]
 	var lightdir: Array = [-60, -75, 0]
@@ -260,6 +271,16 @@ func box_inkreator(body: Box) -> bool: #just makes sure that the box is not in a
 	return false
 
 func loadgame(menu: bool = false) -> void: #function to load the game
+	if FileAccess.file_exists("user://version.save"): #if there is a version file
+		var versionfile: FileAccess = FileAccess.open("user://version.save", FileAccess.READ) #open the file to read it
+		var savedversion: String = JSON.parse_string(versionfile.get_line()).version
+		if mainversion(savedversion) != mainversion(version):  #if the main versions are the same (excluding the # after the last dot),
+			resetgame() #reset the game and reload the scene
+			await get_tree().create_timer(0.5).timeout
+			get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
+	else: #if there's none, please make one
+		saveversion()
+	
 	if FileAccess.file_exists("user://savegame.save"): #if there's actually a save file!
 		if not menu:
 			for node: Node3D in get_tree().get_nodes_in_group('save'):
@@ -307,7 +328,19 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 	
 	Global._updateleaderboard()
 	
-	kredits += 999999999999999 ##
+	if version.contains('debug'): #this will save me so many troubles
+		level += 9999999999999999
+		kredits += 9999999999999999
+
+func mainversion(longversion : String) -> String:
+	var result: String = ''
+	var foundfirstdot: bool = false
+	for i: String in longversion:
+		if i == '.':
+			if foundfirstdot: break
+			else: foundfirstdot = true
+		result += i
+	return result
 
 func setboxesdependencies(calcboxes: int) -> void:
 	var calclevel: int = 0 #recreates the beginning

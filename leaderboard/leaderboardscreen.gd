@@ -21,6 +21,8 @@ func _ready() -> void:
 		sw_result = await SilentWolf.Scores.get_scores(1000).sw_get_scores_complete
 		if not sw_result.has('scores'): continue
 		
+		await get_tree().create_timer(0.5).timeout
+		
 		var i: int = 1
 		for score: Dictionary in sw_result.scores:
 			if not usedplayers.has(score["player_name"]):
@@ -31,14 +33,14 @@ func _ready() -> void:
 				
 				inst.get_node('place').text = str(i)
 				inst.get_node('name').text = score["metadata"]["display"]
-				inst.get_node('level').text = str(score["metadata"]["level"])
-				inst.get_node('boxes').text = str(score["score"])
+				inst.get_node('level').text = str(int(score["metadata"]["level"]))
+				inst.get_node('boxes').text = str(int(score["score"]))
 				
 				if score["player_name"] == Main.playername:
 					$slot.get_node('place').text = str(i)
 					$slot.get_node('name').text = score["metadata"]["display"]
-					$slot.get_node('level').text = str(score["metadata"]["level"])
-					$slot.get_node('boxes').text = str(score["score"])
+					$slot.get_node('level').text = str(int(score["metadata"]["level"]))
+					$slot.get_node('boxes').text = str(int(score["score"]))
 					
 					inst.self_modulate.a = 1.0
 				i += 1

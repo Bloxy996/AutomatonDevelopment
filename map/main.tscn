@@ -1,14 +1,14 @@
 [gd_scene load_steps=31 format=3 uid="uid://cxfvl01s73nj2"]
 
-[ext_resource type="Script" path="res://map/scenemain.gd" id="1_7qdv2"]
+[ext_resource type="Script" uid="uid://cossebelseipv" path="res://map/scenemain.gd" id="1_7qdv2"]
 [ext_resource type="PackedScene" uid="uid://bm3fnga38jpgw" path="res://player/player.tscn" id="3_5xs4b"]
 [ext_resource type="PackedScene" uid="uid://cwxkmuoaeityg" path="res://objekts/kreator/kreator.tscn" id="5_0efa7"]
 [ext_resource type="PackedScene" uid="uid://igpmsyoxijud" path="res://map/room.tscn" id="5_aofv8"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="5_la7bd"]
 [ext_resource type="PackedScene" uid="uid://bi5nwl7eahp7j" path="res://objekts/seller/seller.tscn" id="6_hng5h"]
 [ext_resource type="PackedScene" uid="uid://pqgimsdre2da" path="res://UI/shop/shop.tscn" id="6_ku0xv"]
-[ext_resource type="Script" path="res://UI/ui.gd" id="8_vco2r"]
-[ext_resource type="Script" path="res://UI/tutorial/tutorial.gd" id="9_45wbb"]
+[ext_resource type="Script" uid="uid://bv1yrr8hya03l" path="res://UI/ui.gd" id="8_vco2r"]
+[ext_resource type="Script" uid="uid://vkam3gvm4ydv" path="res://UI/tutorial/tutorial.gd" id="9_45wbb"]
 [ext_resource type="PackedScene" uid="uid://de8ynbju0svex" path="res://UI/pause/pause.tscn" id="10_bu086"]
 [ext_resource type="PackedScene" uid="uid://cvpo7kkgufcp4" path="res://UI/loader.tscn" id="10_eycge"]
 
@@ -109,8 +109,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qbptl"]
 _data = {
-"RESET": SubResource("Animation_uamat"),
-"show": SubResource("Animation_fqwol")
+&"RESET": SubResource("Animation_uamat"),
+&"show": SubResource("Animation_fqwol")
 }
 
 [node name="Main" type="Node3D"]
@@ -120,7 +120,7 @@ script = ExtResource("1_7qdv2")
 environment = SubResource("Environment_d0nkw")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.258822, 0.836512, -0.482969, 6.11079e-08, 0.500006, 0.866022, 0.965925, -0.224145, 0.129412, 0, 0, 0)
+transform = Transform3D(-0.707107, -0.612372, 0.353553, 0, 0.5, 0.866026, -0.707107, 0.612372, -0.353553, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -467,7 +467,7 @@ text = "game saved!"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/saved"]
 libraries = {
-"": SubResource("AnimationLibrary_qbptl")
+&"": SubResource("AnimationLibrary_qbptl")
 }
 speed_scale = 4.0
 
@@ -481,6 +481,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4)
 [node name="loader" parent="." instance=ExtResource("10_eycge")]
 
 [node name="boxkreationdelay" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+autostart = true
+
+[node name="boxsenddelay" type="Timer" parent="."]
 wait_time = 0.25
 one_shot = true
 autostart = true

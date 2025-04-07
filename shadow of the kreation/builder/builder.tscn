@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://vso2t2qwgonv"]
 
-[ext_resource type="Script" path="res://shadow of the kreation/builder/builder.gd" id="1_mivof"]
+[ext_resource type="Script" uid="uid://btkeeui5j8nol" path="res://shadow of the kreation/builder/builder.gd" id="1_mivof"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0a3on"]
 size = Vector3(0.9, 1, 0.9)

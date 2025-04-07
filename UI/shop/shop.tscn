@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://pqgimsdre2da"]
 
-[ext_resource type="Script" path="res://UI/shop/shop.gd" id="1_p511o"]
+[ext_resource type="Script" uid="uid://dqxnrqavgk68p" path="res://UI/shop/shop.gd" id="1_p511o"]
 [ext_resource type="Texture2D" uid="uid://dyfriog8gdjgu" path="res://UI/shop/X.png" id="2_np1oo"]
 [ext_resource type="Texture2D" uid="uid://d3w4xs8a8rgmw" path="res://UI/shop/images/creator.png" id="4_c2orj"]
 [ext_resource type="Texture2D" uid="uid://cth3wb3t7l3wx" path="res://UI/shop/images/seller.png" id="5_fmgr2"]
@@ -93,7 +93,7 @@ offset_right = 504.0
 offset_bottom = 252.0
 grow_horizontal = 2
 grow_vertical = 2
-scroll_vertical = 172
+scroll_vertical = 100
 
 [node name="container" type="VBoxContainer" parent="container"]
 layout_mode = 2
@@ -404,7 +404,7 @@ offset_bottom = 44.0
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_tsgys")
 theme_override_font_sizes/font_size = 16
-text = "moves boxes back and forth on 1 axis (toggled directions, you'll see) from any side; you can right click on it to switch the direction when you're near it"
+text = "moves boxes in 4 different directions based on avalability, can be manually adjusted by clicking on the individual sides"
 vertical_alignment = 1
 autowrap_mode = 2
 

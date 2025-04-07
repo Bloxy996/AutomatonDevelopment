@@ -16,13 +16,13 @@ func _process(_delta: float) -> void: #runs on every frame
 	global_position = snapped(Main.main.mouse_3d_pos(), Vector3.ONE)
 	global_position.y = 0
 	
-	Main.main.ui.buildingtext.text = str('[right]cost ', round(Main.prices[type])) #display the price when building
+	Main.main.ui.buildingtext.text = str('[right]cost ', int(Main.prices[type])) #display the price when building
 	
 	if Input.is_action_just_pressed("R"): #rotate the shadow when R is pressed
 		global_rotation_degrees.y += 90
 		
 	if buildradius_detection.get_overlapping_areas().has(Main.main.player.buildradius): #if the shadow is in the radius
-		if Input.is_action_just_pressed('leftclick') and (not has_overlapping_bodies()) and (not Main.main.spawn.get_overlapping_areas().has(self)): #if you click to place it and it's not touching other machines or the spawn area
+		if Input.is_action_just_pressed('leftclick') and (not has_overlapping_bodies()) and (not Main.main.spawn.get_overlapping_areas().has(self)) and clear_for_arm(): #if you click to place it and it's not touching other machines or the spawn area or near another arm if it's an arm
 			var inst: Builder = Main.main.buildshadow.instantiate() #create the builder to make a machine
 			inst.type = type #set the shadow to the type needed
 			Main.main.get_node('machines').add_child(inst) #add to the machines
@@ -73,3 +73,10 @@ func _process(_delta: float) -> void: #runs on every frame
 		Main.main.exitdelay.start() #start the timer so the pause menu dosent show
 		Main.building = false #tell main skript that the shadow is done with it's job
 		queue_free() #do what needs to be done; remove it from the mortal plane of existence
+
+func clear_for_arm() -> bool: #if there's another arm in the area
+	if type == 'arm': #only does this if the type is an arm
+		for area : Area3D in buildradius_detection.get_overlapping_areas():
+			if area.is_in_group('arm_teritory') and area.get_parent().get_parent() != self: return false #if any of the areas are in another's arm territory, return false
+		return true
+	else: return true

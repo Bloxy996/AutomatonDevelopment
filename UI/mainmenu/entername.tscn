@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://ugbl7dmctl03"]
 
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_o555f"]
-[ext_resource type="Script" path="res://UI/mainmenu/entername.gd" id="1_wo5mk"]
+[ext_resource type="Script" uid="uid://xdrcsx4pbynn" path="res://UI/mainmenu/entername.gd" id="1_wo5mk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sfbbr"]
 

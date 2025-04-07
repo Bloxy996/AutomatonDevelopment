@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=4 uid="uid://cwxkmuoaeityg"]
 
-[ext_resource type="Script" path="res://objekts/kreator/kreator.gd" id="1_wlmyy"]
+[ext_resource type="Script" uid="uid://ctdhhhc0nhcgy" path="res://objekts/kreator/kreator.gd" id="1_wlmyy"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="3_5dmas"]
 [ext_resource type="ArrayMesh" uid="uid://b844s7fag2kmt" path="res://objekts/kreator/mesh.tres" id="3_siepo"]
 [ext_resource type="Material" uid="uid://pcxososdf80d" path="res://objekts/unpausedlight.tres" id="4_4ur0n"]
@@ -48,8 +48,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8ut07"]
 _data = {
-"RESET": SubResource("Animation_6vnfi"),
-"spawn": SubResource("Animation_jq3s3")
+&"RESET": SubResource("Animation_6vnfi"),
+&"spawn": SubResource("Animation_jq3s3")
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mokwu"]
@@ -267,8 +267,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_itp44"]
 _data = {
-"RESET": SubResource("Animation_d5057"),
-"open": SubResource("Animation_ecvyk")
+&"RESET": SubResource("Animation_d5057"),
+&"open": SubResource("Animation_ecvyk")
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mdmyl"]
@@ -303,7 +303,7 @@ input_ray_pickable = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="spawnbox"]
 libraries = {
-"": SubResource("AnimationLibrary_8ut07")
+&"": SubResource("AnimationLibrary_8ut07")
 }
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="spawnbox"]
@@ -380,7 +380,7 @@ skeleton = NodePath("")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="door"]
 libraries = {
-"": SubResource("AnimationLibrary_itp44")
+&"": SubResource("AnimationLibrary_itp44")
 }
 
 [node name="sender" type="Area3D" parent="."]

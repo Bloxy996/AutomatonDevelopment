@@ -11,7 +11,6 @@ class_name Seller
 @onready var area2: Area3D = $Area3D2
 @onready var boxholder: Marker3D = $boxholder
 @onready var animation: AnimationPlayer = $boxholder/AnimationPlayer
-@onready var collision: CollisionShape3D = $blocker/CollisionShape3D
 @onready var light: MeshInstance3D = $light
 @onready var pauselight: MeshInstance3D = $pause
 
@@ -46,8 +45,6 @@ func _process(_delta: float) -> void: #runs every microsecond because of how fas
 		else:
 			#vice versa!
 			button.hide()
-	
-	collision.disabled = empty #blocker appears when there is something in the machine to stop overflow
 	
 	if area2.get_overlapping_bodies().has(Main.main.get_node('player')) and (not original) and (not Main.building) and (not Main.irradicating): #if player is near button and not original
 		pause.visible = true #show button
@@ -108,9 +105,10 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 	}
 
 func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
-	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
-	global_rotation.y = data["transform"][3]
-	pause.text = data['paused']
+	if data.has('transform'):
+		global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+		global_rotation.y = data["transform"][3]
+	if data.has('paused'): pause.text = data['paused']
 
 func _on_pause_pressed() -> void:
 	pause.release_focus()

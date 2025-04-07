@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://hfjr4mufp1o"]
 
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_6lgns"]
-[ext_resource type="Script" path="res://UI/displayname/changename.gd" id="1_c62ke"]
+[ext_resource type="Script" uid="uid://du8gqs0qtaaj3" path="res://UI/displayname/changename.gd" id="1_c62ke"]
 [ext_resource type="PackedScene" uid="uid://cvpo7kkgufcp4" path="res://UI/loader.tscn" id="3_gov5r"]
 
 [node name="Changename" type="Control"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cvpo7kkgufcp4"]
 
-[ext_resource type="Script" path="res://UI/loader.gd" id="1_c5ou4"]
+[ext_resource type="Script" uid="uid://1nn38e754bep" path="res://UI/loader.gd" id="1_c5ou4"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_ke224"]
 
 [sub_resource type="Animation" id="Animation_mfn2w"]
@@ -90,9 +90,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_q1epe"]
 _data = {
-"RESET": SubResource("Animation_mfn2w"),
-"hide": SubResource("Animation_v8e22"),
-"show": SubResource("Animation_yftje")
+&"RESET": SubResource("Animation_mfn2w"),
+&"hide": SubResource("Animation_v8e22"),
+&"show": SubResource("Animation_yftje")
 }
 
 [node name="loader" type="Control"]

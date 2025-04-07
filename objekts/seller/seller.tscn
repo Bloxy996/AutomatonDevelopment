@@ -1,6 +1,6 @@
-[gd_scene load_steps=20 format=4 uid="uid://bi5nwl7eahp7j"]
+[gd_scene load_steps=19 format=4 uid="uid://bi5nwl7eahp7j"]
 
-[ext_resource type="Script" path="res://objekts/seller/seller.gd" id="1_3orkw"]
+[ext_resource type="Script" uid="uid://dkf4wt6oqt7tr" path="res://objekts/seller/seller.gd" id="1_3orkw"]
 [ext_resource type="ArrayMesh" uid="uid://b278u3wdoyvaj" path="res://objekts/seller/mesh.tres" id="1_ol83c"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="3_p3ndv"]
 [ext_resource type="Material" uid="uid://b5nmws3lggxpv" path="res://objekts/seller/greenlight.tres" id="4_b7mnx"]
@@ -133,12 +133,10 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_htwbi"]
 _data = {
-"RESET": SubResource("Animation_4xhph"),
-"sell": SubResource("Animation_bvyy4"),
-"set": SubResource("Animation_svfi7")
+&"RESET": SubResource("Animation_4xhph"),
+&"sell": SubResource("Animation_bvyy4"),
+&"set": SubResource("Animation_svfi7")
 }
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_8rxol"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_e7f7x"]
 size = Vector3(0.05, 0.1, 0.15)
@@ -203,15 +201,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="boxholder"]
 libraries = {
-"": SubResource("AnimationLibrary_htwbi")
+&"": SubResource("AnimationLibrary_htwbi")
 }
-
-[node name="blocker" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="blocker"]
-shape = SubResource("BoxShape3D_8rxol")
-disabled = true
 
 [node name="light" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.423316, 0.517821, 0.270704)
