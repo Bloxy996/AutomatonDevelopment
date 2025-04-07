@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://de8ynbju0svex"]
 
-[ext_resource type="Script" path="res://UI/pause/pausescreen.gd" id="1_88nxu"]
+[ext_resource type="Script" uid="uid://cb3cwtfrmwlbf" path="res://UI/pause/pausescreen.gd" id="1_88nxu"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="2_qf0ts"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w28qb"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=32 format=4 uid="uid://dsjmhbu38urwo"]
 
-[ext_resource type="Script" path="res://objekts/arm/arm.gd" id="1_w6fob"]
+[ext_resource type="Script" uid="uid://c30wnj6ktu2cj" path="res://objekts/arm/arm.gd" id="1_w6fob"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="2_6gtww"]
 [ext_resource type="Material" uid="uid://bmmpue6t7ii40" path="res://objekts/arm/settargetidle.tres" id="2_ioy3u"]
 [ext_resource type="Material" uid="uid://pcxososdf80d" path="res://objekts/unpausedlight.tres" id="4_4w270"]
@@ -299,8 +299,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r3ei0"]
 _data = {
-"RESET": SubResource("Animation_fu0yh"),
-"grab": SubResource("Animation_7w3n3")
+&"RESET": SubResource("Animation_fu0yh"),
+&"grab": SubResource("Animation_7w3n3")
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_enywy"]
@@ -348,7 +348,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_xxnw4")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_hlrkr"]
-top_radius = 2.5
+top_radius = 3.5
 bottom_radius = 2.5
 height = 0.21
 
@@ -359,26 +359,26 @@ size = Vector3(0.25, 1.9, 0.25)
 size = Vector3(1, 2, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_m7fnx"]
-radius = 2.5
+radius = 3.5
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_1rw5m"]
-size = Vector3(3, 0.2, 3)
+[sub_resource type="BoxMesh" id="BoxMesh_ywbgd"]
+size = Vector3(0.05, 0.1, 0.15)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6y0h"]
 albedo_color = Color(0.205111, 0.205111, 0.205111, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2y0q3"]
-size = Vector3(2, 0.2, 2)
+size = Vector3(3, 0.2, 3)
 
-[sub_resource type="BoxMesh" id="BoxMesh_ywbgd"]
-size = Vector3(0.05, 0.1, 0.15)
+[sub_resource type="BoxShape3D" id="BoxShape3D_1rw5m"]
+size = Vector3(0.85, 0.2, 3)
 
 [node name="Arm" type="StaticBody3D" groups=["arm", "machine", "save"]]
 input_ray_pickable = false
 script = ExtResource("1_w6fob")
 
 [node name="Target" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 3, 0)
 top_level = true
 
 [node name="left" type="Marker3D" parent="Target"]
@@ -468,7 +468,7 @@ transform = Transform3D(1, -7.95864e-15, 0, -3.55271e-15, -4.37114e-08, -1, -1.7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Armature/Skeleton3D/Cube_001/Cube_001/grabber"]
 libraries = {
-"": SubResource("AnimationLibrary_r3ei0")
+&"": SubResource("AnimationLibrary_r3ei0")
 }
 speed_scale = 10.0
 
@@ -551,14 +551,6 @@ input_ray_pickable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boxAoE"]
 shape = SubResource("SphereShape3D_m7fnx")
 
-[node name="base2" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_1rw5m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="base2"]
-material_override = SubResource("StandardMaterial3D_v6y0h")
-mesh = SubResource("BoxMesh_2y0q3")
-skeleton = NodePath("../..")
-
 [node name="pause" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.19618, 0.316942, -0.465458)
 material_override = ExtResource("4_4w270")
@@ -573,6 +565,20 @@ mesh = SubResource("BoxMesh_ywbgd")
 [node name="priorities" type="Node3D" parent="behaviours"]
 
 [node name="doublecheck" type="Timer" parent="."]
+
+[node name="base2" type="Area3D" parent="." groups=["arm_teritory"]]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="base2"]
+material_override = SubResource("StandardMaterial3D_v6y0h")
+mesh = SubResource("BoxMesh_2y0q3")
+skeleton = NodePath("../..")
+
+[node name="collision" type="CollisionShape3D" parent="base2"]
+shape = SubResource("BoxShape3D_1rw5m")
+
+[node name="collision2" type="CollisionShape3D" parent="base2"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_1rw5m")
 
 [connection signal="pressed" from="holder/UIholder/settarget" to="." method="_on_settarget_pressed"]
 [connection signal="pressed" from="holder/UIholder/pause" to="." method="_on_pause_pressed"]

@@ -1,9 +1,9 @@
-[gd_scene load_steps=21 format=4 uid="uid://dtnw3iqqjqlow"]
+[gd_scene load_steps=22 format=4 uid="uid://dtnw3iqqjqlow"]
 
-[ext_resource type="Script" path="res://objekts/splitbelt/splitbelt.gd" id="1_t3eev"]
+[ext_resource type="Script" uid="uid://ck275mri2gbt4" path="res://objekts/splitbelt/splitbelt.gd" id="1_t3eev"]
 [ext_resource type="Texture2D" uid="uid://b6m4jhwnxg223" path="res://objekts/splitbelt/UV1.png" id="2_em22t"]
 [ext_resource type="Texture2D" uid="uid://dyrrgx5pe48bo" path="res://objekts/konveyorbelt/UV2.jpg" id="3_ulls7"]
-[ext_resource type="Material" uid="uid://pcxososdf80d" path="res://objekts/unpausedlight.tres" id="4_yfldn"]
+[ext_resource type="Material" uid="uid://pcxososdf80d" path="res://objekts/unpausedlight.tres" id="4_w3eev"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mywik"]
 albedo_color = Color(0.205111, 0.205111, 0.205111, 1)
@@ -15,12 +15,12 @@ size = Vector3(0.8, 0.5, 1)
 points = PackedVector3Array(0.4, 0.25, 0.5, 0.4, -0.25, 0.5, 0.4, 0.25, -0.5, -0.4, 0.25, 0.5, -0.4, -0.25, 0.5, 0.4, -0.25, -0.5, -0.4, 0.25, -0.5, -0.4, -0.25, -0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mye1d"]
-size = Vector3(1.3, 1, 0.1)
+size = Vector3(1, 1, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0lgm1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_byl2x"]
-size = Vector3(0.05, 0.4, 1)
+size = Vector3(0.8, 0.15, 0.9)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j6vq8"]
 resource_name = "Material"
@@ -133,11 +133,14 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_t1t48")
 
-[sub_resource type="BoxMesh" id="BoxMesh_q538d"]
-size = Vector3(0.07, 0.1, 0.3)
+[sub_resource type="BoxShape3D" id="BoxShape3D_svbei"]
+size = Vector3(0.8, 1, 0.8)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_20r21"]
-size = Vector3(1.01, 0.875, 1.01)
+[sub_resource type="BoxMesh" id="BoxMesh_svbei"]
+size = Vector3(0.3, 0.1, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w3eev"]
+size = Vector3(0.4, 0.2, 0.2)
 
 [node name="SplitBelt" type="StaticBody3D" groups=["machine", "save", "splitbelt"]]
 input_ray_pickable = false
@@ -164,7 +167,7 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.165289, 0)
 shape = SubResource("BoxShape3D_0lgm1")
 
 [node name="Area3D" type="Area3D" parent="." groups=["usingbox"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.715447, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
@@ -184,35 +187,81 @@ transform = Transform3D(0, 0.490315, 0, 0, 0, -0.112931, -0.510342, 0, 0, -0.002
 mesh = SubResource("ArrayMesh_8q8tt")
 skeleton = NodePath("")
 
-[node name="adjustL" type="Area3D" parent="." groups=["usingbox"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.715, 0)
+[node name="Cylinder2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.510342, 0, 0, 0, -2.14323e-08, -0.112931, 0, 0.490315, -4.93637e-09, -0.00272233, 0.510628, 0.0138238)
+mesh = SubResource("ArrayMesh_8q8tt")
+skeleton = NodePath("")
+
+[node name="nextbelts" type="Node3D" parent="."]
+
+[node name="foward" type="Area3D" parent="nextbelts"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)
 input_ray_pickable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="adjustL"]
-shape = SubResource("BoxShape3D_byl2x")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/foward"]
+shape = SubResource("BoxShape3D_svbei")
 
-[node name="adjustR" type="Area3D" parent="." groups=["usingbox"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.715, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="nextbelts/foward"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -0.52)
+material_override = ExtResource("4_w3eev")
+mesh = SubResource("BoxMesh_svbei")
+
+[node name="Area3D" type="Area3D" parent="nextbelts/foward/MeshInstance3D"]
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/foward/MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_w3eev")
+
+[node name="back" type="Area3D" parent="nextbelts"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1)
 input_ray_pickable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="adjustR"]
-shape = SubResource("BoxShape3D_byl2x")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/back"]
+shape = SubResource("BoxShape3D_svbei")
 
-[node name="positive" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.535312, 0.472324)
-material_override = ExtResource("4_yfldn")
-mesh = SubResource("BoxMesh_q538d")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="nextbelts/back"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0.52)
+material_override = ExtResource("4_w3eev")
+mesh = SubResource("BoxMesh_svbei")
 
-[node name="negative" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.535, -0.472)
-material_override = ExtResource("4_yfldn")
-mesh = SubResource("BoxMesh_q538d")
+[node name="Area3D" type="Area3D" parent="nextbelts/back/MeshInstance3D"]
+input_capture_on_drag = true
 
-[node name="flip" type="Area3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/back/MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_w3eev")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="flip"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18909, 0)
-shape = SubResource("BoxShape3D_20r21")
+[node name="left" type="Area3D" parent="nextbelts"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1, 0.5, 0)
+input_ray_pickable = false
 
-[connection signal="mouse_entered" from="flip" to="." method="_on_flip_mouse_entered"]
-[connection signal="mouse_exited" from="flip" to="." method="_on_flip_mouse_exited"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/left"]
+shape = SubResource("BoxShape3D_svbei")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="nextbelts/left"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -0.52)
+material_override = ExtResource("4_w3eev")
+mesh = SubResource("BoxMesh_svbei")
+
+[node name="Area3D" type="Area3D" parent="nextbelts/left/MeshInstance3D"]
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/left/MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_w3eev")
+
+[node name="right" type="Area3D" parent="nextbelts"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1, 0.5, 0)
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/right"]
+shape = SubResource("BoxShape3D_svbei")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="nextbelts/right"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0.52)
+material_override = ExtResource("4_w3eev")
+mesh = SubResource("BoxMesh_svbei")
+
+[node name="Area3D" type="Area3D" parent="nextbelts/right/MeshInstance3D"]
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/right/MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_w3eev")

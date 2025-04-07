@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://c6aaol47j7awo"]
 
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="1_ioj23"]
-[ext_resource type="Script" path="res://leaderboard/leaderboardscreen.gd" id="1_tw443"]
+[ext_resource type="Script" uid="uid://d4m6xd6brawhv" path="res://leaderboard/leaderboardscreen.gd" id="1_tw443"]
 [ext_resource type="PackedScene" uid="uid://xv67o2okrxgy" path="res://leaderboard/slot.tscn" id="3_prvn8"]
 [ext_resource type="PackedScene" uid="uid://cvpo7kkgufcp4" path="res://UI/loader.tscn" id="4_7nqwq"]
 

@@ -6,6 +6,7 @@ var timer: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Main.loadgame(true)
+	
 	#sets opacity as 0 or not visible if it's the first time
 	if Main.first_time:
 		modulate = Color8(255,255,255,opacity)

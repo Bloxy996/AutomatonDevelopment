@@ -1,11 +1,11 @@
 [gd_scene load_steps=17 format=3 uid="uid://bm3fnga38jpgw"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_uooiq"]
+[ext_resource type="Script" uid="uid://dd6g2obsb1egm" path="res://player/player.gd" id="1_uooiq"]
 [ext_resource type="ArrayMesh" uid="uid://xy702iir7ips" path="res://player/mesh.tres" id="2_8ynt8"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="3_6dbmm"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_se6ai"]
-radius = 0.45
+radius = 0.4
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o6od3"]
 size = Vector3(2, 2, 2)
@@ -145,8 +145,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4ofgs"]
 _data = {
-"RESET": SubResource("Animation_sju1f"),
-"death": SubResource("Animation_d3idw")
+&"RESET": SubResource("Animation_sju1f"),
+&"death": SubResource("Animation_d3idw")
 }
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_m7m7t"]
@@ -299,7 +299,7 @@ text = "[center]press R to restart"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="death"]
 libraries = {
-"": SubResource("AnimationLibrary_4ofgs")
+&"": SubResource("AnimationLibrary_4ofgs")
 }
 
 [node name="boxdetection" type="Area3D" parent="."]

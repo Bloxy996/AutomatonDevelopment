@@ -7,28 +7,32 @@ class_name Box
 @onready var marker: Marker3D = $Marker3D
 @onready var detector: Area3D = $detector
 
-var player_position: Vector3 #varible for player position
-
 var onmouse: bool = false #varible for when the mouse is on the box
 
 var price: float = 1
 
 var used_multipliers: Array = [StaticBody3D]
 
+var vel: Vector3
+
 func _process(delta: float) -> void: #runs every nanosecond because this is a fast computer
-	player_position = Main.main.get_node('player').global_position #set the player position to the actual player position
-	collision.disabled = false
-	
 	if Main.picked == true and get_parent().name == "hand": #if the box is picked up and it's actually in the player's hand
 		global_position = lerp(global_position, get_parent().global_position, delta * 16) #move the position to the player's hand, but lerp it
 		global_rotation = get_parent().global_rotation #keep original rotations as the hand
 		collision.disabled = true
 		top_level = true
 	else:
+		collision.disabled = false
 		top_level = false
 	
 	#boxes are just removed if they fall out
 	if global_position.y < -2: queue_free()
+	
+	for area: Area3D in detector.get_overlapping_areas():
+		if area.is_in_group('usingbox'):
+			linear_velocity = vel #applies the set velocity when on a belt/multiplier
+			break
+	vel = Vector3.ZERO
 
 func _on_mouse_entered() -> void: #runs when the mouse touches the box
 	onmouse = true #self explainatory
@@ -76,8 +80,9 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 	}
 
 func primaryload(data : Dictionary) -> void: #load before the node is institnated
-	price = data['price']
+	if data.has('price'): price = data['price']
 
 func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
-	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
-	global_rotation.y = data["transform"][3]
+	if data.has('transform'):
+		global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+		global_rotation.y = data["transform"][3]

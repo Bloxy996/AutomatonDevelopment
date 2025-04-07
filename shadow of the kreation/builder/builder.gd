@@ -16,9 +16,10 @@ func _ready() -> void: #runs when it appears
 	var shadow: Node3D = Main.machinedata[type]['shadow'].instantiate()
 	add_child(shadow) #add the shadow for visuals
 	
-	for mesh: MeshInstance3D in shadow.get_children():
-		mesh.material_override.albedo_color = Color(0, 0.749, 1, 0.498) if mode == 'builder' else Color(1, 0, 0, 0.498) #sets the colors
-		if mesh.name.contains('arrow') and mode == 'destroyer': mesh.queue_free() #arrows are not needed!
+	for mesh: Node3D in shadow.get_children():
+		if mesh is MeshInstance3D:
+			mesh.material_override.albedo_color = Color(0, 0.749, 1, 0.498) if mode == 'builder' else Color(1, 0, 0, 0.498) #sets the colors
+			if mesh.name.contains('arrow') and mode == 'destroyer': mesh.queue_free() #arrows are not needed!
 	
 	shadow.scale *= 1.02 #make it a tad bit bigger
 
@@ -53,15 +54,16 @@ func save() -> Dictionary: #saving function called from main, gets all the data 
 	}
 
 func primaryload(data : Dictionary) -> void: #load before the node is institnated
-	type = data['type']
-	mode = data['mode']
+	if data.has('type'): type = data['type']
+	if data.has('mode'): mode = data['mode']
 
 func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
-	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
-	global_rotation.y = data["transform"][3]
+	if data.has('transform'):
+		global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+		global_rotation.y = data["transform"][3]
 	
 	if mode == 'builder': #start the timer stuff for the build shadow stuff
-		wait.start(data['timeleft'])
-		bar.max_value = data['waittime']
+		if data.has('timeleft'): wait.start(data['timeleft'])
+		if data.has('waittime'): bar.max_value = data['waittime']
 	elif mode == 'destroyer': #destroyer shadows cant be saved yet 
 		queue_free()

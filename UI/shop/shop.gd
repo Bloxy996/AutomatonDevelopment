@@ -14,7 +14,7 @@ func _ready() -> void: #runs when the game first appears on your screen
 
 func _process(_delta: float) -> void: #sets the prices on the buttons to what the prices are
 	for panel: Panel in container.get_children():
-		panel.get_node('button').text = str('buy for ', round(Main.prices[panel.name]), ' kredits')
+		panel.get_node('button').text = str('buy for ', int(Main.prices[panel.name]), ' kredits')
 
 func _input(_event: InputEvent) -> void: #runs when the user presses something
 	if Input.is_action_just_pressed("tab") and (not Main.building) and (not Main.irradicating) and (not Main.settingbehavior): #if the user presed the 'tab' key,

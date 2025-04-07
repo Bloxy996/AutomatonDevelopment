@@ -21,9 +21,9 @@ func _process(delta: float) -> void: #runs every microsecond because this is a r
 	progress.value = lerpf(progress.value, Main.levelbar, delta * 4)
 	progress.max_value=Main.maxLB
 	kreditlerp = lerpf(kreditlerp, Main.kredits, delta * 4)
-	kredits.text = str(round(kreditlerp), ' kredits') #set the credits to the amount of credits and lerp it
+	kredits.text = str(int(kreditlerp), ' kredits') #set the credits to the amount of credits and lerp it
 	level.text = str("level ", Main.level) #set the level UI to the level you are at
-	xpreq.text = str(Main.levelbar, '/', Main.maxLB, ' boxes') #show the player how many boxes they have and how much they need (the max) to level up
+	xpreq.text = str(int(Main.levelbar), '/', int(Main.maxLB), ' boxes') #show the player how many boxes they have and how much they need (the max) to level up
 	
 	if Main.maxboxes - Main.main.boxamount <= 20: #if a warning needs to be shown
 		if TMBblinker.is_stopped(): #the binking stuff code
@@ -32,13 +32,13 @@ func _process(delta: float) -> void: #runs every microsecond because this is a r
 		
 		if Main.maxboxes - Main.main.boxamount < 0: #over the limit warning
 			toomanyboxes.modulate = Color.RED
-			toomanyboxes.text = str(abs(Main.maxboxes - Main.main.boxamount), ' BOXES OVER THE LIMIT, PLEASE REMOVE BOXES TO REACTIVATE THE CREATORS!')
+			toomanyboxes.text = str(int(abs(Main.maxboxes - Main.main.boxamount)), ' BOXES OVER THE LIMIT, PLEASE REMOVE BOXES TO REACTIVATE THE CREATORS!')
 		elif Main.maxboxes - Main.main.boxamount == 0: #at the limit warning
 			toomanyboxes.modulate = Color.RED
 			toomanyboxes.text = 'YOU HAVE REACHED THE MAX LIMIT, PLEASE REMOVE BOXES TO REACTIVATE THE CREATORS!'
 		else: #near the limit warning
 			toomanyboxes.modulate = Color.ORANGE_RED
-			toomanyboxes.text = str(Main.maxboxes - Main.main.boxamount, ' BOXES TO THE LIMIT, BE CAREFUL!')
+			toomanyboxes.text = str(int(Main.maxboxes - Main.main.boxamount), ' BOXES TO THE LIMIT, BE CAREFUL!')
 	else: #hide if there is no need for a warning
 		toomanyboxes.hide()
 	

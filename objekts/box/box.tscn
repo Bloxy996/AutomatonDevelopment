@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cmyleaka8nhuo"]
 
-[ext_resource type="Script" path="res://objekts/box/box.gd" id="1_p6f6l"]
+[ext_resource type="Script" uid="uid://d2ryv6d5x6y37" path="res://objekts/box/box.gd" id="1_p6f6l"]
 [ext_resource type="ArrayMesh" uid="uid://oox8yrgij306" path="res://objekts/box/mesh.tres" id="2_jwvee"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1alt7"]

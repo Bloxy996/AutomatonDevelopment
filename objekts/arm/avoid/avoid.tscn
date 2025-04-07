@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bskhe7cr2cy3e"]
 
-[ext_resource type="Script" path="res://objekts/arm/avoid/avoid.gd" id="1_n2wpg"]
+[ext_resource type="Script" uid="uid://c5xu0ymi6wi8f" path="res://objekts/arm/avoid/avoid.gd" id="1_n2wpg"]
 [ext_resource type="Texture2D" uid="uid://cq2c6yvxeca51" path="res://objekts/arm/img.png" id="2_jd8i8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y187x"]

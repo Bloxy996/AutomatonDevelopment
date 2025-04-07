@@ -72,8 +72,8 @@ func _process(delta: float) -> void:
 				for node: Node3D in armtarget.get_overlapping_bodies(): #iterates through everything in the area
 					if node.is_in_group('machine'): #if it's a machine
 						if node is Seller and (not node.empty) and node.pause.text == 'pause': avaliable = false #cannot put boxes on active sellers or if theyre paused
-						elif node is Kreator or node is Multiplier or node is SplitBelt: avaliable = false #you cant put boxes into kreators or multipliers
-						elif node is Belt and node.has_box: avaliable = false #you cant put boxes onto belts that have boxes already
+						elif node is Kreator or node is Multiplier: avaliable = false #you cant put boxes into kreators or multipliers
+						elif (node is Belt or node is SplitBelt) and node.has_box: avaliable = false #you cant put boxes onto belts that have boxes already
 				
 				if avaliable: avaliabletargets.append(armtarget.global_position) #if it's available, add it to the available machines
 			if not avaliabletargets.is_empty(): #if there are available targets to choose from, get one!
@@ -83,8 +83,8 @@ func _process(delta: float) -> void:
 			if is_instance_valid(get_target_from_pos(finaltargetpos)): #if there's a targeter at the position
 				for node: Node3D in get_target_from_pos(finaltargetpos).get_overlapping_bodies(): #checks to make sure the current target is still viable
 					if node is Seller and (not node.empty) and node.pause.text == 'pause': finaltargetpos = Vector3.ZERO
-					elif node is Kreator or node is Multiplier or node is SplitBelt: finaltargetpos = Vector3.ZERO
-					elif node is Belt and node.has_box: finaltargetpos = Vector3.ZERO
+					elif node is Kreator or node is Multiplier: finaltargetpos = Vector3.ZERO
+					elif (node is Belt or node is SplitBelt) and node.has_box: finaltargetpos = Vector3.ZERO
 			else: unselect_box() #if there's no targeter, there's nothing there to go to!!
 			
 			if grabstate == 0: #if the arm is looking to pick a box
@@ -183,22 +183,24 @@ func armnodes(parent: Node3D, final: Array = []) -> Array: #just for saving
 	return final
 
 func primaryload(data : Dictionary) -> void: #load before the node is institnated
-	targetpos = Vector3(data.targetpos[0], data.targetpos[1], data.targetpos[2])
+	if data.has('targetpos'): targetpos = Vector3(data.targetpos[0], data.targetpos[1], data.targetpos[2])
 
 func secondaryload(data : Dictionary) -> void: #load after the node has been institnated
-	global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
-	global_rotation.y = data["transform"][3]
-	pause.text = data['paused']
+	if data.has('transform'):
+		global_position = Vector3(data["transform"][0], data["transform"][1], data["transform"][2])
+		global_rotation.y = data["transform"][3]
+	if data.has('paused'): pause.text = data['paused']
 	
-	for savedbehaviours: Array in [
-		[data.targets, targets, targetnode], 
-		[data.avoids, avoids, avoidnode], 
-		[data.priorities, priorities, prioritynode]
-	]: 
-		for behaviour: Array in savedbehaviours[0]:
-			var inst: Area3D = savedbehaviours[2].instantiate()
-			savedbehaviours[1].add_child(inst)
-			inst.global_position = Vector3(behaviour[0], 0, behaviour[1])
+	if data.has('targets') and data.has('avoids') and data.has('priorities'):
+		for savedbehaviours: Array in [
+			[data.targets, targets, targetnode], 
+			[data.avoids, avoids, avoidnode], 
+			[data.priorities, priorities, prioritynode]
+		]: 
+			for behaviour: Array in savedbehaviours[0]:
+				var inst: Area3D = savedbehaviours[2].instantiate()
+				savedbehaviours[1].add_child(inst)
+				inst.global_position = Vector3(behaviour[0], 0, behaviour[1])
 
 func _input(event: InputEvent) -> void:
 	if settingbehavior: #stuff for adding the behaviour area thingies

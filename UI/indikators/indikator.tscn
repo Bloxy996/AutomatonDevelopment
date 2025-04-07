@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cnatif01oosol"]
 
-[ext_resource type="Script" path="res://UI/indikators/indikator.gd" id="1_wmswm"]
+[ext_resource type="Script" uid="uid://dnhpwrjwqsjrt" path="res://UI/indikators/indikator.gd" id="1_wmswm"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="2_f8pgn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sy7eq"]
@@ -64,8 +64,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_luj0k"]
 _data = {
-"RESET": SubResource("Animation_bkmnp"),
-"fade": SubResource("Animation_u44pf")
+&"RESET": SubResource("Animation_bkmnp"),
+&"fade": SubResource("Animation_u44pf")
 }
 
 [node name="indikator" type="Control"]

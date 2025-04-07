@@ -56,6 +56,7 @@ func _process(_delta: float) -> void:
 	][progress]
 	
 	text.text = "[center]" + texts[progress] #sets the text on the tutorial
+	text.size.y = 0
 	
 	if progress == 0: #create a box
 		originalcreator.createbox.pressed.connect(func() -> void:

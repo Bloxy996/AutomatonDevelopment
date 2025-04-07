@@ -13,6 +13,7 @@ class_name MainScene
 @onready var univground: MeshInstance3D = $univground
 @onready var loader: Loader = $loader
 @onready var boxkreationdelay: Timer = $boxkreationdelay
+@onready var boxsenddelay: Timer = $boxsenddelay
 @onready var spawn: Area3D = $spawn
 @onready var exitdelay: Timer = $exitdelay
 @onready var boxes: Node3D = $boxes
@@ -28,6 +29,7 @@ var room_size: int = 14 #the size of the rooms for the generator
 var zoom: float = 10 #size of the camera
 
 var boxkreationqueue: Array[Kreator] = [] #the box kreation queue, all boxes go here to be created
+var boxsendqueue: Array[Box] = [] #the queue for sending boxes to belts bc now I apparently need one
 
 var boxamount: float = 0
 
@@ -110,8 +112,18 @@ func _process(delta: float) -> void: #runs every ~milisecond
 					if is_instance_valid(latest): latest.request_accepted() #accept the oldest item in the queue and delete it
 				else: boxkreationqueue.pop_front() #if it's not valid just get rid of it
 	
+	if boxsenddelay.is_stopped():
+		boxsenddelay.start()
+		if not boxsendqueue.is_empty():
+			if is_instance_valid(boxsendqueue[0]):
+				var latest: Box = boxsendqueue.pop_front()
+				for area: Area3D in latest.detector.get_overlapping_areas():
+					if area.is_in_group('inkreator'):
+						area.get_parent().send_request_accepted(latest)
+						break
+	
 	if Main.settings.daynight: light.rotation_degrees += Vector3(2, 1, 0) * 0.001 #day night cycle
-	else: light.rotation_degrees = Vector3(-60, -75, 0) #if the cycle is disabled, go to default
+	else: light.rotation_degrees = Vector3(-60, 135, 0) #if the cycle is disabled, go to default
 
 func _input(event: InputEvent) -> void:
 	if not shop.visible: #if the user isnt in the shop
@@ -131,8 +143,9 @@ func get_rids(nodes: Array[Node]) -> Array[RID]:
 		rids.append(node.get_rid())
 	return rids
 
-func add_room(location : Vector2) -> void:
+func add_room(location : Vector2i) -> void:
 	Main.factory_map[str([location.x, location.y])] = null #add the room
+	print(Main.factory_map)
 	
 	var inst: Room = room.instantiate() #create the room
 	inst.location = location #set it's position on the map
@@ -152,24 +165,24 @@ func generate_rooms() -> void: #generate rooms from factory map
 	for pos: String in Main.factory_map.keys():
 		if pos != '[0, 0]': #the starting room already exists!
 			var inst: Room = room.instantiate() #create the room
-			inst.location = Vector2(str_to_var(pos)[0], str_to_var(pos)[1]) #set it's position on the map
+			inst.location = Vector2i(str_to_var(pos)[0], str_to_var(pos)[1]) #set it's position on the map
 			factory.add_child(inst) #add the factory!
 			
 			inst.global_position = Vector3(inst.location.x, 0, inst.location.y) * room_size #set the phsyical position
 			remove_walls_for_room(inst.location, inst)
 
-func remove_walls_for_room(location : Vector2, roominst : Room) -> void:
+func remove_walls_for_room(location : Vector2i, roominst : Room) -> void:
 	for node: Room in factory.get_children(): #removes the walls if it's connecting to another room
-		var mapos: Vector2 = Vector2(node.global_position.x, node.global_position.z) / room_size
-		if location + Vector2(-1, 0) == mapos: #back right to current
+		var mapos: Vector2i = Vector2i(int(node.global_position.x), int(node.global_position.z)) / room_size
+		if location + Vector2i(-1, 0) == mapos: #back right to current
 			if is_instance_valid(roominst.wallBR): roominst.wallBR.queue_free()
 			if is_instance_valid(node.wallFL): node.wallFL.queue_free()
-		elif location + Vector2(0, -1) == mapos: #back left to current
+		elif location + Vector2i(0, -1) == mapos: #back left to current
 			if is_instance_valid(roominst.wallBL): roominst.wallBL.queue_free()
 			if is_instance_valid(node.wallFR): node.wallFR.queue_free()
-		elif location + Vector2(1, 0) == mapos: #front left to current
+		elif location + Vector2i(1, 0) == mapos: #front left to current
 			if is_instance_valid(roominst.wallFL): roominst.wallFL.queue_free()
 			if is_instance_valid(node.wallBR): node.wallBR.queue_free()
-		elif location + Vector2(0, 1) == mapos: #front right to current
+		elif location + Vector2i(0, 1) == mapos: #front right to current
 			if is_instance_valid(roominst.wallFR): roominst.wallFR.queue_free()
 			if is_instance_valid(node.wallBL): node.wallBL.queue_free()
