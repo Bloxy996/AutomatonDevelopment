@@ -147,7 +147,10 @@ armprioritization={
 
 [physics]
 
+2d/run_on_separate_thread=true
+3d/run_on_separate_thread=true
 3d/default_gravity=24.0
+common/physics_interpolation=true
 
 [rendering]
 

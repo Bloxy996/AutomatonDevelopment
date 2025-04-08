@@ -26,7 +26,7 @@ func _process(_delta: float) -> void: #runs on every frame
 				if movefoward(body): #set the force, if it is allowed to move foward
 					body.vel += (transform.basis * Vector3.FORWARD).normalized() * -Main.beltspeed
 				else: #align if there's nothing else to do
-					body.vel = (global_position - body.global_position) / 4
+					body.vel = (global_position - body.global_position).normalized() / Main.aligndivisor
 				temphasbox = true #there is a box
 	
 	has_box = temphasbox #update the actual has box variable
@@ -53,7 +53,7 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		
 		var oldprice: float = body.price
 		body.price *= Main.machinepricemultiplier #expodential increase of price
-		body.price = clamp(body.price, 0, 100) #clamp the price so ppl cant do crazy stuff
+		body.price = clamp(body.price, 0, Main.multiplierpricecap) #clamp the price so ppl cant do crazy stuff
 		
 		if oldprice != body.price: #if the price actually changed
 			#indicate the change of kredits in the box

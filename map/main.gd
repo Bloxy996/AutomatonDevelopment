@@ -2,6 +2,9 @@ extends Node3D #everything here can be called with any script anywhere it wants,
 
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
+var version: String = '1.5.2 debug' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
+var needrestart: bool = true ##if the current version needs a restart, UPDATE THIS TOO
+
 var prices: Dictionary = { #gets the prices of each of the machines
 	'kreator' : 20,
 	'seller' : 20,
@@ -74,9 +77,6 @@ var first_time: bool = true #is true when the player opens the game for the firs
 var playername: String = ""
 var displayname: String = ""
 
-var version: String = '1.5.2' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
-var needrestart: bool = true ##if the current version needs a restart, UPDATE THIS TOO
-
 var boxes: int = 0
 var maxboxes: int = 50 #the max amount of boxes that can be in the game, increases with every new expansion
 var maxserveriterations: float = 20 #the max amount of times the silentwolf iterations can run until a error appears
@@ -90,6 +90,25 @@ const machinepricemultiplier: float = 1.125 #adjust this, raises the price whene
 const deletetimerspeedup: float = 2 #the number to divide the time by when removing a machine
 const beltspeed: float = 4 #speed for the belt/multipliers
 const deleteboxcost: int = 5 #cost to delete boxes
+const buildtimediff: float = 2 #the random amount of seconds added/removed from build timers
+const armspeed: float = 8 #the number that is multiplied by delta when lerping the arm towards the target position
+const grabspeed: float = 16 #the lerp of the box to the player's hand by delta
+const grabdist: float = 2 #the distance where the player can grab boxes
+const aligndivisor: float = 4 #the number that divides the align force for moving boxes to the center of belts/multipliers/etc.
+const kreateboxmintime: float = 3.0 #the min and max times that are put into the kreator for making boxes
+const kreateboxmaxtime: float = 6.0
+const multiplierpricecap: float = 100 #the max # for multiplying boxes through a multiplier
+const playerspeed: float = 7.5 #the speed for the player
+const playerjumpvel: float = 100 #the jump velocity for the player
+const minzoom: float = 5 #the min and max clamps for zoom
+const maxzoom: float  = 25
+const selltimediff: float = 2 #the random amount of seconds added/removed from sell timers
+const sellpricediff: int = 5 #the random amount of kredits added/removed from selling boxes
+const boxestowarning: float = 20 #amount of boxes to the limit until the warning shows
+
+const playerresetpos: Vector3 = Vector3(4, 1, 4) #the reset position of the player
+const daynightcyclespeed: Vector3 = Vector3(2, 1, 0) * 0.001 #the vector that is added to the current rotation of the sun
+const defaultsunrot: Vector3 = Vector3(-60, 135, 0) #the default rotation to turn the sun to
 
 var factory_map: Dictionary = { #dict for the rooms that you have in the factory
 	'[0, 0]' : null #the position, and then the expansion prices
@@ -97,7 +116,7 @@ var factory_map: Dictionary = { #dict for the rooms that you have in the factory
 
 func sell_box(price: int, pos: Vector3) -> void: #runs when a box is sold
 	boxes += 1 #you know what this does...
-	var gained: int = randi_range(price - 5, price + 5)
+	var gained: int = randi_range(price - sellpricediff, price + sellpricediff)
 	kredits += gained #give the player credits for a box
 	
 	#indicate the change of kredits
@@ -191,8 +210,8 @@ func savegame(menu: bool = false) -> void: #function to save game
 	saveversion()
 	
 	#all of the variables that need to be gotten from a older save if on a menu
-	var playertransform: Array = [4, 1, 4, 0]
-	var lightdir: Array = [-60, -75, 0]
+	var playertransform: Array = [playerresetpos.x, playerresetpos.y, playerresetpos.z, 0]
+	var lightdir: Array = [defaultsunrot.x, defaultsunrot.y, defaultsunrot.z]
 	var tutorialvisible: bool = true
 	var nodes: Array
 	

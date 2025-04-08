@@ -79,7 +79,7 @@ func _process(delta: float) -> void: #runs every ~milisecond
 							inst.type = Main.group_to_type(node)
 							
 							Main.main.get_node('machines').add_child(inst) #add the node and set the timer stuff
-							var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-2, 2)
+							var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-Main.buildtimediff, Main.buildtimediff)
 							inst.wait.start(buildtime / Main.deletetimerspeedup)
 							inst.bar.max_value = buildtime / Main.deletetimerspeedup
 							
@@ -122,13 +122,13 @@ func _process(delta: float) -> void: #runs every ~milisecond
 						area.get_parent().send_request_accepted(latest)
 						break
 	
-	if Main.settings.daynight: light.rotation_degrees += Vector3(2, 1, 0) * 0.001 #day night cycle
-	else: light.rotation_degrees = Vector3(-60, 135, 0) #if the cycle is disabled, go to default
+	if Main.settings.daynight: light.rotation_degrees += Main.daynightcyclespeed #day night cycle
+	else: light.rotation_degrees = Main.defaultsunrot #if the cycle is disabled, go to default
 
 func _input(event: InputEvent) -> void:
 	if not shop.visible: #if the user isnt in the shop
 		if (event is InputEventMouseButton) and event.is_pressed(): #zoom camera
-			zoom = clampf(zoom + (int(event.button_index == MOUSE_BUTTON_WHEEL_DOWN) - int(event.button_index == MOUSE_BUTTON_WHEEL_UP)), 5, 25)
+			zoom = clampf(zoom + (int(event.button_index == MOUSE_BUTTON_WHEEL_DOWN) - int(event.button_index == MOUSE_BUTTON_WHEEL_UP)), Main.minzoom, Main.maxzoom)
 		elif event.is_action_pressed("delete"): #delete key can also be used to delete machines
 			if (not Main.building) and (not Main.settingbehavior): #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
 				Main.irradicating = true
@@ -145,7 +145,6 @@ func get_rids(nodes: Array[Node]) -> Array[RID]:
 
 func add_room(location : Vector2i) -> void:
 	Main.factory_map[str([location.x, location.y])] = null #add the room
-	print(Main.factory_map)
 	
 	var inst: Room = room.instantiate() #create the room
 	inst.location = location #set it's position on the map

@@ -25,7 +25,7 @@ func _process(delta: float) -> void: #runs every microsecond because this is a r
 	level.text = str("level ", Main.level) #set the level UI to the level you are at
 	xpreq.text = str(int(Main.levelbar), '/', int(Main.maxLB), ' boxes') #show the player how many boxes they have and how much they need (the max) to level up
 	
-	if Main.maxboxes - Main.main.boxamount <= 20: #if a warning needs to be shown
+	if Main.maxboxes - Main.main.boxamount <= Main.boxestowarning: #if a warning needs to be shown
 		if TMBblinker.is_stopped(): #the binking stuff code
 			TMBblinker.start()
 			toomanyboxes.visible = not toomanyboxes.visible

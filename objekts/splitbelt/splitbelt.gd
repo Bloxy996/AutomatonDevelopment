@@ -52,7 +52,7 @@ func _process(_delta: float) -> void: #runs on every frame
 	for body: Node3D in effect.get_overlapping_bodies():
 		if body is Box: #iterates through all boxes
 			#the forces to apply, starts with the force from the options
-			var forces: Vector3 = ((options[0 if priority == -1 else priority] * Main.beltspeed) if not options.is_empty() else Vector3.ZERO) + ((global_position - body.global_position) / 2)
+			var forces: Vector3 = ((options[0 if priority == -1 else priority] * Main.beltspeed) if not options.is_empty() else Vector3.ZERO) + ((global_position - body.global_position).normalized() / Main.aligndivisor)
 			options.erase(forces) #remvoe the option so the next box cant use it
 			##sets the force, add adusters
 			body.vel += forces

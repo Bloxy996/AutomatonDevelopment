@@ -85,7 +85,7 @@ func grab_box(body: Node3D) -> void: #function to grab boxes
 	box.freeze = true
 	box.global_position = boxholder.global_position
 	box.global_rotation = boxholder.global_rotation
-	timer.wait_time = randf_range(Main.progression_demand - 2, Main.progression_demand + 2)
+	timer.wait_time = randf_range(Main.progression_demand - Main.selltimediff, Main.progression_demand + Main.selltimediff)
 	timer.start() #start the timer to wait for a customer
 	#show the waiting label and set it to something that let's the user know that they should wait
 	animation.play("set") #do the fancy animation for grabbing the box

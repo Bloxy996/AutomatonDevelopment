@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 	
 	#sets the position and visibility of the button to set target
 	UIholder.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (UIholder.size / 2)
-	UIholder.visible = global_position.distance_to(Main.main.player.global_position) < 2.5 and (not Main.building) and (not Main.irradicating) and (not Main.settingbehavior)
+	UIholder.visible = global_position.distance_to(Main.main.player.global_position) < boxAoE.get_node("CollisionShape3D").shape.radius and (not Main.building) and (not Main.irradicating) and (not Main.settingbehavior)
 	
 	if settingbehavior: #show all of the stuff to set the target if the user is setting a target and the user is close
 		AoEmesh.show()
@@ -71,9 +71,7 @@ func _process(delta: float) -> void:
 				var avaliable: bool = true #tempoarily variable
 				for node: Node3D in armtarget.get_overlapping_bodies(): #iterates through everything in the area
 					if node.is_in_group('machine'): #if it's a machine
-						if node is Seller and (not node.empty) and node.pause.text == 'pause': avaliable = false #cannot put boxes on active sellers or if theyre paused
-						elif node is Kreator or node is Multiplier: avaliable = false #you cant put boxes into kreators or multipliers
-						elif (node is Belt or node is SplitBelt) and node.has_box: avaliable = false #you cant put boxes onto belts that have boxes already
+						if not_viable_target(node): avaliable = false
 				
 				if avaliable: avaliabletargets.append(armtarget.global_position) #if it's available, add it to the available machines
 			if not avaliabletargets.is_empty(): #if there are available targets to choose from, get one!
@@ -82,9 +80,7 @@ func _process(delta: float) -> void:
 		else: #if there is an active target
 			if is_instance_valid(get_target_from_pos(finaltargetpos)): #if there's a targeter at the position
 				for node: Node3D in get_target_from_pos(finaltargetpos).get_overlapping_bodies(): #checks to make sure the current target is still viable
-					if node is Seller and (not node.empty) and node.pause.text == 'pause': finaltargetpos = Vector3.ZERO
-					elif node is Kreator or node is Multiplier: finaltargetpos = Vector3.ZERO
-					elif (node is Belt or node is SplitBelt) and node.has_box: finaltargetpos = Vector3.ZERO
+					if not_viable_target(node): finaltargetpos = Vector3.ZERO
 			else: unselect_box() #if there's no targeter, there's nothing there to go to!!
 			
 			if grabstate == 0: #if the arm is looking to pick a box
@@ -121,10 +117,16 @@ func _process(delta: float) -> void:
 		#sets which target to align to based on how close they are
 		var aligntarget: Vector3 = alignleft.global_position if targetpos.distance_to(alignleft.global_position) < targetpos.distance_to(alignright.global_position) else alignright.global_position
 		#move to either the actual target or the alignment target based on whether it's needed or not
-		target.global_position = (lerp(target.global_position, aligntarget, delta * 4) if proximity.get_overlapping_areas().has(boxdetector) else lerp(target.global_position, targetpos, delta * 8))
+		target.global_position = (lerp(target.global_position, aligntarget, delta * (Main.armspeed / 2)) if proximity.get_overlapping_areas().has(boxdetector) else lerp(target.global_position, targetpos, delta * Main.armspeed))
 	
 	#set the light to the pause state
 	pauselight.material_override = load("res://objekts/pausedlight.tres") if pause.text != 'pause' else load("res://objekts/unpausedlight.tres")
+
+func not_viable_target(node : Node3D) -> bool: #if the target is viable
+	if node is Seller and (not node.empty) and node.pause.text == 'pause': return true #cannot put boxes on active sellers or if theyre paused
+	elif node is Kreator or node is Multiplier: return true #you cant put boxes into kreators or multipliers
+	elif (node is Belt or node is SplitBelt) and node.has_box: return true #you cant put boxes onto belts that have boxes already
+	return false
 
 func search_for_boxes(area: Area3D) -> void:
 	for node: Node3D in area.get_overlapping_bodies():

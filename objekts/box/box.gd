@@ -17,7 +17,7 @@ var vel: Vector3
 
 func _process(delta: float) -> void: #runs every nanosecond because this is a fast computer
 	if Main.picked == true and get_parent().name == "hand": #if the box is picked up and it's actually in the player's hand
-		global_position = lerp(global_position, get_parent().global_position, delta * 16) #move the position to the player's hand, but lerp it
+		global_position = lerp(global_position, get_parent().global_position, delta * Main.grabspeed) #move the position to the player's hand, but lerp it
 		global_rotation = get_parent().global_rotation #keep original rotations as the hand
 		collision.disabled = true
 		top_level = true
@@ -41,7 +41,7 @@ func _on_mouse_exited() -> void: #runs when the mouse leaves the box
 	onmouse = false #self explainatory
 
 func _input(event: InputEvent) -> void:
-	if onmouse and global_position.distance_to(Main.main.player.global_position) < 2:
+	if onmouse and global_position.distance_to(Main.main.player.global_position) < Main.grabdist:
 		if event.is_action_pressed('leftclick'): #when the player presses the button to pick it up
 			if get_parent().name != 'hand':
 				if not Main.picked: #if the player isnt already holding a box and the box isnt in the hand

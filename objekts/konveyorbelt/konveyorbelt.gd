@@ -23,7 +23,7 @@ func _process(_delta: float) -> void: #runs on every frame
 		if body is Box and body.get_parent().name != 'hand': #if it's a box and not being held, move it
 			temphasbox = true #there is a box
 			
-			var forces: Vector3 = (global_position - body.global_position) / 4 #force variable
+			var forces: Vector3 = (global_position - body.global_position).normalized() / Main.aligndivisor #force variable
 			if movefoward(body): forces += (transform.basis * Vector3.FORWARD).normalized() * Main.beltspeed #foward force if it can move foward
 			#force to align the box to the center
 			var dist: float = (body.global_position - global_position).dot(global_transform.basis.x.normalized())

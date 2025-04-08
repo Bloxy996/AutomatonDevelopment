@@ -27,7 +27,7 @@ func _process(_delta: float) -> void: #runs on every frame
 			inst.type = type #set the shadow to the type needed
 			Main.main.get_node('machines').add_child(inst) #add to the machines
 			
-			var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-2, 2)
+			var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-Main.buildtimediff, Main.buildtimediff)
 			inst.wait.start(buildtime) #start the timer, when it finished a machine will be created
 			inst.bar.max_value = buildtime #sets the max value for UI purposes
 			
@@ -60,7 +60,7 @@ func _process(_delta: float) -> void: #runs on every frame
 							inst.type = Main.group_to_type(node)
 							
 							Main.main.get_node('machines').add_child(inst) #add the node and set the timer stuff
-							var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-2, 2)
+							var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-Main.buildtimediff, Main.buildtimediff)
 							inst.wait.start(buildtime / Main.deletetimerspeedup)
 							inst.bar.max_value = buildtime / Main.deletetimerspeedup
 							

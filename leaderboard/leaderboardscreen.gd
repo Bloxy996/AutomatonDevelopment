@@ -45,7 +45,7 @@ func _ready() -> void:
 					inst.self_modulate.a = 1.0
 				i += 1
 			else:
-				SilentWolf.Scores.delete_score(score["score_id"])
+				await SilentWolf.Scores.delete_score(score["score_id"]).sw_delete_score_complete
 	
 	loader.showscreen()
 	
