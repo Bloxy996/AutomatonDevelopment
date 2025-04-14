@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://d1kplwhcnt2oq"]
+[gd_scene load_steps=17 format=4 uid="uid://d1kplwhcnt2oq"]
 
 [ext_resource type="Script" uid="uid://xo4xdlu61pt7" path="res://objekts/konveyorbelt/konveyorbelt.gd" id="1_uk2u1"]
 [ext_resource type="Texture2D" uid="uid://c7j41u68cce32" path="res://objekts/konveyorbelt/UV1.png" id="2_ac5wu"]
@@ -10,11 +10,8 @@ albedo_color = Color(0.205111, 0.205111, 0.205111, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_0fgnt"]
 size = Vector3(0.8, 0.5, 1)
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1t4ra"]
-points = PackedVector3Array(0.4, 0.25, 0.5, 0.4, -0.25, 0.5, 0.4, 0.25, -0.5, -0.4, 0.25, 0.5, -0.4, -0.25, 0.5, 0.4, -0.25, -0.5, -0.4, 0.25, -0.5, -0.4, -0.25, -0.5)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_mye1d"]
-size = Vector3(1, 1, 0.1)
+size = Vector3(1, 1, 0.638019)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0lgm1"]
 
@@ -89,9 +86,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_e3som")
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_vmueh"]
-points = PackedVector3Array(0.460765, 0.59328, 1.07443, -1.53923, 0.59328, 1.07443, 0.460765, 0.038951, 1.07443, 0.460765, 0.59328, -0.926014, -1.53923, 0.038951, 1.07443, -1.53923, 0.59328, -0.926014, 0.460765, 0.012933, -0.869032, 0.460765, 0.012933, -0.926014, -1.53923, 0.038951, -0.926014)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i0kaj"]
 resource_name = "Material.001"
 cull_mode = 2
@@ -136,7 +130,14 @@ shadow_mesh = SubResource("ArrayMesh_t1t48")
 size = Vector3(0.5, 0.25, 0.8)
 
 [node name="Belt" type="StaticBody3D" groups=["belt", "machine", "save"]]
+collision_mask = 0
 input_ray_pickable = false
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
 script = ExtResource("1_uk2u1")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
@@ -144,12 +145,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0.003)
 material_override = SubResource("StandardMaterial3D_mywik")
 mesh = SubResource("BoxMesh_0fgnt")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0.003)
-shape = SubResource("ConvexPolygonShape3D_1t4ra")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.00232167, 0.56766, 0.0147433)
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.00232168, 0.298651, 0.0147433)
 shape = SubResource("BoxShape3D_mye1d")
 
 [node name="Area3D2" type="Area3D" parent="." groups=["liftbox"]]
@@ -170,10 +167,6 @@ shape = SubResource("BoxShape3D_byl2x")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.269342, 0.222054, -0.0240466)
 mesh = SubResource("ArrayMesh_5x18y")
 skeleton = NodePath("")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.269342, 0.222054, -0.0240466)
-shape = SubResource("ConvexPolygonShape3D_vmueh")
 
 [node name="Cylinder" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0.490315, 0, 0, 0, -0.112931, -0.510342, 0, 0, -0.00272233, 0.510628, 0.0138238)

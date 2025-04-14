@@ -33,6 +33,8 @@ var boxsendqueue: Array[Box] = [] #the queue for sending boxes to belts bc now I
 
 var boxamount: float = 0
 
+var mouse3Dpos: Vector3
+
 func _ready() -> void:
 	Main.main = self #set the main scene in the master branch
 	Main.loadgame() #load the game when starting
@@ -54,11 +56,12 @@ func _on_irradicate_pressed() -> void: #if the user pressed the delete machines 
 		Main.irradicating = true
 
 func _process(delta: float) -> void: #runs every ~milisecond
+	mouse3Dpos = mouse_3d_pos()
 	irradicate.visible = Main.irradicating #show the irradikating shadow if something is being irradicated
 	
 	if Main.irradicating: #if something is being irradicated
 		#move the irradicating shadow to the position of the mouse
-		irradicate.global_position = snapped(mouse_3d_pos(), Vector3.ONE)
+		irradicate.global_position = snapped(mouse3Dpos, Vector3.ONE)
 		irradicate.global_position.y = 0
 		irradicatebutton.release_focus() #release fokus from the button to solve the bug of pressing space
 		
@@ -121,6 +124,8 @@ func _process(delta: float) -> void: #runs every ~milisecond
 					if area.is_in_group('inkreator'):
 						area.get_parent().send_request_accepted(latest)
 						break
+			else:
+				boxsendqueue.pop_front()
 	
 	if Main.settings.daynight: light.rotation_degrees += Main.daynightcyclespeed #day night cycle
 	else: light.rotation_degrees = Main.defaultsunrot #if the cycle is disabled, go to default

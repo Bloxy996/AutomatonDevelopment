@@ -3,7 +3,6 @@ extends Node3D #everything here can be called with any script anywhere it wants,
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
 var version: String = '1.5.2 debug' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
-var needrestart: bool = true ##if the current version needs a restart, UPDATE THIS TOO
 
 var prices: Dictionary = { #gets the prices of each of the machines
 	'kreator' : 20,
@@ -98,13 +97,14 @@ const aligndivisor: float = 4 #the number that divides the align force for movin
 const kreateboxmintime: float = 3.0 #the min and max times that are put into the kreator for making boxes
 const kreateboxmaxtime: float = 6.0
 const multiplierpricecap: float = 100 #the max # for multiplying boxes through a multiplier
-const playerspeed: float = 7.5 #the speed for the player
+const playerspeed: float = 15 #the speed for the player
 const playerjumpvel: float = 100 #the jump velocity for the player
-const minzoom: float = 5 #the min and max clamps for zoom
-const maxzoom: float  = 25
+const minzoom: float = 2 #the min and max clamps for zoom
+const maxzoom: float = 40
 const selltimediff: float = 2 #the random amount of seconds added/removed from sell timers
 const sellpricediff: int = 5 #the random amount of kredits added/removed from selling boxes
 const boxestowarning: float = 20 #amount of boxes to the limit until the warning shows
+const builderbardistancevisible: float = 4 #distance where you can see the bar thingy on builders
 
 const playerresetpos: Vector3 = Vector3(4, 1, 4) #the reset position of the player
 const daynightcyclespeed: Vector3 = Vector3(2, 1, 0) * 0.001 #the vector that is added to the current rotation of the sun
@@ -199,6 +199,14 @@ func resetgame() -> void: #resets all the variables to their original values
 	maxboxes = boxesperroom
 	factory_map = {'[0, 0]' : null}
 	
+	settings = { ##update with actual settings always
+		'indikator' : {
+			'kredit' : true,
+			'multiplier' : true
+		},
+		'daynight' : true
+	}
+	
 	for machine: String in prices.keys():
 		prices[machine] = machinedata[machine]['originalprice']
 
@@ -252,6 +260,7 @@ func savegame(menu: bool = false) -> void: #function to save game
 		#'maxboxes' : maxboxes,
 		'prices' : prices,
 		'tutorialvisible' : tutorialvisible if menu else main.ui.tutorial.text.visible,
+		'settings' : settings,
 		
 		#player stuff, if it's the menu it gets what's already in there
 		'playertransform' : playertransform if menu else [

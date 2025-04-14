@@ -1,6 +1,11 @@
 extends StaticBody3D #this skript is for the kreator of kreators
 class_name Kreator
 
+@onready var boxscene: PackedScene = preload('res://objekts/box/box.tscn')
+
+@onready var pausedlight: StandardMaterial3D = preload("res://objekts/pausedlight.tres")
+@onready var unpausedlight: StandardMaterial3D = preload("res://objekts/unpausedlight.tres")
+
 @onready var area: Area3D = $Area3D
 @onready var spawnbox: Area3D = $spawnbox
 @onready var animation_player: AnimationPlayer = $spawnbox/AnimationPlayer
@@ -18,29 +23,35 @@ class_name Kreator
 
 var inst: RigidBody3D #varible for creating new boxes because this is a creator and creators just do that
 
+var area_overlapping_bodies: Array
+
 func _ready() -> void:
 	set_process(false)
 	await get_tree().create_timer(0.2).timeout
 	set_process(true)
 
+func update_overlaps() -> void:
+	area_overlapping_bodies = area.get_overlapping_bodies()
+
 func _process(_delta: float) -> void: #runs every single nanosecond because your computer is super fast
+	update_overlaps()
 	spawnbox.collision_mask = 1 #reset goofy stuff
 	sender.collision_mask = 1
 	area.collision_mask = 1 #keep it from lagging, a godot thing
 	
-	if area.get_overlapping_bodies().has(Main.main.get_node('player')) and original and get_tree().get_nodes_in_group('box').size() < Main.maxboxes: #if the player is near the kreator and there's not too much boxes
+	if area_overlapping_bodies.has(Main.main.player) and original and get_tree().get_nodes_in_group('box').size() < Main.maxboxes: #if the player is near the kreator and there's not too much boxes
 		createbox.visible = timer.is_stopped() #if the machine is ready show the button to make boxes
 	else:
 		createbox.hide() #hide ze button
 
-	if area.get_overlapping_bodies().has(Main.main.get_node('player')) and (not original) and (not Main.building) and (not Main.irradicating): #if the player nears the creator
+	if area_overlapping_bodies.has(Main.main.player) and (not original) and (not Main.building) and (not Main.irradicating): #if the player nears the creator
 		pause.visible = true #show button
 	else:
 		pause.visible = false
 	
-	createbox.global_position = get_viewport().get_camera_3d().unproject_position(buttonholder.global_position + Vector3.DOWN) - (createbox.size / 2) #move the create box button over the kreator
-	pause.global_position = get_viewport().get_camera_3d().unproject_position(buttonholder.global_position + (Vector3.DOWN * 2)) - (pause.size / 2) #move the pause button over the kreator
-	progress_bar.global_position = get_viewport().get_camera_3d().unproject_position(buttonholder.global_position + (Vector3.DOWN * 1.7)) - (progress_bar.size / 2) #place the waiting bar under the button
+	if createbox.visible: createbox.global_position = get_viewport().get_camera_3d().unproject_position(buttonholder.global_position + Vector3.DOWN) - (createbox.size / 2) #move the create box button over the kreator
+	if pause.visible: pause.global_position = get_viewport().get_camera_3d().unproject_position(buttonholder.global_position + (Vector3.DOWN * 2)) - (pause.size / 2) #move the pause button over the kreator
+	if progress_bar.visible: progress_bar.global_position = get_viewport().get_camera_3d().unproject_position(buttonholder.global_position + (Vector3.DOWN * 1.7)) - (progress_bar.size / 2) #place the waiting bar under the button
 	
 	if original:
 		progress_bar.visible = not timer.is_stopped() #hide the bar if there is nothing to wait for
@@ -51,7 +62,7 @@ func _process(_delta: float) -> void: #runs every single nanosecond because your
 		progress_bar.value = automated.time_left
 		progress_bar.max_value = automated.wait_time
 	
-	if Main.building or Main.irradicating or (not area.get_overlapping_bodies().has(Main.main.get_node('player'))):
+	if Main.building or Main.irradicating or (not area_overlapping_bodies.has(Main.main.player)):
 		progress_bar.hide() #hide the bar when building/irradicating or the player is too far away
 	
 	if pause.text == 'pause': #if the machine is unpaused
@@ -70,13 +81,13 @@ func _process(_delta: float) -> void: #runs every single nanosecond because your
 						Main.main.boxkreationqueue.append(self) #add a request to the queue to generate boxes
 	
 	#set the light to the pause state
-	pauselight.material_override = load("res://objekts/pausedlight.tres") if pause.text != 'pause' else load("res://objekts/unpausedlight.tres")
+	pauselight.material_override = pausedlight if pause.text != 'pause' else unpausedlight
 
 func boxcount() -> int: #counts how many nodes are boxes that are overlapping
-	var i: int = 0
-	for node: Node3D in spawnbox.get_overlapping_bodies():
-		if node is Box: i += 1
-	return i
+	var count: int= 0
+	for node : Node3D in spawnbox.get_overlapping_bodies():
+		if node is Box: count += 1
+	return count
 
 func request_accepted() -> void: #when the kreators's desires have been accepted
 	automated.start(randf_range(Main.kreateboxmintime, Main.kreateboxmaxtime)) #start the timer to make a box
@@ -95,7 +106,7 @@ func _on_timer_timeout() -> void: #when the waiting time ends and the box is rea
 	create_box()
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void: #when the fancy animation is finished
-	if inst.get_parent().name != 'hand': #if a mischevious player didnt already pick up the box WHILE THE BOX WAS IN THE ANIMATION,
+	if is_instance_valid(inst) and inst.get_parent().name != 'hand': #if a mischevious player didnt already pick up the box WHILE THE BOX WAS IN THE ANIMATION,
 		#unstatcify the box
 		inst.freeze = false
 		inst.reparent(Main.main.boxes) #make grabbable by arms
@@ -113,7 +124,7 @@ func _on_automated_timeout() -> void: #if the automated timer ends,
 		create_box()
 
 func create_box() -> void:
-	inst = load('res://objekts/box/box.tscn').instantiate() #set the box varible to a box
+	inst = boxscene.instantiate() #set the box varible to a box
 	spawnbox.add_child(inst) #create the box from the ashes of a lost world and put it in the scene
 	#make the box static
 	inst.freeze = true
@@ -135,7 +146,7 @@ func secondaryload(data : Dictionary) -> void: #load after the node has been ins
 
 func _on_pause_pressed() -> void:
 	pause.release_focus()
-	if area.get_overlapping_bodies().has(Main.main.get_node('player')): #if you're near the machine
+	if area_overlapping_bodies.has(Main.main.player): #if you're near the machine
 		automated.paused = !automated.paused #sets true to false and false to true
 		if automated.paused: #if player paused it
 			pause.text = "resume" #change text

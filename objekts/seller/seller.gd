@@ -1,6 +1,11 @@
 extends StaticBody3D #this is the skript for the seller!
 class_name Seller
 
+@onready var pausedlight: StandardMaterial3D = preload("res://objekts/pausedlight.tres")
+@onready var unpausedlight: StandardMaterial3D = preload("res://objekts/unpausedlight.tres")
+@onready var redlight: StandardMaterial3D = preload("res://objekts/seller/redlight.tres")
+@onready var greenlight: StandardMaterial3D = preload("res://objekts/seller/greenlight.tres")
+
 @export var original: bool = false #if it's the original or not
 
 @onready var area: Area3D = $Area3D
@@ -19,19 +24,26 @@ var empty: bool = true #true when the seller is ready to sell a box
 
 var box: RigidBody3D #varible for the box
 
+var area_overlapping_bodies: Array
+var area2_overlapping_bodies: Array
+
 func _ready() -> void:
-	light.material_override = load("res://objekts/seller/redlight.tres") #machine is inactive
+	light.material_override = redlight #machine is inactive
+
+func update_overlaps() -> void:
+	area_overlapping_bodies = area.get_overlapping_bodies()
+	area2_overlapping_bodies = area2.get_overlapping_bodies()
 
 func _process(_delta: float) -> void: #runs every microsecond because of how fast your computer is
 	area.collision_mask = 1
 	#moves the label and the button over the seller
-	button.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (button.size / 2)
-	pause.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position + Vector3.DOWN) - (pause.size / 2)
+	if button.visible: button.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (button.size / 2)
+	if pause.visible: pause.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position + Vector3.DOWN) - (pause.size / 2)
 	
 	empty = not is_instance_valid(box) #it's empty if it dosent have a box!
 	
 	if empty: #run this if it's actually looking for stuff to grab
-		for body: Node3D in area.get_overlapping_bodies(): #iterates through all the thingies, ANYTHING that is near the intake
+		for body: Node3D in area_overlapping_bodies: #iterates through all the thingies, ANYTHING that is near the intake
 			if body is Box and pause.text == 'pause': #if the thingy is a box and the machine is unpaused,
 				if (not box_inmultiplier(body)) and body.get_parent().name == 'boxes': #if the box is not inside a multiplier and if there is no selling stuff going on and it's avaliable for the picking,
 					#grab the box to send it to it's utter demise and end the loop
@@ -39,29 +51,29 @@ func _process(_delta: float) -> void: #runs every microsecond because of how fas
 					break
 	
 	if offer_avaliable: #if the machine is waiting for the player to accept a offer
-		if area2.get_overlapping_bodies().has(Main.main.get_node('player')): #if the player is near the seller
+		if area2_overlapping_bodies.has(Main.main.player): #if the player is near the seller
 			#show the button to accept the offer and hide the other button
 			button.show() 
 		else:
 			#vice versa!
 			button.hide()
 	
-	if area2.get_overlapping_bodies().has(Main.main.get_node('player')) and (not original) and (not Main.building) and (not Main.irradicating): #if player is near button and not original
+	if area2_overlapping_bodies.has(Main.main.player) and (not original) and (not Main.building) and (not Main.irradicating): #if player is near button and not original
 		pause.visible = true #show button
 	else: 
 		pause.visible = false #hide button
 	
 	#set the light to the pause state
-	pauselight.material_override = load("res://objekts/pausedlight.tres") if pause.text != 'pause' else load("res://objekts/unpausedlight.tres")
+	pauselight.material_override = pausedlight if pause.text != 'pause' else unpausedlight
 
 func box_inmultiplier(body: Box) -> bool: #just makes sure that the box is not being pulled by a multiplier
-	for boxarea: Area3D in body.detector.get_overlapping_areas():
+	for boxarea: Area3D in body.detector_overlapping_areas:
 		if boxarea.is_in_group('inmultiplier'): #the multipliers are in this group to check
 			return true
 	return false
 
 func _on_timer_timeout() -> void: #runs when that offer finally comes up
-	light.material_override = load("res://objekts/seller/redlight.tres") #machine is inactive
+	light.material_override = redlight #machine is inactive
 	
 	if original: #if this is the original machine
 		#tell the user that a offer is available, and set the varible for that to true
@@ -89,7 +101,7 @@ func grab_box(body: Node3D) -> void: #function to grab boxes
 	timer.start() #start the timer to wait for a customer
 	#show the waiting label and set it to something that let's the user know that they should wait
 	animation.play("set") #do the fancy animation for grabbing the box
-	light.material_override = load("res://objekts/seller/greenlight.tres") #machine is active
+	light.material_override = greenlight #machine is active
 
 func sell_box() -> void: #sell ze box
 	offer_avaliable = false #make sure that everyone knows that you accepted the offer (you cannot rejekt free money)
@@ -112,7 +124,7 @@ func secondaryload(data : Dictionary) -> void: #load after the node has been ins
 
 func _on_pause_pressed() -> void:
 	pause.release_focus()
-	if area2.get_overlapping_bodies().has(Main.main.get_node('player')): #if you're near the machine
+	if area2_overlapping_bodies.has(Main.main.player): #if you're near the machine
 		if pause.text == "pause": #if seller not paused
 			pause.text = "resume" #change button text
 		else:

@@ -52,6 +52,9 @@ func _process(_delta: float) -> void:
 	if global_position.y < -2 and not dead: #die if you fall out of the map
 		die()
 	
+	if Main.picked and hand.get_child_count() == 0:
+		Main.picked = false
+	
 	if deathradius.get_overlapping_bodies().size() - 1 > 0: #get clipped body count not including the player, if it's larger (the player is clipping)
 		if deathconfirmation.is_stopped(): deathconfirmation.start() #start the timer to confirm the death
 

@@ -628,6 +628,7 @@ _data = {
 }
 
 [node name="room" type="StaticBody3D" groups=["wall"]]
+collision_mask = 0
 input_ray_pickable = false
 script = ExtResource("1_lknie")
 
@@ -653,7 +654,7 @@ skeleton = NodePath("../../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="wallFL/mesh" groups=["exclude_from_raycast"]]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 0
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="wallFL/mesh/StaticBody3D"]
@@ -672,6 +673,7 @@ speed_scale = 4.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="Button" type="Button" parent="wallFL/expandL"]
+visible = false
 offset_right = 116.0
 offset_bottom = 66.0
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
@@ -703,7 +705,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="B" type="ProgressBar" parent="wallFL/expandL/Button"]
-modulate = Color(0.4, 1, 0.4, 1)
+modulate = Color(0.34, 1, 0.34, 1)
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -760,7 +762,7 @@ skeleton = NodePath("../../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="wallFR/mesh" groups=["exclude_from_raycast"]]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 0
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="wallFR/mesh/StaticBody3D"]
@@ -779,6 +781,7 @@ speed_scale = 4.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="Button" type="Button" parent="wallFR/expandR"]
+visible = false
 offset_right = 8.0
 offset_bottom = 8.0
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
@@ -810,7 +813,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="B" type="ProgressBar" parent="wallFR/expandR/Button"]
-modulate = Color(0.4, 1, 0.4, 1)
+modulate = Color(0.341176, 1, 0.341176, 1)
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -880,7 +883,7 @@ skeleton = NodePath("../../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="hidden/wallBL/mesh" groups=["exclude_from_raycast"]]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 0
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hidden/wallBL/mesh/StaticBody3D"]
@@ -914,7 +917,7 @@ skeleton = NodePath("../../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="hidden/wallBR/mesh" groups=["exclude_from_raycast"]]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 0
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hidden/wallBR/mesh/StaticBody3D"]

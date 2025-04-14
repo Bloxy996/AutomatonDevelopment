@@ -482,12 +482,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4)
 [node name="loader" parent="." instance=ExtResource("10_eycge")]
 
 [node name="boxkreationdelay" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.05
 one_shot = true
 autostart = true
 
 [node name="boxsenddelay" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.05
 one_shot = true
 autostart = true
 
