@@ -347,7 +347,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_xxnw4")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_hlrkr"]
-top_radius = 3.5
+top_radius = 3.25
 bottom_radius = 2.5
 height = 0.21
 
@@ -358,7 +358,7 @@ size = Vector3(0.25, 1.9, 0.25)
 size = Vector3(1, 2, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_m7fnx"]
-radius = 3.5
+radius = 3.25
 
 [sub_resource type="BoxMesh" id="BoxMesh_ywbgd"]
 size = Vector3(0.05, 0.1, 0.15)
@@ -373,6 +373,7 @@ size = Vector3(3, 0.2, 3)
 size = Vector3(0.85, 0.2, 3)
 
 [node name="Arm" type="StaticBody3D" groups=["arm", "machine", "save"]]
+collision_mask = 0
 input_ray_pickable = false
 script = ExtResource("1_w6fob")
 
@@ -445,6 +446,7 @@ mesh = SubResource("ArrayMesh_q3v1u")
 skeleton = NodePath("")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Armature/Skeleton3D/Cube/Cube"]
+collision_mask = 0
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Armature/Skeleton3D/Cube/Cube/StaticBody3D"]
@@ -524,6 +526,7 @@ shape = SubResource("BoxShape3D_kr8sf")
 [node name="holder" type="Node3D" parent="."]
 
 [node name="UIholder" type="VBoxContainer" parent="holder"]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 

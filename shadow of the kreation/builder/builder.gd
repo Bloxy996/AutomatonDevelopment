@@ -24,13 +24,15 @@ func _ready() -> void: #runs when it appears
 	shadow.scale *= 1.02 #make it a tad bit bigger
 
 func _process(_delta: float) -> void: #UI for the timer!
-	bar.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (bar.size / 2)
-	bar.value = wait.time_left
+	bar.visible = global_position.distance_to(Main.main.player.global_position) < Main.builderbardistancevisible
+	if bar.visible: 
+		bar.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (bar.size / 2)
+		bar.value = wait.time_left
 
 func _on_timer_timeout() -> void:
 	if mode == 'builder': #if it's being used to create
 		var inst: StaticBody3D = Main.machinedata[type]['type_to_scene'].instantiate() #get the scene file for the machine
-		Main.main.get_node('machines').add_child(inst) #add the machine to the scene
+		Main.main.machines.add_child(inst) #add the machine to the scene
 		
 		#move it to the right position
 		inst.global_position = global_position

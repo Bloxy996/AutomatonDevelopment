@@ -5,9 +5,15 @@ class_name Arm
 @onready var avoidnode: PackedScene = preload("res://objekts/arm/avoid/avoid.tscn")
 @onready var prioritynode: PackedScene = preload("res://objekts/arm/priority/priority.tscn")
 
+@onready var pausedlight: StandardMaterial3D = preload("res://objekts/pausedlight.tres")
+@onready var unpausedlight: StandardMaterial3D = preload("res://objekts/unpausedlight.tres")
+@onready var settargetmat: StandardMaterial3D = preload("res://objekts/arm/settarget.tres")
+@onready var settargetidlemat: StandardMaterial3D = preload("res://objekts/arm/settargetidle.tres")
+
 @onready var skeletonIK: SkeletonIK3D = $Armature/Skeleton3D/SkeletonIK3D
 @onready var target: Marker3D = $Target
 @onready var boxAoE: Area3D = $boxAoE
+@onready var boxAoEcollision: CollisionShape3D = $boxAoE/CollisionShape3D
 @onready var settarget: Area3D = $settarget
 @onready var holder: Node3D = $holder
 @onready var settargetbutton: Button = $holder/UIholder/settarget
@@ -30,31 +36,60 @@ var finaltargetpos: Vector3 = Vector3.ZERO #the target where the arm should end 
 var targetpos: Vector3 #the target the arm will lerp towards
 
 var settingbehavior: bool = false #if the user is setting the target
-var grabstate: int = 0 #the stages of grabbing and dropping a box
+
+enum GrabState { SEARCHING, GRABBING, MOVING }
+var grabstate: GrabState = GrabState.SEARCHING
 
 var grabbed: Box #the box that is being grabbed
 
+var boxAoE_overlapping_bodies: Array
+var boxdetector_overlapping_bodies: Array
+var proximity_overlapping_areas: Array
+var settarget_overlapping_bodies: Array
+var settarget_overlapping_areas: Array
+
+var target_children: Array
+var priority_children: Array
+
 func _ready() -> void:
 	skeletonIK.start() #start the ik thingy to go to the target
+	update_children()
+
+func update_overlaps() -> void:
+	##this is slow, dont constantly call this
+	boxAoE_overlapping_bodies = boxAoE.get_overlapping_bodies()
+	boxdetector_overlapping_bodies = boxdetector.get_overlapping_bodies()
+	proximity_overlapping_areas = proximity.get_overlapping_areas()
+	settarget_overlapping_bodies = settarget.get_overlapping_bodies()
+	settarget_overlapping_areas = settarget.get_overlapping_areas()
+
+func update_children() -> void:
+	await get_tree().create_timer(0.5).timeout
+	target_children = targets.get_children()
+	priority_children = priorities.get_children()
 
 func _process(delta: float) -> void:
+	var targ_from_finalpos: ArmTarget = get_target_from_pos(finaltargetpos)
+	var finalpos_overlapping_bodies: Array = targ_from_finalpos.get_overlapping_bodies() if is_instance_valid(targ_from_finalpos) else []
+	update_overlaps()
+	
 	boxAoE.collision_mask = 1 #godot thingy
 	
 	#sets the position and visibility of the button to set target
-	UIholder.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (UIholder.size / 2)
-	UIholder.visible = global_position.distance_to(Main.main.player.global_position) < boxAoE.get_node("CollisionShape3D").shape.radius and (not Main.building) and (not Main.irradicating) and (not Main.settingbehavior)
+	UIholder.visible = global_position.distance_to(Main.main.player.global_position) < boxAoEcollision.shape.radius and (not Main.building) and (not Main.irradicating) and (not Main.settingbehavior)
+	if UIholder.visible: UIholder.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (UIholder.size / 2)
 	
 	if settingbehavior: #show all of the stuff to set the target if the user is setting a target and the user is close
 		AoEmesh.show()
-		if boxAoE.get_overlapping_bodies().has(Main.main.player):
+		if boxAoE_overlapping_bodies.has(Main.main.player):
 			behaviours.show()
-			AoEmesh.material_override = preload("res://objekts/arm/settarget.tres")
+			AoEmesh.material_override = settargetmat
 			#moves the targeting thingy to the mouse
-			settarget.global_position = snapped(Main.main.mouse_3d_pos(), Vector3.ONE)
+			settarget.global_position = snapped(Main.main.mouse3Dpos, Vector3.ONE)
 			settarget.global_position.y = 0
 		else:
 			behaviours.hide()
-			AoEmesh.material_override = preload("res://objekts/arm/settargetidle.tres")
+			AoEmesh.material_override = settargetidlemat
 	else: #hide everything if not
 		AoEmesh.hide()
 		behaviours.hide()
@@ -65,48 +100,48 @@ func _process(delta: float) -> void:
 		target.global_position = targetpos
 	
 	if pause.text == 'pause': #if not paused
-		if finaltargetpos == Vector3.ZERO: #if there is no active target for the arm, get one!
+		if finaltargetpos.length_squared() < 0.0001: #if there is no active target for the arm, get one!
 			var avaliabletargets: Array[Vector3] #array for all the targets that the arm can go to
-			for armtarget: ArmTarget in targets.get_children(): #iterates through all the targets
+			for armtarget: ArmTarget in target_children: #iterates through all the targets
 				var avaliable: bool = true #tempoarily variable
-				for node: Node3D in armtarget.get_overlapping_bodies(): #iterates through everything in the area
-					if node.is_in_group('machine'): #if it's a machine
-						if not_viable_target(node): avaliable = false
+				avaliable = armtarget.get_overlapping_bodies().filter(func(node: Node3D) -> bool: #iterates through everything in the area
+					return node.is_in_group('machine') and not_viable_target(node)).is_empty() #if it's a machine
 				
 				if avaliable: avaliabletargets.append(armtarget.global_position) #if it's available, add it to the available machines
 			if not avaliabletargets.is_empty(): #if there are available targets to choose from, get one!
 				finaltargetpos = avaliabletargets.pick_random()
 			
 		else: #if there is an active target
-			if is_instance_valid(get_target_from_pos(finaltargetpos)): #if there's a targeter at the position
-				for node: Node3D in get_target_from_pos(finaltargetpos).get_overlapping_bodies(): #checks to make sure the current target is still viable
-					if not_viable_target(node): finaltargetpos = Vector3.ZERO
+			if is_instance_valid(targ_from_finalpos): #if there's a targeter at the position
+				for node: Node3D in finalpos_overlapping_bodies: #checks to make sure the current target is still viable
+					if not_viable_target(node): finaltargetpos = Vector3.ZERO; break
 			else: unselect_box() #if there's no targeter, there's nothing there to go to!!
 			
-			if grabstate == 0: #if the arm is looking to pick a box
-				for priority: ArmPriority in priorities.get_children(): #iterates through boxes in priority first
+			if grabstate == GrabState.SEARCHING: #if the arm is looking to pick a box
+				for priority: ArmPriority in priority_children: #iterates through boxes in priority first
 					search_for_boxes(priority)
-				if grabstate == 0: #if there's no priority boxes
+					if grabstate == GrabState.GRABBING: break
+				if grabstate == GrabState.SEARCHING: #if there's no priority boxes
 					search_for_boxes(boxAoE)
 			
-			elif grabstate == 1 and grabbed and is_instance_valid(grabbed): #if a box to be grabbed exists
+			elif grabstate == GrabState.GRABBING and grabbed and is_instance_valid(grabbed): #if a box to be grabbed exists
 				#if the box is in the main world and it dosent intersect with any targets, and if it's inside the area of effect (if it's outside it should still be ungrabbed so) and the target still exists
-				if grabbed.get_parent().name == 'boxes' and (not overlaps_targets(grabbed)) and boxAoE.get_overlapping_bodies().has(grabbed) and get_target_from_pos(finaltargetpos):
+				if grabbed.get_parent() == Main.main.boxes and (not overlaps_targets(grabbed)) and (not overlaps_avoids(grabbed)) and (not box_inmultiplier(grabbed)) and boxAoE_overlapping_bodies.has(grabbed) and targ_from_finalpos:
 					targetpos = grabbed.global_position #move the arm towards it
 					
-					if boxdetector.get_overlapping_bodies().has(grabbed): #if the box is very, very close to the detector
+					if boxdetector_overlapping_bodies.has(grabbed): #if the box is very, very close to the detector
 						grabbed.reparent(hand) #put it onto the hand
 						grabbed.freeze = true
 						fingeranim.play('grab') #animation to grasp the box
-						grabstate = 2 #next stage... bring the box to it's destination!
+						grabstate = GrabState.MOVING #next stage... bring the box to it's destination!
 				else: #unselect the box if it's not viable
 					unselect_box()
 			
-			elif grabstate == 2: #the the box is being brought to it's destination
-				if grabbed.get_parent() == hand and get_target_from_pos(finaltargetpos): #if still on the arm (not grabbed by a player or seller or something) and the target still exists
+			elif grabstate == GrabState.MOVING: #the the box is being brought to it's destination
+				if is_instance_valid(grabbed) and grabbed.get_parent() == hand and targ_from_finalpos: #if still on the arm (not grabbed by a player or seller or something) and the target still exists
 					grabbed.global_transform = hand.global_transform #make the box being grabbed go to where the hand is
 					targetpos = finaltargetpos + Vector3.UP #bring the arm towards the final destination
-					if get_target_from_pos(finaltargetpos).get_overlapping_bodies().has(grabbed): #if the destination target has the box (it has been brought to it's destination)
+					if finalpos_overlapping_bodies.has(grabbed): #if the destination target has the box (it has been brought to it's destination)
 						unselect_box() #reset the arm's stuff
 						fingeranim.play_backwards('grab') #release animation
 				else: #unselect the box if it left
@@ -117,10 +152,10 @@ func _process(delta: float) -> void:
 		#sets which target to align to based on how close they are
 		var aligntarget: Vector3 = alignleft.global_position if targetpos.distance_to(alignleft.global_position) < targetpos.distance_to(alignright.global_position) else alignright.global_position
 		#move to either the actual target or the alignment target based on whether it's needed or not
-		target.global_position = (lerp(target.global_position, aligntarget, delta * (Main.armspeed / 2)) if proximity.get_overlapping_areas().has(boxdetector) else lerp(target.global_position, targetpos, delta * Main.armspeed))
+		target.global_position = (lerp(target.global_position, aligntarget, delta * (Main.armspeed / 2)) if proximity_overlapping_areas.has(boxdetector) else lerp(target.global_position, targetpos, delta * Main.armspeed))
 	
 	#set the light to the pause state
-	pauselight.material_override = load("res://objekts/pausedlight.tres") if pause.text != 'pause' else load("res://objekts/unpausedlight.tres")
+	pauselight.material_override = pausedlight if pause.text != 'pause' else unpausedlight
 
 func not_viable_target(node : Node3D) -> bool: #if the target is viable
 	if node is Seller and (not node.empty) and node.pause.text == 'pause': return true #cannot put boxes on active sellers or if theyre paused
@@ -129,15 +164,16 @@ func not_viable_target(node : Node3D) -> bool: #if the target is viable
 	return false
 
 func search_for_boxes(area: Area3D) -> void:
-	for node: Node3D in area.get_overlapping_bodies():
+	for node: Node3D in (area.get_overlapping_bodies() if area != boxAoE else boxAoE_overlapping_bodies):
 		#if it's a box in the main world and it dosent intersect with any targets/avoids/multipliers
-		if node is Box and node.get_parent().name == 'boxes' and (not overlaps_targets(node)) and (not overlaps_avoids(node)) and (not box_inmultiplier(node)):
-			grabstate = 1 #a box has just been notified to be grabbed
-			grabbed = node #set grabbed to this box
-			return
+		if not (node is Box and node.get_parent() == Main.main.boxes): continue
+		if overlaps_targets(node) or overlaps_avoids(node) or box_inmultiplier(node): continue
+		grabstate = GrabState.GRABBING #a box has just been notified to be grabbed
+		grabbed = node #set grabbed to this box
+		return
 
 func box_inmultiplier(body: Box) -> bool: #just makes sure that the box is not being pulled by a multiplier
-	for boxarea: Area3D in body.detector.get_overlapping_areas():
+	for boxarea: Area3D in body.detector_overlapping_areas:
 		if boxarea.is_in_group('inmultiplier'): #the multipliers are in this group to check
 			return true
 	return false
@@ -149,22 +185,22 @@ func unselect_box() -> void: #when a box is being unselected
 	
 	grabbed = null #no more box to grab
 	finaltargetpos = Vector3.ZERO #look for a new target
-	targetpos += Vector3.UP #make the arm go up so it's not in the way of anything
-	grabstate = 0 #go back to searching phase
+	targetpos = global_position + Vector3(0, 3, 0.001) #make the arm go up so it's not in the way of anything
+	grabstate = GrabState.SEARCHING #go back to searching phase
 
 func get_target_from_pos(pos : Vector3) -> ArmTarget: #gets the target from a position
-	for armtarget: ArmTarget in targets.get_children():
+	for armtarget: ArmTarget in target_children:
 		if armtarget.global_position.distance_to(pos) < 0.5:
 			return armtarget
 	return null
 
 func overlaps_targets(box : Box) -> bool: #if the box overlaps any of the arm's targets
-	for area: Area3D in box.detector.get_overlapping_areas():
+	for area: Area3D in box.detector_overlapping_areas:
 		if area is ArmTarget: return true #does all targets so the arms can work in harmony! (hopefully I dont regret this)
 	return false
 
 func overlaps_avoids(box : Box) -> bool: #if the box overlaps any of the arm's avoid thingies
-	for area: Area3D in box.detector.get_overlapping_areas():
+	for area: Area3D in box.detector_overlapping_areas:
 		if area.get_parent() == avoids: return true #gets just this arm's avoids
 	return false
 
@@ -215,11 +251,11 @@ func _input(event: InputEvent) -> void:
 			Main.settingbehavior = false #other arms can set their behaviours now
 
 func add_behaviours(node : PackedScene, parent : Node3D) -> void:
-	if settarget.get_overlapping_areas().has(boxAoE): #if the target setter thingy is inside the area of effect
-		for check: Node3D in settarget.get_overlapping_bodies():
+	if settarget_overlapping_areas.has(boxAoE): #if the target setter thingy is inside the area of effect
+		for check: Node3D in settarget_overlapping_bodies:
 			if check.is_in_group('wall'): return #stops adding behaviours if the area is colliding with a wall
 		
-		for area: Area3D in settarget.get_overlapping_areas():
+		for area: Area3D in settarget_overlapping_areas:
 			if area.get_parent() == targets or area.get_parent() == avoids or  area.get_parent() == priorities:
 				area.queue_free() #remove a behaviour if the user selects one
 				if area.get_parent() == parent: return #keep it from making a new one right after if it's another arm behaviour

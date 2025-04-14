@@ -13,10 +13,8 @@ points = PackedVector3Array(-1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, 1, 1
 size = Vector3(0.51, 0.51, 0.51)
 
 [node name="Box" type="RigidBody3D" groups=["box", "save"]]
-input_capture_on_drag = true
 mass = 5.0
 physics_material_override = SubResource("PhysicsMaterial_1alt7")
-can_sleep = false
 script = ExtResource("1_p6f6l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -31,7 +29,6 @@ skeleton = NodePath("")
 [node name="Marker3D" type="Marker3D" parent="."]
 
 [node name="detector" type="Area3D" parent="."]
-input_capture_on_drag = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="detector"]
 shape = SubResource("BoxShape3D_sk74q")
