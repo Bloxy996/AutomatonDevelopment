@@ -47,11 +47,12 @@ func _ready() -> void:
 		', int(expand_prices['right']['kredits']), ' kredits'
 	)
 	
+	#ts pmo icl 🥀
 	#buttons will show/hide when their walls are hovered over
-	detectL.mouse_entered.connect(func() -> void: buttonL.show())
-	detectL.mouse_exited.connect(func() -> void: buttonL.hide())
-	detectR.mouse_entered.connect(func() -> void: buttonR.show())
-	detectR.mouse_exited.connect(func() -> void: buttonR.hide())
+	#detectL.mouse_entered.connect(func() -> void: buttonL.show())
+	#detectL.mouse_exited.connect(func() -> void: buttonL.hide())
+	#detectR.mouse_entered.connect(func() -> void: buttonR.show())
+	#detectR.mouse_exited.connect(func() -> void: buttonR.hide())
 
 func _process(delta: float) -> void:
 	if is_instance_valid(expandLM): set_button(expandLM, expand_prices['left'], delta)
@@ -66,7 +67,6 @@ func _process(delta: float) -> void:
 	for wall: StaticBody3D in usable_walls: #show/hide the walls based on whether they're in the way of the player or not
 		#whether the wall should be visible or not
 		var visiblility: bool = wall.get_node('Marker3D').global_position.x > Main.main.player.global_position.x or wall.get_node('Marker3D').global_position.z > Main.main.player.global_position.z
-		
 		if wall.get_parent().visible and (not visiblility): wall.get_node("../AnimationPlayer").play('hide') #if the wall needs to hide
 		if (not wall.get_parent().visible) and visiblility: wall.get_node("../AnimationPlayer").play('show') #if the wall needs to show
 		
@@ -75,10 +75,22 @@ func _process(delta: float) -> void:
 	if Main.building or Main.irradicating: #hide the buttons when building/deleting
 		if is_instance_valid(buttonL): buttonL.hide()
 		if is_instance_valid(buttonR): buttonR.hide()
+	
+	if detectL: #if left wall exists still 🥀
+		if detectL.get_overlapping_bodies().has(Main.main.get_node('player')): #if player is near left wall
+			buttonL.show()
+		else:
+			buttonL.hide()
+	
+	if detectR: #if right wall exists still 🥀
+		if detectR.get_overlapping_bodies().has(Main.main.get_node('player')): #if player is near right wall
+			buttonR.show()
+		else:
+			buttonR.hide()
 
 func set_button(marker : Marker3D, prices : Dictionary, delta : float) -> void:
 	var button: Button = marker.get_node('Button') #the button, to make life easier
-	if button.visible: button.global_position = get_viewport().get_camera_3d().unproject_position(marker.global_position) - (marker.get_node('Button').size / 2) #move to the wall
+	button.global_position = get_viewport().get_camera_3d().unproject_position(marker.global_position) - (marker.get_node('Button').size / 2) #move to the wall
 	#get the levelbar and kreditbar values
 	var levelbar: float = clampf(Main.level / prices.level, 0, 1)
 	var kreditbar: float = clampf(Main.kredits / prices.kredits, 0, 1)

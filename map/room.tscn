@@ -628,7 +628,6 @@ _data = {
 }
 
 [node name="room" type="StaticBody3D" groups=["wall"]]
-collision_mask = 0
 input_ray_pickable = false
 script = ExtResource("1_lknie")
 
@@ -654,7 +653,7 @@ skeleton = NodePath("../../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="wallFL/mesh" groups=["exclude_from_raycast"]]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 2
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="wallFL/mesh/StaticBody3D"]
@@ -673,7 +672,6 @@ speed_scale = 4.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="Button" type="Button" parent="wallFL/expandL"]
-visible = false
 offset_right = 116.0
 offset_bottom = 66.0
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
@@ -705,7 +703,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="B" type="ProgressBar" parent="wallFL/expandL/Button"]
-modulate = Color(0.34, 1, 0.34, 1)
+modulate = Color(0.4, 1, 0.4, 1)
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -741,7 +739,7 @@ show_percentage = false
 [node name="Area3D" type="Area3D" parent="wallFL"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="wallFL/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, -0.516514, 2, 0)
 shape = SubResource("BoxShape3D_a5323")
 
 [node name="outline" type="MeshInstance3D" parent="wallFL"]
@@ -762,7 +760,7 @@ skeleton = NodePath("../../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="wallFR/mesh" groups=["exclude_from_raycast"]]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 2
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="wallFR/mesh/StaticBody3D"]
@@ -781,7 +779,6 @@ speed_scale = 4.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="Button" type="Button" parent="wallFR/expandR"]
-visible = false
 offset_right = 8.0
 offset_bottom = 8.0
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
@@ -813,7 +810,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="B" type="ProgressBar" parent="wallFR/expandR/Button"]
-modulate = Color(0.341176, 1, 0.341176, 1)
+modulate = Color(0.4, 1, 0.4, 1)
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -849,7 +846,7 @@ show_percentage = false
 [node name="Area3D" type="Area3D" parent="wallFR"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="wallFR/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0.457012, 2, 0)
 shape = SubResource("BoxShape3D_ukk3n")
 
 [node name="outline" type="MeshInstance3D" parent="wallFR"]
@@ -883,7 +880,7 @@ skeleton = NodePath("../../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="hidden/wallBL/mesh" groups=["exclude_from_raycast"]]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 2
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hidden/wallBL/mesh/StaticBody3D"]
@@ -917,7 +914,7 @@ skeleton = NodePath("../../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="hidden/wallBR/mesh" groups=["exclude_from_raycast"]]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 2
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hidden/wallBR/mesh/StaticBody3D"]
