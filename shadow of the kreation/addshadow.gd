@@ -11,13 +11,13 @@ var buildradius_overlapping_areas: Array
 var overlapping_bodies: Array
 
 func _ready() -> void: #runs when it appears
-	Main.building = true #tell the main skript that something is being created
+	Main.main.start_building.emit() #tell the main skript that something is being created
 	add_child(Main.machinedata[type]['shadow'].instantiate()) #add the shadow for visuals
 
 func _process(_delta: float) -> void: #runs on every frame
 	if Input.is_action_just_pressed("esc") or Main.kredits - Main.prices[type] < 0: #if the user ends the creation or they dont have enough money,
 		Main.main.exitdelay.start() #start the timer so the pause menu dosent show
-		Main.building = false #tell main skript that the shadow is done with it's job
+		Main.main.stop_building.emit() #tell main skript that the shadow is done with it's job
 		queue_free() #do what needs to be done; remove it from the mortal plane of existence
 		return
 	

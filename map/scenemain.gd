@@ -35,10 +35,22 @@ var boxamount: float = 0
 
 var mouse3Dpos: Vector3
 
+signal start_building
+signal stop_building
+
+signal start_irradicating
+signal stop_irradicating
+
 func _ready() -> void:
 	Main.main = self #set the main scene in the master branch
 	Main.loadgame() #load the game when starting
 	loader.showscreen()
+	
+	start_building.connect(func() -> void: Main.building = true)
+	stop_building.connect(func() -> void: Main.building = false)
+	
+	start_irradicating.connect(func() -> void: Main.irradicating = true)
+	stop_irradicating.connect(func() -> void: Main.irradicating = false)
 
 func mouse_3d_pos() -> Vector3: #advanced math stuff to get the mouse position
 	var mousepos: Vector2 = get_viewport().get_mouse_position()
@@ -53,7 +65,7 @@ func mouse_3d_pos() -> Vector3: #advanced math stuff to get the mouse position
 
 func _on_irradicate_pressed() -> void: #if the user pressed the delete machines button
 	if (not Main.building) and (not Main.settingbehavior): #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
-		Main.irradicating = true
+		start_irradicating.emit()
 
 func _process(delta: float) -> void: #runs every ~milisecond
 	mouse3Dpos = mouse_3d_pos()
@@ -65,7 +77,7 @@ func _process(delta: float) -> void: #runs every ~milisecond
 		irradicate.global_position.y = 0
 		irradicatebutton.release_focus() #release fokus from the button to solve the bug of pressing space
 		
-		if Input.is_action_just_pressed("leftclick") and irradicating_buildradius_detection.get_overlapping_areas().has(Main.main.player.removeradius): #if the mouse is clicked and in range
+		if Input.is_action_just_pressed("leftclick") and irradicating_buildradius_detection.get_overlapping_areas().has(player.removeradius): #if the mouse is clicked and in range
 			#if there are any machines in the shadow's area, it's GRASP OF DESTRUKTION... (and if it's also not an original machine)
 			
 			var builderinarea: bool = false
@@ -81,7 +93,7 @@ func _process(delta: float) -> void: #runs every ~milisecond
 							inst.node = node
 							inst.type = Main.group_to_type(node)
 							
-							Main.main.get_node('machines').add_child(inst) #add the node and set the timer stuff
+							machines.add_child(inst) #add the node and set the timer stuff
 							var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-Main.buildtimediff, Main.buildtimediff)
 							inst.wait.start(buildtime / Main.deletetimerspeedup)
 							inst.bar.max_value = buildtime / Main.deletetimerspeedup
@@ -93,7 +105,7 @@ func _process(delta: float) -> void: #runs every ~milisecond
 		
 		if Input.is_action_just_pressed("esc"):
 			exitdelay.start() #start the timer so the pause menu dosent show
-			Main.irradicating = false #tell main that the shadow is done doing it's horrible things
+			stop_irradicating.emit() #tell main that the shadow is done doing it's horrible things
 	
 	camera.global_position = lerp(camera.global_position, Vector3(player.global_position.x - 10, 15, player.global_position.z - 10), delta * 4) #set the camera position
 	camera.size = lerpf(camera.size, zoom, delta * 4) #set camera zoom on the actual size
@@ -136,7 +148,7 @@ func _input(event: InputEvent) -> void:
 			zoom = clampf(zoom + (int(event.button_index == MOUSE_BUTTON_WHEEL_DOWN) - int(event.button_index == MOUSE_BUTTON_WHEEL_UP)), Main.minzoom, Main.maxzoom)
 		elif event.is_action_pressed("delete"): #delete key can also be used to delete machines
 			if (not Main.building) and (not Main.settingbehavior): #if the player is not building somethings, tell main that something will be IRRADICATED FROM THE FACE OF THIS FACKTORY
-				Main.irradicating = true
+				start_irradicating.emit()
 
 func _on_autosave_timeout() -> void: #save the game periodically
 	Main.savegame()
@@ -190,3 +202,8 @@ func remove_walls_for_room(location : Vector2i, roominst : Room) -> void:
 		elif location + Vector2i(0, 1) == mapos: #front right to current
 			if is_instance_valid(roominst.wallFR): roominst.wallFR.queue_free()
 			if is_instance_valid(node.wallBL): node.wallBL.queue_free()
+
+func disable_static(area : Area3D = null, overlapping_bodies : Array = []) -> bool:
+	for node : Node3D in (area.get_overlapping_bodies() if is_instance_valid(area) else overlapping_bodies):
+		if node is not StaticBody3D: print('dont disable'); return false
+	print('disable'); return true

@@ -139,6 +139,12 @@ size = Vector3(1, 1, 0.638019)
 [node name="SplitBelt" type="StaticBody3D" groups=["machine", "save", "splitbelt"]]
 collision_mask = 0
 input_ray_pickable = false
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
 script = ExtResource("1_t3eev")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]

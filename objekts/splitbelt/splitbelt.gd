@@ -28,23 +28,25 @@ var effect_overlapping_boxes: Array
 var nextbelt_children: Array
 var nextbelt_directions: Dictionary
 
-func update_children() -> void:
+func _ready() -> void:
 	await get_tree().create_timer(0.5).timeout
 	nextbelt_children = nextbelts.get_children()
-
-func _ready() -> void:
-	update_children()
 	for nextbelt: Area3D in nextbelt_children: #iterates through all the detection areas (clicking on the lights basically)
 		var detect: Area3D = nextbelt.get_node('MeshInstance3D/Area3D')
 		#when the mouse enters/exits, its respective value will be set
 		detect.mouse_entered.connect(func() -> void: onmouses[nextbelt.name] = true)
 		detect.mouse_exited.connect(func() -> void: onmouses[nextbelt.name] = false)
+		
+		update_light(nextbelt)
+		
 		nextbelt_directions[nextbelt.name] = Vector3(nextbelt.global_position.x - global_position.x, 0, nextbelt.global_position.z - global_position.z).normalized()
 	
 	effect.body_entered.connect(func(body : Node3D) -> void:
-		if body is Box and not effect_overlapping_boxes.has(body): effect_overlapping_boxes.append(body))
+		if body is Box and not effect_overlapping_boxes.has(body): 
+			effect_overlapping_boxes.append(body))
 	effect.body_exited.connect(func(body : Node3D) -> void:
-		if effect_overlapping_boxes.has(body): effect_overlapping_boxes.erase(body))
+		if effect_overlapping_boxes.has(body): 
+			effect_overlapping_boxes.erase(body))
 
 func _process(_delta: float) -> void: #runs on every frame
 	#keep it from doing goofy stuff
@@ -57,21 +59,18 @@ func _process(_delta: float) -> void: #runs on every frame
 		for NBD: Area3D in nextbelt_children:
 			NBD.collision_mask = 1
 			if active[NBD.name]:
-				NBD.get_node('MeshInstance3D').material_override = unpausedlight
 				for body: Node3D in NBD.get_overlapping_bodies():
 					if body.is_in_group('machine') and body != self and movefoward(body):
 						if body.get('empty') != null: priority = options.size()
 						options.append(nextbelt_directions[NBD.name])
 						break
-			else:
-				NBD.get_node('MeshInstance3D').material_override = pausedlight
 	##if there's nowhere to go, move into empty spaces? (this only detects machines)
 	
 	has_box = false
 	for body: Node3D in effect_overlapping_boxes:
-		if options.is_empty(): break
 		if body is Box: #iterates through all boxes
 			has_box = true
+			if options.is_empty(): break
 			#the forces to apply, starts with the force from the options
 			var option: Vector3 = options[0 if priority == -1 else (priority if options.size() > priority else 0)]
 			var forces: Vector3 = (option * Main.beltspeed) + ((global_position - body.global_position).normalized() / Main.aligndivisor)
@@ -84,6 +83,10 @@ func _input(event: InputEvent) -> void:
 		for dir: String in onmouses:
 			if onmouses[dir]:
 				active[dir] = !active[dir]
+				update_light(nextbelts.get_node(dir))
+
+func update_light(NBD : Area3D) -> void:
+	NBD.get_node('MeshInstance3D').material_override = (unpausedlight if active[NBD.name] else pausedlight)
 
 func movefoward(belt : StaticBody3D) -> bool:
 	if "has_box" in belt: #if it moves boxes

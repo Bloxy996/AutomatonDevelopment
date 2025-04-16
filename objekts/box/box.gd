@@ -41,10 +41,18 @@ func _process(delta: float) -> void: #runs every nanosecond because this is a fa
 	##boxes are just removed if they fall out, this check may be causing too much lag
 	if global_position.y < -2: queue_free()
 	
-	if linear_velocity != vel:
-		if !detector_overlapping_areas.filter(func(area: Area3D) -> bool: return area.is_in_group('usingbox')).is_empty():
+	if being_used():
+	#	sleeping = true
+		if linear_velocity != vel:
 			linear_velocity = vel
-		vel = Vector3.ZERO
+	#else:
+	#	sleeping = false
+	vel = Vector3.ZERO
+
+func being_used() -> bool:
+	for area: Area3D in detector_overlapping_areas:
+		if area.is_in_group('usingbox'): return true
+	return false
 
 func _on_mouse_entered() -> void: #runs when the mouse touches the box
 	onmouse = true #self explainatory
@@ -56,13 +64,9 @@ func _input(event: InputEvent) -> void:
 	if not (event is InputEventMouseButton): return
 	if onmouse and global_position.distance_to(Main.main.player.global_position) < Main.grabdist:
 		if event.is_action_pressed('leftclick'): #when the player presses the button to pick it up
-			if parent.name != 'hand':
+			if parent != hand_node:
 				if not Main.picked: #if the player isnt already holding a box and the box isnt in the hand
-					if get_parent() != hand_node:
-						reparent(hand_node) #move the box to the player's hand
-					#set the position/rotation to the hand
-					global_position = parent.global_position
-					global_rotation = parent.global_rotation
+					reparent(hand_node) #move the box to the player's hand
 					Main.picked = true #tell ze master branch that the player has already picked up something so it dosent pick up something else
 					#keep the box from doing goofy ahh stuff like flying around
 					freeze = true

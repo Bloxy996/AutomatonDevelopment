@@ -22,6 +22,12 @@ corner_radius_bottom_left = 4
 [node name="builder" type="StaticBody3D" groups=["save", "shadow"]]
 collision_mask = 0
 input_ray_pickable = false
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
 script = ExtResource("1_mivof")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
