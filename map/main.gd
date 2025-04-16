@@ -2,7 +2,7 @@ extends Node3D #everything here can be called with any script anywhere it wants,
 
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
-var version: String = '1.5.2 debug' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
+var version: String = '1.5.3' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
 
 var prices: Dictionary = { #gets the prices of each of the machines
 	'kreator' : 20,
@@ -354,11 +354,11 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 	else :
 		first_time = true #it's the first time if there's no save file
 	
-	Global._updateleaderboard()
-	
 	if version.contains('debug'): #this will save me so many troubles
-		level += 9999999999999999
-		kredits += 9999999999999999
+		level = 100
+		kredits = 1000000000
+	
+	Global._updateleaderboard()
 
 func mainversion(longversion : String) -> String:
 	var result: String = ''

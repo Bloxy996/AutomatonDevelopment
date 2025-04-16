@@ -22,7 +22,7 @@ var dead: bool = false
 
 func _physics_process(delta: float) -> void: #runs every microsecond because you have a pretty fast computer
 	var input_dir: Vector2 = Input.get_vector("S", "W", "A", "D") #gets all the WASD inputs to move the player
-	var direction: Vector3 = ((transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized() * Main.playerspeed * 1.5).rotated(Vector3.UP, deg_to_rad(-45)) #turns the inputs into a vector direction with hyper komplex ap calculus bc math, and make it directional to the camera
+	var direction: Vector3 = ((transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized() * Main.playerspeed).rotated(Vector3.UP, deg_to_rad(-45)) #turns the inputs into a vector direction with hyper komplex ap calculus bc math, and make it directional to the camera
 	var jump: int = int(Input.is_action_just_pressed("space") and floorcast.is_colliding()) #a integer that is 1 when the player presses space to jump and if it's not floating, 0 if not
 	
 	direction /= 1 + 0.75 * int(not get_contact_count() > 0) #make the player slow when it's in the air
