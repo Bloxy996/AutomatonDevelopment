@@ -3,6 +3,7 @@ class_name Belt
 
 @onready var effect: Area3D = $Area3D
 @onready var nextbeltdetector: Area3D = $nextbelt
+@onready var area: Area3D = $Area3D2
 
 var has_box: bool = false #true when there is a box on it
 
@@ -17,9 +18,11 @@ func _ready() -> void:
 		if body == nextbelt: nextbelt = null)
 	
 	effect.body_entered.connect(func(body : Node3D) -> void:
-		if body is Box and not effect_overlapping_boxes.has(body): effect_overlapping_boxes.append(body))
+		if body is Box and not effect_overlapping_boxes.has(body): 
+			effect_overlapping_boxes.append(body))
 	effect.body_exited.connect(func(body : Node3D) -> void:
-		if effect_overlapping_boxes.has(body): effect_overlapping_boxes.erase(body))
+		if effect_overlapping_boxes.has(body): 
+			effect_overlapping_boxes.erase(body))
 
 func _process(_delta: float) -> void: #runs on every frame
 	#keep it from doing goofy stuff
@@ -37,7 +40,7 @@ func _process(_delta: float) -> void: #runs on every frame
 		if body is Box and body.get_parent().name != 'hand': #if it's a box and not being held, move it
 			has_box = true
 			var forces: Vector3 = (globalpos - body.global_position).normalized() / Main.aligndivisor #force variable
-			if movefoward(body): forces += transbasis.z * Main.beltspeed #foward force if it can move foward
+			if movefoward(body): forces += transbasis.z * -Main.beltspeed #foward force if it can move foward
 			#force to align the box to the center
 			var dist: float = (body.global_position - globalpos).dot(globaltransbasis.x.normalized())
 			forces += (transbasis * Vector3(dist, 0, 0)).normalized() * -abs(dist * 2) ##apparently this could be optimized?

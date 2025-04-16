@@ -5,6 +5,7 @@ class_name Multiplier
 
 @onready var effect: Area3D = $Area3D
 @onready var nextbeltdetector: Area3D = $nextbelt
+@onready var area: Area3D = $Area3D2
 
 var has_box: bool = false #true when there is a box on it
 
@@ -19,9 +20,11 @@ func _ready() -> void:
 		if body == nextbelt: nextbelt = null)
 	
 	effect.body_entered.connect(func(body : Node3D) -> void:
-		if body is Box and not effect_overlapping_boxes.has(body): effect_overlapping_boxes.append(body))
+		if body is Box and not effect_overlapping_boxes.has(body): 
+			effect_overlapping_boxes.append(body))
 	effect.body_exited.connect(func(body : Node3D) -> void:
-		if effect_overlapping_boxes.has(body): effect_overlapping_boxes.erase(body))
+		if effect_overlapping_boxes.has(body): 
+			effect_overlapping_boxes.erase(body))
 
 func _process(_delta: float) -> void: #runs on every frame
 	effect.collision_mask = 1; nextbeltdetector.collision_mask = 1 #keep it from doing goofy stuff
@@ -30,7 +33,7 @@ func _process(_delta: float) -> void: #runs on every frame
 		nextbelt = null #then there IS no machine
 	
 	var globalpos: Vector3 = global_position
-	var forward: Vector3 = transform.basis.z * -Main.beltspeed
+	var forward: Vector3 = transform.basis.z * Main.beltspeed
 	
 	has_box = false
 	for body: Node3D in effect_overlapping_boxes: #finds out what is on top of the multiplier

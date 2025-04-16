@@ -29,12 +29,18 @@ var area2_overlapping_bodies: Array
 
 func _ready() -> void:
 	light.material_override = redlight #machine is inactive
+	
+	area2.body_entered.connect(func(body: Node3D) -> void:
+		if body is Player and (not original) and (not Main.building) and (not Main.irradicating): pause.show())
+	area2.body_exited.connect(func(body: Node3D) -> void:
+		if body is Player: pause.hide())
 
 func update_overlaps() -> void:
 	area_overlapping_bodies = area.get_overlapping_bodies()
 	area2_overlapping_bodies = area2.get_overlapping_bodies()
 
-func _process(_delta: float) -> void: #runs every microsecond because of how fast your computer is
+func _process(_delta: float) -> void: #runs every microsecond because of how fast your computer is\
+	update_overlaps()
 	area.collision_mask = 1
 	#moves the label and the button over the seller
 	if button.visible: button.global_position = get_viewport().get_camera_3d().unproject_position(holder.global_position) - (button.size / 2)
@@ -57,11 +63,6 @@ func _process(_delta: float) -> void: #runs every microsecond because of how fas
 		else:
 			#vice versa!
 			button.hide()
-	
-	if area2_overlapping_bodies.has(Main.main.player) and (not original) and (not Main.building) and (not Main.irradicating): #if player is near button and not original
-		pause.visible = true #show button
-	else: 
-		pause.visible = false #hide button
 	
 	#set the light to the pause state
 	pauselight.material_override = pausedlight if pause.text != 'pause' else unpausedlight
