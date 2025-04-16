@@ -34,13 +34,14 @@ func _ready() -> void:
 				inst.get_node('place').text = str(i)
 				inst.get_node('name').text = score["metadata"]["display"]
 				inst.get_node('level').text = str(int(score["metadata"]["level"]))
-				inst.get_node('boxes').text = str(int(score["score"]))
+				inst.get_node('boxes').text = str(int(score["metadata"]["boxes"]))
+				inst.get_node('kredits').text = str(int(score["score"]))
 				
 				if score["player_name"] == Main.playername:
 					$slot.get_node('place').text = str(i)
 					$slot.get_node('name').text = score["metadata"]["display"]
 					$slot.get_node('level').text = str(int(score["metadata"]["level"]))
-					$slot.get_node('boxes').text = str(int(score["score"]))
+					$slot.get_node('kredits').text = str(int(score["score"]))
 					
 					inst.self_modulate.a = 1.0
 				i += 1

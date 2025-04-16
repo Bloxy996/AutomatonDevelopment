@@ -65,7 +65,24 @@ anchor_right = 1.0
 anchor_bottom = -0.1
 offset_left = -316.0
 offset_top = 12.0
-offset_right = -68.0
+offset_right = -196.0
+offset_bottom = 44.0
+theme_override_fonts/normal_font = ExtResource("1_wkkbw")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "00"
+scroll_active = false
+
+[node name="kredits" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = -0.1
+anchor_right = 1.0
+anchor_bottom = -0.1
+offset_left = -172.0
+offset_top = 12.0
+offset_right = -52.0
 offset_bottom = 44.0
 theme_override_fonts/normal_font = ExtResource("1_wkkbw")
 theme_override_font_sizes/normal_font_size = 20
