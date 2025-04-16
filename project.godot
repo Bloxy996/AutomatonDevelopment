@@ -147,7 +147,7 @@ armprioritization={
 
 [physics]
 
-common/physics_ticks_per_second=30
+common/physics_jitter_fix=2.0
 jolt_physics_3d/simulation/velocity_steps=2
 jolt_physics_3d/simulation/position_steps=1
 jolt_physics_3d/simulation/areas_detect_static_bodies=true

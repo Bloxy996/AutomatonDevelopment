@@ -86,12 +86,12 @@ func _input(event: InputEvent) -> void:
 			queue_free()
 
 func dropbox() -> void: #drop a box
-	if parent == Main.main.boxes:
-		return
-	
-	reparent(Main.main.boxes) #send the box back to where it came from because it's useless now
 	Main.picked = false #tell ze master branch that the player is capable of picking up boxes again!
 	freeze = false #let the box go back to doing it's goofy ahh stuff
+	
+	if parent == Main.main.boxes:
+		return
+	reparent(Main.main.boxes) #send the box back to where it came from because it's useless now
 
 func save() -> Dictionary: #saving function called from main, gets all the data from the node and pushes it to main
 	return {

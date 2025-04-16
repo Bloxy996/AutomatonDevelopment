@@ -58,7 +58,13 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_5qcnx")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "1.5.2 (04/06/2025)
+text = "1.5.3 (04/16/2025)
+[ul]did an extreme amount of optimizations that did not work, we'll fix it later[/ul]
+[ul]you can now only add rooms near the wall[/ul]
+[ul]scores on the leaderboard are ordered by how much credits you have[/ul]
+[ul]fixed a bunch of conveyor belt bugs and stuff with the arm[/ul]
+
+1.5.2 (04/06/2025)
 [ul]made player collision thinner[/ul]
 [ul]gave the split belts more directions[/ul]
 [ul]made belts smarter to prevent clogging (they work together now)[/ul]

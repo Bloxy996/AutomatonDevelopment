@@ -193,7 +193,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a5323"]
-size = Vector3(1, 14, 15)
+size = Vector3(2, 14, 15)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cxuv5"]
 albedo_color = Color(0.270222, 0.270222, 0.270222, 1)
@@ -343,7 +343,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ukk3n"]
-size = Vector3(1, 14, 15)
+size = Vector3(2, 14, 15)
 
 [sub_resource type="BoxMesh" id="BoxMesh_7l16j"]
 size = Vector3(14.99, 0.1, 0.99)
@@ -737,9 +737,10 @@ value = 0.1
 show_percentage = false
 
 [node name="Area3D" type="Area3D" parent="wallFL"]
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="wallFL/Area3D"]
-transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, -0.516514, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.516514, 2, 0)
 shape = SubResource("BoxShape3D_a5323")
 
 [node name="outline" type="MeshInstance3D" parent="wallFL"]
@@ -844,9 +845,10 @@ value = 0.1
 show_percentage = false
 
 [node name="Area3D" type="Area3D" parent="wallFR"]
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="wallFR/Area3D"]
-transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0.457012, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.457012, 2, 0)
 shape = SubResource("BoxShape3D_ukk3n")
 
 [node name="outline" type="MeshInstance3D" parent="wallFR"]

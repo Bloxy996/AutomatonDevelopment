@@ -272,7 +272,7 @@ size = Vector3(0.75, 0.5, 1)
 size = Vector3(0.05, 0.1, 0.15)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_epivq"]
-size = Vector3(1, 1, 0.189615)
+size = Vector3(1, 1, 0.30546)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_05uk4"]
 size = Vector3(0.191895, 0.44043, 1)
@@ -395,7 +395,7 @@ material_override = ExtResource("4_4ur0n")
 mesh = SubResource("BoxMesh_lk63x")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.00232169, 0.074449, 0.0147433)
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.00232169, 0.132372, 0.0147433)
 shape = SubResource("BoxShape3D_epivq")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]

@@ -114,7 +114,6 @@ _data = {
 }
 
 [node name="Main" type="Node3D"]
-physics_interpolation_mode = 1
 script = ExtResource("1_7qdv2")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
