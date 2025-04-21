@@ -31,15 +31,20 @@ func _process(_delta: float) -> void: #UI for the timer!
 
 func _on_timer_timeout() -> void:
 	if mode == 'builder': #if it's being used to create
-		var inst: StaticBody3D = Main.machinedata[type]['type_to_scene'].instantiate() #get the scene file for the machine
+		var inst: CollisionShape3D = Main.machinedata[type]['type_to_scene'].instantiate() #get the scene file for the machine
 		Main.main.machines.add_child(inst) #add the machine to the scene
 		
 		#move it to the right position
-		inst.global_position = global_position
-		inst.global_rotation = global_rotation
+		inst.global_position.x = global_position.x
+		inst.global_position.z = global_position.z
+		inst.global_rotation.y = global_rotation.y
+		
+		Main.main.machines.map[Vector2(inst.global_position.x, inst.global_position.z)] = inst
 	
 	elif mode == 'destroyer': #if it's being used to destroy
 		Main.progressions('sellmachine', '', node, null, global_position)
+		
+		Main.main.machines.map.erase(Vector2(node.global_position.x, node.global_position.z))
 		
 		node.queue_free() #IRRADIKATE ZE MACHINE!!
 	

@@ -2,7 +2,7 @@ extends Node3D #everything here can be called with any script anywhere it wants,
 
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
-var version: String = '1.5.3' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
+var version: String = '1.5.3 debug' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
 
 var prices: Dictionary = { #gets the prices of each of the machines
 	'kreator' : 20,
@@ -16,39 +16,39 @@ var prices: Dictionary = { #gets the prices of each of the machines
 var machinedata: Dictionary = {
 	'kreator' : {
 		'originalprice' : 20,
-		'shadow' : load("res://objekts/kreator/kreatorshadow.tscn"),
-		'type_to_scene' : load("res://objekts/kreator/kreator.tscn"),
-		'type_to_waittime' : 10
+		'shadow' : preload("res://objekts/machines/kreator/kreatorshadow.tscn"),
+		'type_to_scene' : preload("res://objekts//machines/kreator/kreator.tscn"),
+		'type_to_waittime' : 10,
 	},
 	'seller' : {
 		'originalprice' : 20,
-		'shadow' : load("res://objekts/seller/sellershadow.tscn"),
-		'type_to_scene' : load("res://objekts/seller/seller.tscn"),
-		'type_to_waittime' : 10
+		'shadow' : preload("res://objekts//machines/seller/sellershadow.tscn"),
+		'type_to_scene' : preload("res://objekts//machines/seller/seller.tscn"),
+		'type_to_waittime' : 10,
 	},
 	'belt' : {
 		'originalprice' : 25,
-		'shadow' : load("res://objekts/konveyorbelt/beltshadow.tscn"),
-		'type_to_scene' : load("res://objekts/konveyorbelt/konveyorbelt.tscn"),
-		'type_to_waittime' : 5
+		'shadow' : preload("res://objekts//machines/belt/beltshadow.tscn"),
+		'type_to_scene' : preload("res://objekts//machines/belt/belt.tscn"),
+		'type_to_waittime' : 5,
 	},
 	'multiplier' : {
 		'originalprice' : 40,
-		'shadow' : load("res://objekts/multiplier/multipliershadow.tscn"),
-		'type_to_scene' : load("res://objekts/multiplier/mutiplier.tscn"),
-		'type_to_waittime' : 8
+		'shadow' : preload("res://objekts//machines/multiplier/multipliershadow.tscn"),
+		'type_to_scene' : preload("res://objekts//machines/multiplier/multiplier.tscn"),
+		'type_to_waittime' : 8,
 	},
 	'splitbelt' : {
 		'originalprice' : 30,
-		'shadow' : load("res://objekts/splitbelt/splitbeltshadow.tscn"),
-		'type_to_scene' : load("res://objekts/splitbelt/splitbelt.tscn"),
-		'type_to_waittime' : 5
+		'shadow' : preload("res://objekts//machines/splitbelt/splitbeltshadow.tscn"),
+		'type_to_scene' : preload("res://objekts//machines/splitbelt/splitbelt.tscn"),
+		'type_to_waittime' : 5,
 	},
 	'arm' : {
 		'originalprice' : 10,
-		'shadow' : load("res://objekts/arm/armshadow.tscn"),
-		'type_to_scene' : load("res://objekts/arm/arm.tscn"),
-		'type_to_waittime' : 7
+		'shadow' : preload("res://objekts//machines/arm/armshadow.tscn"),
+		'type_to_scene' : preload("res://objekts//machines/arm/arm.tscn"),
+		'type_to_waittime' : 7,
 	}
 }
 
@@ -62,7 +62,7 @@ var settings: Dictionary = { #all of the settings for the game
 
 var main: MainScene #the main scene
 
-var kredits: float = 0 #the amount of kredits the player has from selling boxes
+var kredits: int = 0 #the amount of kredits the player has from selling boxes
 var level: int = 0 #the level number the player is at
 var levelbar: float = 0 #the amount of points the player has in each level
 var maxLB: int = 10 #the max for the levelbar
@@ -78,7 +78,7 @@ var displayname: String = ""
 
 var boxes: int = 0
 var maxboxes: int = 50 #the max amount of boxes that can be in the game, increases with every new expansion
-var maxserveriterations: float = 20 #the max amount of times the silentwolf iterations can run until a error appears
+var maxserveriterations: int = 20 #the max amount of times the silentwolf iterations can run until a error appears
 var boxesperroom: int = 50 #the amount of boxes for every room, just so I can change the number wheverer I need it quickly
 var Tprogress: int = 0 #how much progress is made through the tutorial
 
@@ -93,7 +93,7 @@ const buildtimediff: float = 2 #the random amount of seconds added/removed from 
 const armspeed: float = 8 #the number that is multiplied by delta when lerping the arm towards the target position
 const grabspeed: float = 16 #the lerp of the box to the player's hand by delta
 const grabdist: float = 2 #the distance where the player can grab boxes
-const aligndivisor: float = 4 #the number that divides the align force for moving boxes to the center of belts/multipliers/etc.
+const aligndivisor: float = 1 #the number that divides the align force for moving boxes to the center of belts/multipliers/etc.
 const kreateboxmintime: float = 3.0 #the min and max times that are put into the kreator for making boxes
 const kreateboxmaxtime: float = 6.0
 const multiplierpricecap: float = 100 #the max # for multiplying boxes through a multiplier
@@ -107,7 +107,7 @@ const boxestowarning: float = 20 #amount of boxes to the limit until the warning
 const builderbardistancevisible: float = 4 #distance where you can see the bar thingy on builders
 
 const playerresetpos: Vector3 = Vector3(4, 1, 4) #the reset position of the player
-const daynightcyclespeed: Vector3 = Vector3(2, 1, 0) * 0.001 #the vector that is added to the current rotation of the sun
+##const daynightcyclespeed: Vector3 = Vector3(2, 1, 0) * 0.001 #the vector that is added to the current rotation of the sun
 const defaultsunrot: Vector3 = Vector3(-60, 135, 0) #the default rotation to turn the sun to
 
 var factory_map: Dictionary = { #dict for the rooms that you have in the factory
@@ -289,7 +289,6 @@ func savegame(menu: bool = false) -> void: #function to save game
 			if (not node.scene_file_path.is_empty()) and node.has_method('save'):
 				if (not node.is_in_group('original')) and ((not box_inkreator(node)) if node is Box else true):
 						savefile.store_line(JSON.stringify(node.call('save'))) #does the saving stuff like earlier
-		
 		main.get_node('UI/saved/AnimationPlayer').play('show') #play the animation thingy for saving games
 
 func box_inkreator(body: Box) -> bool: #just makes sure that the box is not in a creator because you cant take those out apparently
@@ -314,6 +313,7 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 			for node: Node3D in get_tree().get_nodes_in_group('save'):
 				if not node.is_in_group('original'):
 					node.queue_free() #remove all of the nodes already in there bc they'll be replaced
+			Main.main.machines.reset_map() #resets the map bc there's no machines that arent original
 		
 		var savefile: FileAccess = FileAccess.open("user://savegame.save", FileAccess.READ) #iterares through all the lines of the savefile
 		while savefile.get_position() < savefile.get_length():
@@ -346,6 +346,8 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 				if inst.is_in_group('box'): main.boxes.add_child(inst)
 				elif inst.is_in_group('machine') or inst.is_in_group('shadow'): main.machines.add_child(inst)
 				if inst.has_method('secondaryload'): inst.secondaryload(data)
+				
+				if inst is CollisionShape3D: Main.main.machines.map[Vector2(inst.global_position.x, inst.global_position.z)] = inst #add to the map
 		
 		setboxesdependencies(boxes) #since level, levelbar, and maxLB are dependent on the boxes you sell, set them from boxes
 		if not menu: 

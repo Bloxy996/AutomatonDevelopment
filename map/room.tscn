@@ -5,18 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://ndqvrubmkvly" path="res://map/brick.png" id="2_ofjqq"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="4_1g4y5"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_2fj3h"]
-size = Vector3(15, 1, 15)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ofcdi"]
-albedo_color = Color(0.44436, 0.44436, 0.44436, 1)
-albedo_texture = ExtResource("1_ev4ph")
-uv1_offset = Vector3(0.5, 0, -0.5)
-uv1_triplanar = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_5qlad"]
-size = Vector3(15, 1, 15)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_cgy55"]
 size = Vector3(1, 10, 15)
 
@@ -627,18 +615,21 @@ _data = {
 &"show": SubResource("Animation_eelxr")
 }
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_2fj3h"]
+size = Vector3(15, 1, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ofcdi"]
+albedo_color = Color(0.44436, 0.44436, 0.44436, 1)
+albedo_texture = ExtResource("1_ev4ph")
+uv1_offset = Vector3(0.5, 0, -0.5)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_5qlad"]
+size = Vector3(15, 1, 15)
+
 [node name="room" type="StaticBody3D" groups=["wall"]]
 input_ray_pickable = false
 script = ExtResource("1_lknie")
-
-[node name="floor" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.5, 8)
-shape = SubResource("BoxShape3D_2fj3h")
-
-[node name="mesh" type="MeshInstance3D" parent="floor"]
-material_override = SubResource("StandardMaterial3D_ofcdi")
-mesh = SubResource("BoxMesh_5qlad")
-skeleton = NodePath("../../..")
 
 [node name="wallFL" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5, 8)
@@ -871,7 +862,7 @@ shape = SubResource("BoxShape3D_vmqax")
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -5, 0)
 material_override = SubResource("StandardMaterial3D_cxuv5")
 mesh = SubResource("BoxMesh_7l16j")
-skeleton = NodePath("../../../floor")
+skeleton = NodePath("../../../floor/collision")
 
 [node name="mesh" type="MeshInstance3D" parent="hidden/wallBL"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
@@ -905,7 +896,7 @@ shape = SubResource("BoxShape3D_58nek")
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -5, 0)
 material_override = SubResource("StandardMaterial3D_cxuv5")
 mesh = SubResource("BoxMesh_7l16j")
-skeleton = NodePath("../../../floor")
+skeleton = NodePath("../../../floor/collision")
 
 [node name="mesh" type="MeshInstance3D" parent="hidden/wallBR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
@@ -930,6 +921,19 @@ libraries = {
 &"": SubResource("AnimationLibrary_t48or")
 }
 speed_scale = 4.0
+
+[node name="floor" type="StaticBody3D" parent="."]
+collision_layer = 3
+collision_mask = 0
+
+[node name="collision" type="CollisionShape3D" parent="floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.5, 8)
+shape = SubResource("BoxShape3D_2fj3h")
+
+[node name="mesh" type="MeshInstance3D" parent="floor/collision"]
+material_override = SubResource("StandardMaterial3D_ofcdi")
+mesh = SubResource("BoxMesh_5qlad")
+skeleton = NodePath("../../../..")
 
 [connection signal="pressed" from="wallFL/expandL/Button" to="." method="_on_buttonL_pressed"]
 [connection signal="pressed" from="wallFR/expandR/Button" to="." method="_on_buttonR_pressed"]

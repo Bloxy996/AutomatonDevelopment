@@ -1,11 +1,12 @@
-[gd_scene load_steps=31 format=3 uid="uid://cxfvl01s73nj2"]
+[gd_scene load_steps=32 format=3 uid="uid://cxfvl01s73nj2"]
 
 [ext_resource type="Script" uid="uid://cossebelseipv" path="res://map/scenemain.gd" id="1_7qdv2"]
 [ext_resource type="PackedScene" uid="uid://bm3fnga38jpgw" path="res://player/player.tscn" id="3_5xs4b"]
-[ext_resource type="PackedScene" uid="uid://cwxkmuoaeityg" path="res://objekts/kreator/kreator.tscn" id="5_0efa7"]
+[ext_resource type="Script" uid="uid://pqojknpd7mfq" path="res://map/machines.gd" id="3_3054m"]
+[ext_resource type="PackedScene" uid="uid://drvctd7cb5hjn" path="res://objekts/machines/kreator/kreator.tscn" id="4_1g66k"]
+[ext_resource type="PackedScene" uid="uid://706sif4ieho8" path="res://objekts/machines/seller/seller.tscn" id="5_3054m"]
 [ext_resource type="PackedScene" uid="uid://igpmsyoxijud" path="res://map/room.tscn" id="5_aofv8"]
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="5_la7bd"]
-[ext_resource type="PackedScene" uid="uid://bi5nwl7eahp7j" path="res://objekts/seller/seller.tscn" id="6_hng5h"]
 [ext_resource type="PackedScene" uid="uid://pqgimsdre2da" path="res://UI/shop/shop.tscn" id="6_ku0xv"]
 [ext_resource type="Script" uid="uid://bv1yrr8hya03l" path="res://UI/ui.gd" id="8_vco2r"]
 [ext_resource type="Script" uid="uid://vkam3gvm4ydv" path="res://UI/tutorial/tutorial.gd" id="9_45wbb"]
@@ -135,14 +136,23 @@ far = 100.0
 
 [node name="boxes" type="Node3D" parent="."]
 
-[node name="machines" type="Node3D" parent="."]
+[node name="machines" type="StaticBody3D" parent="."]
+collision_mask = 0
+input_ray_pickable = false
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+script = ExtResource("3_3054m")
 
-[node name="originalcreator" parent="machines" groups=["original"] instance=ExtResource("5_0efa7")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 14, 0, 3)
+[node name="originalcreator" parent="machines" groups=["original"] instance=ExtResource("4_1g66k")]
+transform = Transform3D(-2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 14, 0.258902, 3)
 original = true
 
-[node name="originalseller" parent="machines" groups=["original"] instance=ExtResource("6_hng5h")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3, 0, 14)
+[node name="originalseller" parent="machines" groups=["original"] instance=ExtResource("5_3054m")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3, 0.299, 14)
 original = true
 
 [node name="irradicate" type="Area3D" parent="."]

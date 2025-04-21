@@ -41,10 +41,9 @@ func _input(event: InputEvent) -> void:
 		
 		elif event.is_action_pressed('rightclick') and not overlapping_bodies.is_empty(): #removing machines while building
 			if not builderpresent():
-				for node: Node3D in overlapping_bodies:
-					if node.is_in_group('machine') and not node.is_in_group('original'):
-						remove_machine(node)
-						break
+				var machine: CollisionShape3D = Main.main.machines.get_machine(global_position)
+				if is_instance_valid(machine):
+					remove_machine(machine)
 
 func update_overlaps() -> void:
 	buildradius_overlapping_areas = buildradius_detection.get_overlapping_areas()
@@ -80,7 +79,7 @@ func place_machine() -> void:
 		
 	Main.progressions('buymachine', type, null, null, global_position)
 
-func remove_machine(node : StaticBody3D) -> void:
+func remove_machine(node : CollisionShape3D) -> void:
 	var inst: Builder = Main.main.buildshadow.instantiate() #create the builder to remove a machine
 	inst.mode = 'destroyer' #set all of the settings
 	inst.node = node
