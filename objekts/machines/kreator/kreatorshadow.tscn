@@ -1,0 +1,109 @@
+[gd_scene load_steps=10 format=4 uid="uid://u6lpy4d8xi1q"]
+
+[ext_resource type="ArrayMesh" uid="uid://b844s7fag2kmt" path="res://objekts/machines/kreator/mesh.tres" id="1_ykxjf"]
+[ext_resource type="ArrayMesh" uid="uid://b4qrabo5mteb1" path="res://shadow of the kreation/buildarrow.obj" id="2_mdwtc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ohpuc"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0.74902, 1, 0.498039)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pmtjv"]
+size = Vector3(0.8, 0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vf10q"]
+resource_name = "Material"
+cull_mode = 2
+albedo_color = Color(0.8, 0.8, 0.8, 1)
+metallic = 1.0
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qbhn3"]
+resource_name = "Material.007"
+cull_mode = 2
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_pc6w5"]
+_surfaces = [{
+"aabb": AABB(-1, -1, -1, 2, 2, 2),
+"format": 34896613377,
+"index_count": 30,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEABwABAAMABwAFAAEA"),
+"name": "Material.006",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}, {
+"aabb": AABB(-1, -1, -1, 2, 1e-05, 2),
+"format": 34896613377,
+"index_count": 6,
+"index_data": PackedByteArray("AQACAAMAAQAAAAIA"),
+"name": "Material.007",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAAAAAAAAAP//AAD//wAA//8AAAAAAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_nai2n"]
+resource_name = "Kreator2_Cube_002"
+_surfaces = [{
+"aabb": AABB(-1, -1, -1, 2, 2, 2),
+"attribute_data": PackedByteArray("/18AAP9f////nwAA/9//P/+f////X/+//1//v/+f/7//3/9//5//v/9f/z//X/8//5//P/+f/z//n/8//1//f/9f/3//n/9//5//f/+f/38="),
+"format": 34896613399,
+"index_count": 30,
+"index_data": PackedByteArray("AQAJAAQAAQAGAAkABQARAAcABQAPABEAEAAOABMAEAALAA4ACgACAAwACgAAAAIAEgADAAgAEgANAAMA"),
+"material": SubResource("StandardMaterial3D_vf10q"),
+"name": "Material.006",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA//9U1QAA//////+/AAD///////8AAP////9U1QAAAAAAAP//AAAAAAAAVNUAAP//AAD//wAA//8AAP//AAD//wAAVNX//wAA////v///AAD//1TV/////////7///////////////////1TV//8AAAAA/////wAAAABU1f////8AAP///////wAA////////AABU1f////9U1VTV//////9//79U1VTV/7//v1TVVNX/v/+//3//v1TVVNX/////qiqqKv//////f/+/qiqqKv+//7+qKqoq/7//v/9//7+qKqoq")
+}, {
+"aabb": AABB(-1, -1, -1, 2, 1e-05, 2),
+"attribute_data": PackedByteArray("/x//P/8f/3//X/8//1//fw=="),
+"format": 34896613399,
+"index_count": 6,
+"index_data": PackedByteArray("AQACAAMAAQAAAAIA"),
+"material": SubResource("StandardMaterial3D_qbhn3"),
+"name": "Material.007",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_pc6w5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vm72c"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0.74902, 1, 0.74902)
+
+[node name="kreator" type="Node3D"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999, 0, -0.008, 0)
+material_override = SubResource("StandardMaterial3D_ohpuc")
+mesh = SubResource("BoxMesh_pmtjv")
+
+[node name="Cube_003" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0979569, 0.0174576, 2.30243e-08, 0.139897, -0.012224, 0, -8.56367e-09, -1.52619e-09, 0.263367, -0.509, 0.6, -0.178)
+material_override = SubResource("StandardMaterial3D_ohpuc")
+mesh = SubResource("ArrayMesh_nai2n")
+skeleton = NodePath("")
+
+[node name="Cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.256104, -4.43459e-05)
+material_override = SubResource("StandardMaterial3D_ohpuc")
+mesh = ExtResource("1_ykxjf")
+skeleton = NodePath("")
+
+[node name="arrow" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 1, 0.2, 0)
+material_override = SubResource("StandardMaterial3D_vm72c")
+mesh = ExtResource("2_mdwtc")

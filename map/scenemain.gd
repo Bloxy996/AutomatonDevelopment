@@ -17,7 +17,7 @@ class_name MainScene
 @onready var spawn: Area3D = $spawn
 @onready var exitdelay: Timer = $exitdelay
 @onready var boxes: Node3D = $boxes
-@onready var machines: Node3D = $machines
+@onready var machines: MachineContainer = $machines
 @onready var light: DirectionalLight3D = $DirectionalLight3D
 @onready var shop: Shop = $UI/Shop
 
@@ -55,6 +55,7 @@ func _ready() -> void:
 func mouse_3d_pos() -> Vector3: #advanced math stuff to get the mouse position
 	var mousepos: Vector2 = get_viewport().get_mouse_position()
 	var ray: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
+	ray.collision_mask = 2 #will only collide with the floor now
 	ray.exclude = get_rids(get_tree().get_nodes_in_group("exclude_from_raycast"))
 	ray.from = get_viewport().get_camera_3d().project_ray_origin(mousepos)
 	ray.to = ray.from + get_viewport().get_camera_3d().project_ray_normal(mousepos) * 5000
@@ -85,23 +86,21 @@ func _process(delta: float) -> void: #runs every ~milisecond
 				if node is Builder: builderinarea = true
 			
 			if not builderinarea:
-				for node: Node3D in irradicate.get_overlapping_bodies():
-					if node.is_in_group('machine'):
-						if not node.is_in_group('original'):
-							var inst: Builder = buildshadow.instantiate() #create the builder to remove a machine
-							inst.mode = 'destroyer' #set all of the settings
-							inst.node = node
-							inst.type = Main.group_to_type(node)
-							
-							machines.add_child(inst) #add the node and set the timer stuff
-							var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-Main.buildtimediff, Main.buildtimediff)
-							inst.wait.start(buildtime / Main.deletetimerspeedup)
-							inst.bar.max_value = buildtime / Main.deletetimerspeedup
-							
-							inst.global_position = node.global_position #move it to the correct position
-							inst.global_rotation = node.global_rotation
-							
-							break
+				var machine: CollisionShape3D = machines.get_machine(irradicate.global_position)
+				if is_instance_valid(machine) and not machine.is_in_group('original'):
+					var inst: Builder = buildshadow.instantiate() #create the builder to remove a machine
+					inst.mode = 'destroyer' #set all of the settings
+					inst.node = machine
+					inst.type = Main.group_to_type(machine)
+					
+					machines.add_child(inst) #add the node and set the timer stuff
+					var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-Main.buildtimediff, Main.buildtimediff)
+					inst.wait.start(buildtime / Main.deletetimerspeedup)
+					inst.bar.max_value = buildtime / Main.deletetimerspeedup
+					
+					inst.global_position = machine.global_position #move it to the correct position
+					inst.global_rotation = machine.global_rotation
+					inst.global_position.y = 0 #reset the Y position
 		
 		if Input.is_action_just_pressed("esc"):
 			exitdelay.start() #start the timer so the pause menu dosent show
@@ -136,10 +135,9 @@ func _process(delta: float) -> void: #runs every ~milisecond
 					if area.is_in_group('inkreator'):
 						area.get_parent().send_request_accepted(latest)
 						break
-			else:
-				boxsendqueue.pop_front()
+			else: boxsendqueue.pop_front()
 	
-	if Main.settings.daynight: light.rotation = Vector3(get_time(), -119.9, -103.9) #day night cycle
+	if Main.settings.daynight: light.rotation = Vector3(get_time(), -119.9, -103.9) ##add other axis rotations somehow bc thatll look cool
 	else: light.rotation_degrees = Main.defaultsunrot #if the cycle is disabled, go to default
 
 func _input(event: InputEvent) -> void:
@@ -202,11 +200,6 @@ func remove_walls_for_room(location : Vector2i, roominst : Room) -> void:
 		elif location + Vector2i(0, 1) == mapos: #front right to current
 			if is_instance_valid(roominst.wallFR): roominst.wallFR.queue_free()
 			if is_instance_valid(node.wallBL): node.wallBL.queue_free()
-
-func disable_static(area : Area3D = null, overlapping_bodies : Array = []) -> bool:
-	for node : Node3D in (area.get_overlapping_bodies() if is_instance_valid(area) else overlapping_bodies):
-		if node is not StaticBody3D: print('dont disable'); return false
-	print('disable'); return true
 
 func get_time() -> float:
 	#gets the system time

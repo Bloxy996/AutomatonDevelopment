@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqbv6qsp5wug0"]
+
+[ext_resource type="Script" uid="uid://cs87q3erurvdb" path="res://objekts/machines/arm/target/target.gd" id="1_n2wpg"]
+[ext_resource type="Texture2D" uid="uid://cq2c6yvxeca51" path="res://objekts/machines/arm/img.png" id="2_sueyw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y187x"]
+size = Vector3(0.5, 2, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qwfxo"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0.74902, 1, 0.74902)
+albedo_texture = ExtResource("2_sueyw")
+
+[sub_resource type="QuadMesh" id="QuadMesh_tsou7"]
+size = Vector2(1.1, 1.1)
+orientation = 1
+
+[node name="target" type="Area3D"]
+input_ray_pickable = false
+script = ExtResource("1_n2wpg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_y187x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+material_override = SubResource("StandardMaterial3D_qwfxo")
+mesh = SubResource("QuadMesh_tsou7")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+material_override = SubResource("StandardMaterial3D_qwfxo")
+mesh = SubResource("QuadMesh_tsou7")
