@@ -137,8 +137,10 @@ func _process(delta: float) -> void: #runs every ~milisecond
 						break
 			else: boxsendqueue.pop_front()
 	
-	if Main.settings.daynight: light.rotation = Vector3(get_time(), -119.9, -103.9) ##add other axis rotations somehow bc thatll look cool
-	else: light.rotation_degrees = Main.defaultsunrot #if the cycle is disabled, go to default
+	if Main.settings.daynight:
+		light.rotation_degrees = Vector3(get_time(), -119.9, -103.9) #day night cycle
+	else:
+		light.rotation_degrees = Vector3((((Main.settings.sunvalue / 86400.0) * 360) - 270), -119.9, -103.9) #day night cycle
 
 func _input(event: InputEvent) -> void:
 	if not shop.visible: #if the user isnt in the shop
