@@ -137,8 +137,7 @@ func _process(delta: float) -> void: #runs every ~milisecond
 						break
 			else: boxsendqueue.pop_front()
 	
-	if Main.settings.daynight: 
-		light.rotation = Vector3(get_time(), -119.9, -103.9) ##add other axis rotations somehow bc thatll look cool
+	if Main.settings.daynight: light.rotation = Vector3(get_time(), -119.9, -103.9) ##add other axis rotations somehow bc thatll look cool
 	else: light.rotation_degrees = Main.defaultsunrot #if the cycle is disabled, go to default
 
 func _input(event: InputEvent) -> void:
@@ -205,7 +204,6 @@ func remove_walls_for_room(location : Vector2i, roominst : Room) -> void:
 func get_time() -> float:
 	#gets the system time
 	var time: Dictionary = Time.get_datetime_dict_from_system(false)
-	time.hour = 12; time.minute = 0; time.second = 0
 	#converts time into seconds
 	var calctime : float = ((time["hour"] * 3600) + (time["minute"] * 60) + time["second"])
 	#multiplies the time by rotation per second (360/86400) and subtracts 270 degrees to make light point accurately
