@@ -57,7 +57,8 @@ var settings: Dictionary = { #all of the settings for the game
 		'kredit' : true,
 		'multiplier' : true
 	},
-	'daynight' : true
+	'daynight' : true,
+	'sunvalue': 0.0
 }
 
 var main: MainScene #the main scene
@@ -204,7 +205,8 @@ func resetgame() -> void: #resets all the variables to their original values
 			'kredit' : true,
 			'multiplier' : true
 		},
-		'daynight' : true
+		'daynight' : true,
+		'sunvalue' : 0.0
 	}
 	
 	for machine: String in prices.keys():

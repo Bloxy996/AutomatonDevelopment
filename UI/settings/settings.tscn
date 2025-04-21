@@ -228,9 +228,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -168.0
-offset_top = 124.0
+offset_top = 108.0
 offset_right = 232.0
-offset_bottom = 164.0
+offset_bottom = 148.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_52kdd")
@@ -256,5 +256,26 @@ text = "day/night cycle"
 label_settings = SubResource("LabelSettings_qpbyi")
 vertical_alignment = 1
 
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 488.0
+offset_top = 465.0
+offset_right = 633.0
+offset_bottom = 492.0
+max_value = 86399.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 488.0
+offset_top = 485.0
+offset_right = 633.0
+offset_bottom = 525.0
+text = "00:00"
+label_settings = SubResource("LabelSettings_qpbyi")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="daynight/daynight" to="." method="_on_daynight_pressed"]
+[connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]
