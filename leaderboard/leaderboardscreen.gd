@@ -41,6 +41,7 @@ func _ready() -> void:
 					$slot.get_node('place').text = str(i)
 					$slot.get_node('name').text = score["metadata"]["display"]
 					$slot.get_node('level').text = str(int(score["metadata"]["level"]))
+					$slot.get_node('boxes').text = str(int(score["metadata"]["boxes"]))
 					$slot.get_node('kredits').text = str(int(score["score"]))
 					
 					inst.self_modulate.a = 1.0
