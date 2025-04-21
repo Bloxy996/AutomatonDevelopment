@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://bxy16pal6xu7a"]
+[gd_scene load_steps=16 format=4 uid="uid://bxy16pal6xu7a"]
 
 [ext_resource type="Texture2D" uid="uid://c7j41u68cce32" path="res://objekts/machines/belt/UV1.png" id="1_45spk"]
 [ext_resource type="Script" uid="uid://bkpq5pxeaquxy" path="res://objekts/machines/belt/belt.gd" id="1_o3op4"]
@@ -126,9 +126,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_t1t48")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_r7c6k"]
-size = Vector3(0.5, 0.25, 0.8)
-
 [node name="belt" type="CollisionShape3D" groups=["belt", "machine", "save"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.299, 0)
 shape = SubResource("BoxShape3D_uywtb")
@@ -164,8 +161,5 @@ transform = Transform3D(0, 0.490315, 0, 0, 0, -0.112931, -0.510342, 0, 0, -0.002
 mesh = SubResource("ArrayMesh_56vt3")
 skeleton = NodePath("")
 
-[node name="nextbelt" type="Area3D" parent="."]
+[node name="nextbelt" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.049, -1)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelt"]
-shape = SubResource("BoxShape3D_r7c6k")

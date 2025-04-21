@@ -15,11 +15,21 @@ var price: float = 1
 
 var used_multipliers: Array = [StaticBody3D]
 
-var vel: Vector3
-
 var detector_overlapping_areas: Array
 
 var parent: Node3D
+var current_belt_area: Area3D
+var current_belt: CollisionShape3D
+
+func _ready() -> void:
+	detector.area_entered.connect(func(area : Area3D) -> void: 
+		if area.is_in_group("usingbox") and area.get_parent().has_method("movefoward"): 
+			current_belt_area = area
+			current_belt = area.get_parent())
+	detector.area_exited.connect(func(area : Area3D) -> void: 
+		if current_belt_area == area: 
+			current_belt_area = null
+			current_belt = null)
 
 func update_overlaps() -> void:
 	##pls dont run this on every frame
@@ -41,18 +51,13 @@ func _process(delta: float) -> void: #runs every nanosecond because this is a fa
 	##boxes are just removed if they fall out, this check may be causing too much lag
 	if global_position.y < -2: queue_free()
 	
-	if being_used():
-	#	sleeping = true
-		if linear_velocity != vel:
-			linear_velocity = vel
-	#else:
-	#	sleeping = false
-	vel = Vector3.ZERO
-
-func being_used() -> bool:
-	for area: Area3D in detector_overlapping_areas:
-		if area.is_in_group('usingbox'): return true
-	return false
+	if is_instance_valid(current_belt_area) and parent != Main.main.player.hand:
+		linear_velocity = Vector3.ZERO
+		if current_belt.movefoward(self):
+			linear_velocity += current_belt_area.global_transform.basis.z * -Main.beltspeed
+		
+		var dist: float = (global_position - current_belt_area.global_position).dot(current_belt_area.global_transform.basis.x.normalized())
+		linear_velocity += (current_belt_area.global_transform.basis * Vector3(dist, 0, 0)).normalized() * -abs(dist * 2) * 4
 
 func _on_mouse_entered() -> void: #runs when the mouse touches the box
 	onmouse = true #self explainatory

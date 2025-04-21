@@ -2,7 +2,7 @@ extends CollisionShape3D
 class_name Belt
 
 @onready var effect: Area3D = $Area3D
-@onready var nextbeltdetector: Area3D = $nextbelt
+@onready var nextbeltdetector: Marker3D = $nextbelt
 @onready var area: Area3D = $Area3D2
 
 var has_box: bool = false #true when there is a box on it
@@ -14,10 +14,10 @@ var effect_overlapping_boxes: Array
 func _ready() -> void:
 	global_position.y = 0.299
 	
-	nextbeltdetector.body_entered.connect(func(body : Node3D) -> void:
-		if body is MachineContainer: nextbelt = Main.main.machines.map[Vector2(nextbeltdetector.global_position.x, nextbeltdetector.global_position.z)])
-	nextbeltdetector.body_exited.connect(func(body : Node3D) -> void:
-		if body == nextbelt: nextbelt = null)
+	Main.main.machines.map_updated.connect(func() -> void:
+		var pos: Vector2 = Vector2(nextbeltdetector.global_position.x, nextbeltdetector.global_position.z)
+		if Main.main.machines.map.has(pos): nextbelt =  Main.main.machines.map[pos]
+		else: nextbelt = null)
 	
 	effect.body_entered.connect(func(body : Node3D) -> void:
 		if body is Box and not effect_overlapping_boxes.has(body): 
@@ -28,7 +28,7 @@ func _ready() -> void:
 
 func update(_delta: float) -> void: #runs on every frame
 	#keep it from doing goofy stuff
-	effect.collision_mask = 1; nextbeltdetector.collision_mask = 1
+	effect.collision_mask = 1
 	
 	if not is_instance_valid(nextbelt): #if there is no machine to go to
 		nextbelt = null #then there IS no machine
@@ -37,17 +37,7 @@ func update(_delta: float) -> void: #runs on every frame
 	var globaltransbasis: Basis = global_transform.basis
 	var globalpos: Vector3 = global_position
 	
-	has_box = false
-	for body: Node3D in effect_overlapping_boxes: #finds out what is on top of the belt
-		if body is Box and body.get_parent().name != 'hand': #if it's a box and not being held, move it
-			has_box = true
-			var forces: Vector3 = (globalpos - body.global_position).normalized() / Main.aligndivisor #force variable
-			if movefoward(body): forces += transbasis.z * -Main.beltspeed #foward force if it can move foward
-			#force to align the box to the center
-			var dist: float = (body.global_position - globalpos).dot(globaltransbasis.x.normalized())
-			forces += (transbasis * Vector3(dist, 0, 0)).normalized() * -abs(dist * 2) ##apparently this could be optimized?
-			#set the forces
-			body.vel += forces
+	has_box = !effect_overlapping_boxes.is_empty()
 
 func movefoward(box : Box) -> bool:
 	if is_instance_valid(nextbelt): #if there's a machine

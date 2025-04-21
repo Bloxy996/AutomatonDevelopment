@@ -120,7 +120,7 @@ func sell_box(price: int, pos: Vector3) -> void: #runs when a box is sold
 	kredits += gained #give the player credits for a box
 	
 	#indicate the change of kredits
-	if Main.settings.indikator.kredit:
+	if settings.indikator.kredit:
 		var indkinst: Indikator = indikator.instantiate()
 		main.ui.kreditindikator.add_child(indkinst)
 		indkinst.start(gained, pos)
@@ -152,7 +152,7 @@ func progressions(mode: String, type: String = '', node: Node3D = null, room: Ro
 			kredits += prices[machinetype] / machinepricemultiplier
 			
 			#indicate the change of kredits
-			if Main.settings.indikator.kredit:
+			if settings.indikator.kredit:
 				var indkinst: Indikator = indikator.instantiate()
 				main.ui.kreditindikator.add_child(indkinst)
 				indkinst.start(prices[machinetype] / machinepricemultiplier, pos)
@@ -313,7 +313,7 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 			for node: Node3D in get_tree().get_nodes_in_group('save'):
 				if not node.is_in_group('original'):
 					node.queue_free() #remove all of the nodes already in there bc they'll be replaced
-			Main.main.machines.reset_map() #resets the map bc there's no machines that arent original
+			main.machines.reset_map() #resets the map bc there's no machines that arent original
 		
 		var savefile: FileAccess = FileAccess.open("user://savegame.save", FileAccess.READ) #iterares through all the lines of the savefile
 		while savefile.get_position() < savefile.get_length():
@@ -347,12 +347,13 @@ func loadgame(menu: bool = false) -> void: #function to load the game
 				elif inst.is_in_group('machine') or inst.is_in_group('shadow'): main.machines.add_child(inst)
 				if inst.has_method('secondaryload'): inst.secondaryload(data)
 				
-				if inst is CollisionShape3D: Main.main.machines.map[Vector2(inst.global_position.x, inst.global_position.z)] = inst #add to the map
+				if inst is CollisionShape3D: main.machines.map[Vector2(inst.global_position.x, inst.global_position.z)] = inst #add to the map
 		
 		setboxesdependencies(boxes) #since level, levelbar, and maxLB are dependent on the boxes you sell, set them from boxes
 		if not menu: 
 			main.generate_rooms() #generate the rooms
 			maxboxes = main.factory.get_child_count() * boxesperroom #set maxboxes since it's dependent
+			main.machines.map_updated.emit()
 	else :
 		first_time = true #it's the first time if there's no save file
 	

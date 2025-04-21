@@ -40,11 +40,13 @@ func _on_timer_timeout() -> void:
 		inst.global_rotation.y = global_rotation.y
 		
 		Main.main.machines.map[Vector2(inst.global_position.x, inst.global_position.z)] = inst
+		Main.main.machines.map_updated.emit()
 	
 	elif mode == 'destroyer': #if it's being used to destroy
 		Main.progressions('sellmachine', '', node, null, global_position)
 		
 		Main.main.machines.map.erase(Vector2(node.global_position.x, node.global_position.z))
+		Main.main.machines.map_updated.emit()
 		
 		node.queue_free() #IRRADIKATE ZE MACHINE!!
 	
