@@ -1,8 +1,9 @@
-[gd_scene load_steps=32 format=3 uid="uid://cxfvl01s73nj2"]
+[gd_scene load_steps=37 format=3 uid="uid://cxfvl01s73nj2"]
 
 [ext_resource type="Script" uid="uid://cossebelseipv" path="res://map/scenemain.gd" id="1_7qdv2"]
 [ext_resource type="PackedScene" uid="uid://bm3fnga38jpgw" path="res://player/player.tscn" id="3_5xs4b"]
 [ext_resource type="Script" uid="uid://pqojknpd7mfq" path="res://map/machines.gd" id="3_3054m"]
+[ext_resource type="Texture2D" uid="uid://ndqvrubmkvly" path="res://map/brick.png" id="3_rivgy"]
 [ext_resource type="PackedScene" uid="uid://drvctd7cb5hjn" path="res://objekts/machines/kreator/kreator.tscn" id="4_1g66k"]
 [ext_resource type="PackedScene" uid="uid://706sif4ieho8" path="res://objekts/machines/seller/seller.tscn" id="5_3054m"]
 [ext_resource type="PackedScene" uid="uid://igpmsyoxijud" path="res://map/room.tscn" id="5_aofv8"]
@@ -25,6 +26,46 @@ background_mode = 2
 sky = SubResource("Sky_m6bj0")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36s5t"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("3_rivgy")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_offset = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sfyna"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("3_rivgy")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_offset = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_at6us"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("3_rivgy")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_offset = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jgjwo"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("3_rivgy")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_offset = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+uv1_world_triplanar = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hpcv7"]
 size = Vector3(0.1, 0.9, 0.1)
@@ -121,7 +162,7 @@ script = ExtResource("1_7qdv2")
 environment = SubResource("Environment_d0nkw")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.707107, -0.612372, 0.353553, 0, 0.5, 0.866026, -0.707107, 0.612372, -0.353553, 0, 0, 0)
+transform = Transform3D(-0.707107, -0.612372, 0.353553, 0, 0.5, 0.866025, -0.707107, 0.612372, -0.353553, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -133,6 +174,18 @@ far = 100.0
 [node name="factory" type="Node3D" parent="."]
 
 [node name="original" parent="factory" instance=ExtResource("5_aofv8")]
+
+[node name="mesh" parent="factory/original/wallFL" index="0"]
+material_override = SubResource("StandardMaterial3D_36s5t")
+
+[node name="mesh" parent="factory/original/wallFR" index="0"]
+material_override = SubResource("StandardMaterial3D_sfyna")
+
+[node name="mesh" parent="factory/original/hidden/wallBL" index="1"]
+material_override = SubResource("StandardMaterial3D_at6us")
+
+[node name="mesh" parent="factory/original/hidden/wallBR" index="1"]
+material_override = SubResource("StandardMaterial3D_jgjwo")
 
 [node name="boxes" type="Node3D" parent="."]
 
@@ -507,3 +560,5 @@ one_shot = true
 [connection signal="pressed" from="UI/irradicate" to="." method="_on_irradicate_pressed"]
 [connection signal="pressed" from="UI/create" to="UI/Shop" method="_on_create_pressed"]
 [connection signal="timeout" from="UI/autosave" to="." method="_on_autosave_timeout"]
+
+[editable path="factory/original"]

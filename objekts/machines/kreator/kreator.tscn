@@ -78,9 +78,8 @@ corner_radius_bottom_left = 4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vf10q"]
 resource_name = "Material"
-cull_mode = 2
 albedo_color = Color(0.8, 0.8, 0.8, 1)
-metallic = 1.0
+metallic = 0.5
 roughness = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qbhn3"]
@@ -358,7 +357,6 @@ transform = Transform3D(1, 0, 0, 0, -0.500004, -0.866023, 0, 0.866023, -0.500004
 [node name="door" type="MeshInstance3D" parent="door/hingeL"]
 transform = Transform3D(-7.31707e-09, 0, -0.368836, 0, 0.0117896, 0, 0.167395, 0, -1.61223e-08, 0, 0, -0.185)
 mesh = SubResource("ArrayMesh_0affv")
-skeleton = NodePath("")
 
 [node name="hingeR" type="Node3D" parent="door"]
 transform = Transform3D(1, 0, 0, 0, -0.500004, 0.866023, 0, -0.866023, -0.500004, 0, 0.63, -0.35)
@@ -366,7 +364,6 @@ transform = Transform3D(1, 0, 0, 0, -0.500004, 0.866023, 0, -0.866023, -0.500004
 [node name="door" type="MeshInstance3D" parent="door/hingeR"]
 transform = Transform3D(-7.31707e-09, 0, -0.368836, 0, 0.0117896, 0, 0.167395, 0, -1.61223e-08, 0, 0, 0.185)
 mesh = SubResource("ArrayMesh_euejm")
-skeleton = NodePath("")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="door"]
 libraries = {
