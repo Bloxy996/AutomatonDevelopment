@@ -147,7 +147,6 @@ armprioritization={
 
 [physics]
 
-common/physics_jitter_fix=2.0
 jolt_physics_3d/simulation/velocity_steps=2
 jolt_physics_3d/simulation/position_steps=1
 jolt_physics_3d/simulation/areas_detect_static_bodies=true
@@ -168,3 +167,7 @@ environment/screen_space_reflection/roughness_quality=0
 environment/subsurface_scattering/subsurface_scattering_quality=0
 environment/volumetric_fog/use_filter=0
 limits/spatial_indexer/threaded_cull_minimum_instances=65536
+
+[threading]
+
+worker_pool/max_threads=1

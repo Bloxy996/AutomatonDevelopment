@@ -18,8 +18,7 @@ func reset_map() -> void: #resets the map, used in main.gd when loading
 
 func _process(delta: float) -> void:
 	for machine : Node3D in get_children(): ##pls dont get children every frame
-		if machine.has_method('update'): machine.update(delta) #runs the update for the machine if it has one (just _process())
-		await get_tree().create_timer(0.001).timeout
+		if is_instance_valid(machine) and machine.has_method('update'): machine.update(delta) #runs the update for the machine if it has one (just _process())
 
 func get_machine(pos : Vector3) -> CollisionShape3D:
 	var pos2d: Vector2 = Vector2(pos.x, pos.z)

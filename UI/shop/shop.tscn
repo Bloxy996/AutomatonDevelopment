@@ -93,7 +93,6 @@ offset_right = 504.0
 offset_bottom = 252.0
 grow_horizontal = 2
 grow_vertical = 2
-scroll_vertical = 100
 
 [node name="container" type="VBoxContainer" parent="container"]
 layout_mode = 2
