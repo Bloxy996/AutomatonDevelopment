@@ -24,6 +24,7 @@ sky_material = SubResource("ProceduralSkyMaterial_uci7l")
 [sub_resource type="Environment" id="Environment_d0nkw"]
 background_mode = 2
 sky = SubResource("Sky_m6bj0")
+ambient_light_source = 3
 tonemap_mode = 2
 glow_enabled = true
 
@@ -162,7 +163,7 @@ script = ExtResource("1_7qdv2")
 environment = SubResource("Environment_d0nkw")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.707107, -0.612372, 0.353553, 0, 0.5, 0.866025, -0.707107, 0.612372, -0.353553, 0, 0, 0)
+transform = Transform3D(-0.707107, -0.640334, 0.299954, 0, 0.424199, 0.905569, -0.707107, 0.640334, -0.299954, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]

@@ -105,7 +105,7 @@ func update(delta: float) -> void:
 	
 	if pause.text == 'pause': #if not paused
 		if finaltargetpos.length_squared() < 0.0001: #if there is no active target for the arm, get one!
-			var avaliabletargets: Array[Vector3] #array for all the targets that the arm can go to
+			var closest_target: Vector3 = Vector3.ZERO #the closest target to the arm's base
 			for armtarget: ArmTarget in target_children: #iterates through all the targets
 				var avaliable: bool = true #tempoarily variable
 				var machine: CollisionShape3D = Main.main.machines.get_machine(armtarget.global_position)
@@ -118,9 +118,11 @@ func update(delta: float) -> void:
 				else: 
 					avaliable = true
 				
-				if avaliable: avaliabletargets.append(armtarget.global_position) #if it's available, add it to the available machines
-			if not avaliabletargets.is_empty(): #if there are available targets to choose from, get one!
-				finaltargetpos = avaliabletargets.pick_random()
+				if avaliable: 
+					if closest_target == Vector3.ZERO or armtarget.global_position.distance_to(global_position) < closest_target.distance_to(global_position): 
+						closest_target = armtarget.global_position
+			if closest_target != Vector3.ZERO: #if there are available targets to choose from, get the closest one!
+				finaltargetpos = closest_target
 			
 		else: #if there is an active target
 			if is_instance_valid(targ_from_finalpos): #if there's a targeter at the position
@@ -177,13 +179,20 @@ func not_viable_target(node : Node3D) -> bool: #if the target is viable
 	return false
 
 func search_for_boxes(area: Area3D) -> void:
+	var closest_box: Box = null
 	for node: Node3D in (area.get_overlapping_bodies() if area != boxAoE else boxAoE_overlapping_bodies):
 		#if it's a box in the main world and it dosent intersect with any targets/avoids/multipliers
 		if not (node is Box and node.get_parent() == Main.main.boxes): continue
 		if overlaps_targets(node) or overlaps_avoids(node) or box_inmultiplier(node): continue
+		if Main.main.machines.arm_grabs.has(node): continue
+		
+		if (!is_instance_valid(closest_box)) or node.global_position.distance_to(global_position) < closest_box.global_position.distance_to(global_position):
+			closest_box = node
+	
+	if is_instance_valid(closest_box):
 		grabstate = GrabState.GRABBING #a box has just been notified to be grabbed
-		grabbed = node #set grabbed to this box
-		return
+		grabbed = closest_box #set grabbed to this box
+		Main.main.machines.arm_grabs.append(grabbed)
 
 func box_inmultiplier(body: Box) -> bool: #just makes sure that the box is not being pulled by a multiplier
 	for boxarea: Area3D in body.detector_overlapping_areas:
@@ -196,6 +205,7 @@ func unselect_box() -> void: #when a box is being unselected
 		grabbed.reparent(Main.main.boxes) #put the box back into the world
 		grabbed.freeze = false
 	
+	if Main.main.machines.arm_grabs.has(grabbed): Main.main.machines.arm_grabs.erase(grabbed)
 	grabbed = null #no more box to grab
 	finaltargetpos = Vector3.ZERO #look for a new target
 	targetpos = global_position + Vector3(0, 3, 0.001) #make the arm go up so it's not in the way of anything

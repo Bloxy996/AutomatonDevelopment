@@ -14,7 +14,6 @@ var onmouse: bool = false #varible for when the mouse is on the box
 var price: float = 1
 
 var used_multipliers: Array = [StaticBody3D]
-
 var detector_overlapping_areas: Array
 
 var parent: Node3D
@@ -23,13 +22,22 @@ var current_belt: CollisionShape3D
 
 func _ready() -> void:
 	detector.area_entered.connect(func(area : Area3D) -> void: 
-		if area.is_in_group("usingbox") and area.get_parent().has_method("movefoward"): 
+		if area.is_in_group("usingbox") and area.get_parent().has_method("movefoward") and parent == Main.main.boxes: 
 			current_belt_area = area
-			current_belt = area.get_parent())
+			current_belt = area.get_parent()
+	)
 	detector.area_exited.connect(func(area : Area3D) -> void: 
 		if current_belt_area == area: 
 			current_belt_area = null
-			current_belt = null)
+			current_belt = null
+			
+			if parent == Main.main.boxes:
+				for areaV : Area3D in detector_overlapping_areas:
+					if areaV.is_in_group("usingbox") and areaV.get_parent().has_method("movefoward"):
+						current_belt_area = area
+						current_belt = area.get_parent()
+						return
+	)
 
 func update_overlaps() -> void:
 	##pls dont run this on every frame
@@ -51,13 +59,31 @@ func _process(delta: float) -> void: #runs every nanosecond because this is a fa
 	##boxes are just removed if they fall out, this check may be causing too much lag
 	if global_position.y < -2: queue_free()
 	
-	if is_instance_valid(current_belt_area) and parent != Main.main.player.hand:
-		linear_velocity = Vector3.ZERO
-		if current_belt.movefoward(self):
-			linear_velocity += current_belt_area.global_transform.basis.z * -Main.beltspeed
-		
-		var dist: float = (global_position - current_belt_area.global_position).dot(current_belt_area.global_transform.basis.x.normalized())
-		linear_velocity += (current_belt_area.global_transform.basis * Vector3(dist, 0, 0)).normalized() * -abs(dist * 2) * 4
+	if parent == Main.main.boxes:
+		if is_instance_valid(current_belt_area):
+			freeze = true
+			linear_velocity = Vector3.ZERO
+			if current_belt is SplitBelt:
+				if not current_belt.options.is_empty():
+					var option: Vector3 = current_belt.options[0 if current_belt.priority == -1 else (current_belt.priority if current_belt.options.size() > current_belt.priority else 0)]
+					var target: Vector3 = current_belt.global_position + option
+					move_and_collide(global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4) - global_position)
+				else:
+					move_and_collide(global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4) - global_position)
+			else:
+				if current_belt.movefoward(self): 
+					var target: Vector3 = current_belt_area.global_position - current_belt_area.global_transform.basis.z
+					move_and_collide(global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4) - global_position)
+					
+					var dist: float = (global_position - current_belt_area.global_position).dot(current_belt_area.global_transform.basis.x.normalized())
+					move_and_collide(((current_belt_area.global_transform.basis * Vector3(dist, 0, 0)).normalized() * -abs(dist * 2)) / 4)
+				else:
+					move_and_collide(global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4) - global_position)
+		else:
+			freeze = false
+	else:
+		current_belt_area = null
+		current_belt = null
 
 func _on_mouse_entered() -> void: #runs when the mouse touches the box
 	onmouse = true #self explainatory

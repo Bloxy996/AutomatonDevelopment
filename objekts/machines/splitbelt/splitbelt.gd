@@ -28,6 +28,9 @@ var effect_overlapping_boxes: Array
 var nextbelt_children: Array
 var nextbelt_directions: Dictionary
 
+var options: Array[Vector3] = []
+var priority: int = -1
+
 func _ready() -> void:
 	global_position.y = 0.299
 	
@@ -54,8 +57,8 @@ func update(_delta: float) -> void: #runs on every frame
 	#keep it from doing goofy stuff
 	effect.collision_mask = 1
 	
-	var options: Array[Vector3] = []
-	var priority: int = -1
+	options = []
+	priority = -1
 	
 	has_box = !effect_overlapping_boxes.is_empty()
 	
@@ -67,17 +70,6 @@ func update(_delta: float) -> void: #runs on every frame
 					if machine.get('empty') != null: priority = options.size()
 					options.append(nextbelt_directions[NBD.name])
 	##if there's nowhere to go, move into empty spaces? (this only detects machines)
-	
-	##for body: Node3D in effect_overlapping_boxes:
-	##	if body is Box: #iterates through all boxes
-	##		var forces: Vector3 = Vector3.ZERO
-	##		if not options.is_empty():
-	##			#the forces to apply, starts with the force from the options
-	##			var option: Vector3 = options[0 if priority == -1 else (priority if options.size() > priority else 0)]
-	##			forces += (option * Main.beltspeed)
-	##			options.erase(option) #remvoe the option so the next box cant use it
-	##		##sets the force, add adusters
-	##		body.vel += forces
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed('leftclick') and area.get_overlapping_bodies().has(Main.main.player):
@@ -89,10 +81,9 @@ func _input(event: InputEvent) -> void:
 func update_light(NBD : Marker3D) -> void:
 	NBD.get_node('MeshInstance3D').material_override = (unpausedlight if active[NBD.name] else pausedlight)
 
-func movefoward(belt : CollisionShape3D) -> bool:
+func movefoward(belt : CollisionShape3D) -> bool: ##add phantom traffic jam fixes here too
 	if "has_box" in belt: #if it moves boxes
-		var temp: bool = Vector2i(belt.nextbeltdetector.global_position.x, belt.nextbeltdetector.global_position.z) == Vector2i(global_position.x, global_position.z)
-		if (belt.get('nextbeltdetector') and not temp) or belt is SplitBelt:
+		if (belt.get('nextbeltdetector') and Vector2(belt.nextbeltdetector.global_position.x, belt.nextbeltdetector.global_position.z) != Vector2(global_position.x, global_position.z)) or belt is SplitBelt:
 			if not belt.has_box: return true #if it dosent have a box, go ahead!
 			elif arraymatch(belt.effect_overlapping_boxes, effect_overlapping_boxes): return true #if the box on it is the current box, go ahead too!
 			else: return false #pauses for everything else

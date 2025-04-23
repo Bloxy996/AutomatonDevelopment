@@ -56,7 +56,7 @@ func returntime() -> Dictionary:
 	return timedict
 
 
-func _on_h_slider_value_changed(value: float) -> void:
+func _on_h_slider_value_changed(_value: float) -> void:
 	if returntime()['min'] < 10:
 		sliderlabel.text = str(returntime()['hr']) + ":0" + str(returntime()['min'])
 	else:
