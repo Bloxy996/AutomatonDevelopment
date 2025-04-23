@@ -2,7 +2,7 @@ extends Node3D #everything here can be called with any script anywhere it wants,
 
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
-var version: String = '1.5.3 debug' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
+var version: String = '1.6.0' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
 
 var prices: Dictionary = { #gets the prices of each of the machines
 	'kreator' : 20,
@@ -211,6 +211,8 @@ func resetgame() -> void: #resets all the variables to their original values
 	
 	for machine: String in prices.keys():
 		prices[machine] = machinedata[machine]['originalprice']
+	
+	saveversion()
 
 func saveversion() -> void: #seperate func to save the game version
 	var savedversion: FileAccess = FileAccess.open("user://version.save", FileAccess.WRITE) #file for the version

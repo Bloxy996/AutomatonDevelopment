@@ -58,7 +58,17 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_5qcnx")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "1.5.3 (04/16/2025)
+text = "1.6.0 (04/23/2025)
+[ul]day/night synchronized with real time (also manually adjustable when not synchronized)[/ul]
+[ul]completly remade the belt system, it doesn't actually work completly but its ok[/ul]
+[ul]fixed phantom traffic jams, but not for splitbelts yet[/ul]
+[ul]got the player to ACTUALLY stop climbing walls[/ul]
+[ul]mouse to 3D pos detection only collides with the floor (placing machines is much easier)[/ul]
+[ul]finished the extreme amount of optimizations that could still use more optimising[/ul]
+[ul]arms pick the closest box/target instead of a random one[/ul]
+[ul]arms cannot go to grab the same box anymore[/ul]
+
+1.5.3 (04/16/2025)
 [ul]did an extreme amount of optimizations that did not work, we'll fix it later[/ul]
 [ul]you can now only add rooms near the wall[/ul]
 [ul]scores on the leaderboard are ordered by how much credits you have[/ul]

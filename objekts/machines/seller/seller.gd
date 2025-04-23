@@ -54,7 +54,7 @@ func update(_delta: float) -> void: #runs every microsecond because of how fast 
 	if empty: #run this if it's actually looking for stuff to grab
 		for body: Node3D in area_overlapping_bodies: #iterates through all the thingies, ANYTHING that is near the intake
 			if body is Box and pause.text == 'pause': #if the thingy is a box and the machine is unpaused,
-				if (not box_inmultiplier(body)) and body.get_parent().name == 'boxes': #if the box is not inside a multiplier and if there is no selling stuff going on and it's avaliable for the picking,
+				if is_instance_valid(body) and (not box_inmultiplier(body)) and body.get_parent().name == 'boxes': #if the box is not inside a multiplier and if there is no selling stuff going on and it's avaliable for the picking,
 					#grab the box to send it to it's utter demise and end the loop
 					grab_box(body)
 					break
@@ -72,7 +72,7 @@ func update(_delta: float) -> void: #runs every microsecond because of how fast 
 
 func box_inmultiplier(body: Box) -> bool: #just makes sure that the box is not being pulled by a multiplier
 	for boxarea: Area3D in body.detector_overlapping_areas:
-		if boxarea.is_in_group('inmultiplier'): #the multipliers are in this group to check
+		if is_instance_valid(boxarea) and boxarea.is_in_group('inmultiplier'): #the multipliers are in this group to check
 			return true
 	return false
 

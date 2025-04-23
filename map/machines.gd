@@ -6,17 +6,20 @@ class_name MachineContainer
 	Vector2(3, 14) : $originalseller
 }
 
+signal map_updated
+
+var arm_grabs: Array = [] #an array for all the grabbed box thingies
+
 func reset_map() -> void: #resets the map, used in main.gd when loading
 	map = {
 		Vector2(14, 3) : $originalcreator,
 		Vector2(3, 14) : $originalseller
 	}
 
-signal map_updated
-
 func _process(delta: float) -> void:
 	for machine : Node3D in get_children(): ##pls dont get children every frame
 		if machine.has_method('update'): machine.update(delta) #runs the update for the machine if it has one (just _process())
+		await get_tree().create_timer(0.001).timeout
 
 func get_machine(pos : Vector3) -> CollisionShape3D:
 	var pos2d: Vector2 = Vector2(pos.x, pos.z)

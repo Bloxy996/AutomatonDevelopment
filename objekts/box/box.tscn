@@ -12,10 +12,11 @@ points = PackedVector3Array(-1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, 1, 1
 [sub_resource type="BoxShape3D" id="BoxShape3D_sk74q"]
 size = Vector3(0.51, 0.51, 0.51)
 
-[node name="Box" type="RigidBody3D" groups=["box", "save"]]
+[node name="Box" type="RigidBody3D" groups=["box"]]
 input_capture_on_drag = true
 mass = 5.0
 physics_material_override = SubResource("PhysicsMaterial_1alt7")
+can_sleep = false
 script = ExtResource("1_p6f6l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

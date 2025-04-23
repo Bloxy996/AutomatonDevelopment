@@ -137,10 +137,7 @@ func _process(delta: float) -> void: #runs every ~milisecond
 						break
 			else: boxsendqueue.pop_front()
 	
-	if Main.settings.daynight:
-		light.rotation_degrees = Vector3(get_time(), 135, 0) #day night cycle
-	else:
-		light.rotation_degrees = Vector3((((Main.settings.sunvalue / 86400.0) * 360) - 270), 135, 0) #day night cycle
+	light.rotation_degrees = lerp(light.rotation_degrees, Vector3(get_time(), 135, 0) if Main.settings.daynight else Vector3((((Main.settings.sunvalue / 86400.0) * 360) - 270), 135, 0), delta * 10)
 
 func _input(event: InputEvent) -> void:
 	if not shop.visible: #if the user isnt in the shop
@@ -207,6 +204,6 @@ func get_time() -> float:
 	#gets the system time
 	var time: Dictionary = Time.get_datetime_dict_from_system(false)
 	#converts to seconds
-	var seconds = (time.hour * 3600) + (time.minute * 60) + time.second
+	var seconds: float = (time.hour * 3600) + (time.minute * 60) + time.second
 	#gets the degrees (the sun does a 360 in 24 hours (86400.0 seconds))
 	return ((seconds / 86400.0) * 360.0) - 270
