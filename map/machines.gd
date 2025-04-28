@@ -16,8 +16,11 @@ func reset_map() -> void: #resets the map, used in main.gd when loading
 		Vector2(3, 14) : $originalseller
 	}
 
+func _ready() -> void:
+	map_updated.connect(func() -> void: pass)
+
 func _process(delta: float) -> void:
-	for machine : Node3D in get_children(): ##pls dont get children every frame
+	for machine : Node3D in get_children(): ##pls dont get children every frame (was going to make a child list that updates on the signal, but it doesnt work)
 		if is_instance_valid(machine) and machine.has_method('update'): machine.update(delta) #runs the update for the machine if it has one (just _process())
 
 func get_machine(pos : Vector3) -> CollisionShape3D:
