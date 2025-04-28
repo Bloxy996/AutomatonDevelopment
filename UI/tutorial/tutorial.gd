@@ -31,8 +31,7 @@ press tab or press add machines to open the shop",
 buy a seller so you can place it near your creator
 make sure to read the machine descriptions!",
 
-"the blue shadow follows your mouse, and you can left click to place your machine; you can press R to rotate the machine if you want
-later on you can right click to remove machines and press escape to stop building",
+"the blue shadow follows your mouse, and you can left click to place your machine; more information on the sidebar",
 
 "if you want, you can press the delete machines button or the delete key to remove machines
 have fun making your factory! press T to close the tutorial"

@@ -21,7 +21,6 @@ corner_radius_bottom_left = 4
 
 [node name="builder" type="StaticBody3D" groups=["save", "shadow"]]
 collision_mask = 0
-input_ray_pickable = false
 axis_lock_linear_x = true
 axis_lock_linear_y = true
 axis_lock_linear_z = true
@@ -37,6 +36,9 @@ shape = SubResource("BoxShape3D_0a3on")
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="reversion" type="Timer" parent="."]
+one_shot = true
+
 [node name="holder" type="Marker3D" parent="."]
 
 [node name="ProgressBar" type="ProgressBar" parent="holder"]
@@ -48,3 +50,4 @@ value = 50.0
 show_percentage = false
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="reversion" to="." method="_on_reversion_timeout"]

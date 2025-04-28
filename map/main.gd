@@ -2,7 +2,7 @@ extends Node3D #everything here can be called with any script anywhere it wants,
 
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
-var version: String = '1.6.0' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
+var version: String = '1.6.0 debug' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
 
 var prices: Dictionary = { #gets the prices of each of the machines
 	'kreator' : 20,
@@ -163,6 +163,7 @@ func progressions(mode: String, type: String = '', node: Node3D = null, room: Ro
 		
 		'levelup': #when you level up
 			maxLB = round(maxLB*machinepricemultiplier) #make the max level thingy bigger
+			progression_price = round(progression_price * machinepricemultiplier) #increase the progression price by the price multiplier
 		
 		'addroom': #when a room is created
 			#set prices

@@ -50,10 +50,8 @@ func _process(delta: float) -> void: #runs every nanosecond because this is a fa
 	if Main.picked and parent.name == "hand": #if the box is picked up and it's actually in the player's hand
 		global_position = lerp(global_position, parent.global_position, delta * Main.grabspeed) #move the position to the player's hand, but lerp it
 		global_rotation = parent.global_rotation #keep original rotations as the hand
-		collision.disabled = true
 		top_level = true
 	else:
-		collision.disabled = false
 		top_level = false
 	
 	##boxes are just removed if they fall out, this check may be causing too much lag
@@ -67,18 +65,18 @@ func _process(delta: float) -> void: #runs every nanosecond because this is a fa
 				if not current_belt.options.is_empty():
 					var option: Vector3 = current_belt.options[0 if current_belt.priority == -1 else (current_belt.priority if current_belt.options.size() > current_belt.priority else 0)]
 					var target: Vector3 = current_belt.global_position + option
-					move_and_collide(global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4) - global_position)
+					global_position = global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4)
 				else:
-					move_and_collide(global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4) - global_position)
+					global_position = global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4)
 			else:
 				if current_belt.movefoward(self): 
 					var target: Vector3 = current_belt_area.global_position - current_belt_area.global_transform.basis.z
-					move_and_collide(global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4) - global_position)
+					global_position = global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4)
 					
 					var dist: float = (global_position - current_belt_area.global_position).dot(current_belt_area.global_transform.basis.x.normalized())
-					move_and_collide(((current_belt_area.global_transform.basis * Vector3(dist, 0, 0)).normalized() * -abs(dist * 2)) / 4)
+					global_position += ((current_belt_area.global_transform.basis * Vector3(dist, 0, 0)).normalized() * -abs(dist * 2)) / 4
 				else:
-					move_and_collide(global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4) - global_position)
+					global_position = global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4)
 		else:
 			freeze = false
 	else:
@@ -101,6 +99,7 @@ func _input(event: InputEvent) -> void:
 					Main.picked = true #tell ze master branch that the player has already picked up something so it dosent pick up something else
 					#keep the box from doing goofy ahh stuff like flying around
 					freeze = true
+					collision.disabled = true
 			else:
 				dropbox()
 		##i dont like how the tutorial is here, but it's ok i guess
@@ -123,6 +122,8 @@ func dropbox() -> void: #drop a box
 	if parent == Main.main.boxes:
 		return
 	reparent(Main.main.boxes) #send the box back to where it came from because it's useless now
+	
+	collision.disabled = false
 
 func save() -> Dictionary: #saving function called from main, gets all the data from the node and pushes it to main
 	return {

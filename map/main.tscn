@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cxfvl01s73nj2"]
+[gd_scene load_steps=38 format=3 uid="uid://cxfvl01s73nj2"]
 
 [ext_resource type="Script" uid="uid://cossebelseipv" path="res://map/scenemain.gd" id="1_7qdv2"]
 [ext_resource type="PackedScene" uid="uid://bm3fnga38jpgw" path="res://player/player.tscn" id="3_5xs4b"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://pqgimsdre2da" path="res://UI/shop/shop.tscn" id="6_ku0xv"]
 [ext_resource type="Script" uid="uid://bv1yrr8hya03l" path="res://UI/ui.gd" id="8_vco2r"]
 [ext_resource type="Script" uid="uid://vkam3gvm4ydv" path="res://UI/tutorial/tutorial.gd" id="9_45wbb"]
+[ext_resource type="FontFile" uid="uid://c644ya34q0web" path="res://UI/IBMPlexMono-Bold.ttf" id="10_36s5t"]
 [ext_resource type="PackedScene" uid="uid://de8ynbju0svex" path="res://UI/pause/pause.tscn" id="10_bu086"]
 [ext_resource type="PackedScene" uid="uid://cvpo7kkgufcp4" path="res://UI/loader.tscn" id="10_eycge"]
 
@@ -170,6 +171,7 @@ shadow_enabled = true
 transform = Transform3D(-0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, 0.5, -0.5, 2, 10, 2)
 projection = 1
 size = 10.0
+near = 0.001
 far = 100.0
 
 [node name="factory" type="Node3D" parent="."]
@@ -397,6 +399,39 @@ text = "press 1 to place a [color=00bfff]target[/color], the arm will send boxes
 press 2 to place an [color=red]avoid[/color], the arm will not pick up boxes from these
 
 press 3 to place a [color=green]priority[/color], the arm will pick up boxes from these first"
+fit_content = true
+
+[node name="buildtutorial" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="detail" type="RichTextLabel" parent="UI/buildtutorial"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -132.0
+offset_right = 192.0
+offset_bottom = 124.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("5_la7bd")
+theme_override_fonts/bold_font = ExtResource("10_36s5t")
+theme_override_font_sizes/normal_font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_kx77j")
+bbcode_enabled = true
+text = "[b]left click[/b] to place machines
+
+[b]R[/b] to rotate the machine
+
+[b]right click[/b] on machines to remove them and on shadows to revert the timer (works with adding/deleting machines)
+
+[b]escape[/b] to stop building"
 fit_content = true
 
 [node name="building" type="Control" parent="UI"]

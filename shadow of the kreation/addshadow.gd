@@ -59,6 +59,7 @@ func clear_for_arm() -> bool: #if there's another arm in the area
 func place_machine() -> void:
 	var inst: Builder = Main.main.buildshadow.instantiate() #create the builder to make a machine
 	inst.type = type #set the shadow to the type needed
+	inst.price = Main.prices[type]
 	Main.main.machines.add_child(inst) #add to the machines
 	
 	var buildtime: float = Main.machinedata[inst.type].type_to_waittime + randf_range(-Main.buildtimediff, Main.buildtimediff)
