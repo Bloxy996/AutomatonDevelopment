@@ -2,7 +2,7 @@ extends Node3D #everything here can be called with any script anywhere it wants,
 
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
-var version: String = '1.6.0 debug' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
+var version: String = '1.6.1' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
 
 var prices: Dictionary = { #gets the prices of each of the machines
 	'kreator' : 20,
@@ -10,7 +10,7 @@ var prices: Dictionary = { #gets the prices of each of the machines
 	'belt' : 25,
 	'multiplier' : 40,
 	'splitbelt' : 30,
-	'arm' : 10
+	'arm' : 75
 }
 
 var machinedata: Dictionary = {
@@ -45,7 +45,7 @@ var machinedata: Dictionary = {
 		'type_to_waittime' : 5,
 	},
 	'arm' : {
-		'originalprice' : 10,
+		'originalprice' : 75,
 		'shadow' : preload("res://objekts//machines/arm/armshadow.tscn"),
 		'type_to_scene' : preload("res://objekts//machines/arm/arm.tscn"),
 		'type_to_waittime' : 7,

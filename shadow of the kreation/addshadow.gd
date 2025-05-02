@@ -26,6 +26,7 @@ func _process(_delta: float) -> void: #runs on every frame
 	#move it to the mouse, and keep it on the ground
 	global_position = snapped(Main.main.mouse3Dpos, Vector3.ONE)
 	global_position.y = 0
+	visible = global_position != Vector3.ZERO
 	
 	Main.main.ui.buildingtext.text = str('[right]cost ', int(Main.prices[type])) #display the price when building
 
