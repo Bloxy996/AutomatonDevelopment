@@ -58,7 +58,14 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_5qcnx")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "1.6.0 (04/23/2025)
+text = "1.6.1 (05/02/2025)
+[ul]build/remove shadows are hidden when the mouse is not on the grid[/ul]
+[ul]added a mini build tutorial[/ul]
+[ul]destroyer shadows can now be saved!!![/ul]
+[ul]you can cancel build/delete shadows when they're building[/ul]
+[ul]price to sell boxes increases with the level[/ul]
+
+1.6.0 (04/23/2025)
 [ul]day/night synchronized with real time (also manually adjustable when not synchronized)[/ul]
 [ul]completly remade the belt system, it doesn't actually work completly but its ok[/ul]
 [ul]fixed phantom traffic jams, but not for splitbelts yet[/ul]

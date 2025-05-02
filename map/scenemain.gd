@@ -76,6 +76,7 @@ func _process(delta: float) -> void: #runs every ~milisecond
 		#move the irradicating shadow to the position of the mouse
 		irradicate.global_position = snapped(mouse3Dpos, Vector3.ONE)
 		irradicate.global_position.y = 0
+		irradicate.visible = irradicate.global_position != Vector3.ZERO
 		irradicatebutton.release_focus() #release fokus from the button to solve the bug of pressing space
 		
 		if Input.is_action_just_pressed("leftclick") and irradicating_buildradius_detection.get_overlapping_areas().has(player.removeradius): #if the mouse is clicked and in range
