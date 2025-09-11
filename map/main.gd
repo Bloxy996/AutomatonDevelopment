@@ -2,7 +2,7 @@ extends Node3D #everything here can be called with any script anywhere it wants,
 
 @onready var indikator: PackedScene = preload("res://UI/indikators/indikator.tscn")
 
-var version: String = '1.6.1' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
+var version: String = '1.6.2' ##the current version, PLS UPDATE WHEN UPDATING THE GAME (find a way to automate the updating somehow?)
 
 var prices: Dictionary = { #gets the prices of each of the machines
 	'kreator' : 20,

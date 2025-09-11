@@ -58,7 +58,12 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_5qcnx")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "1.6.1 (05/02/2025)
+text = "1.6.2 (09/11/2025)
+[ul]delay for pushing boxes onto belts from creators made much shorter[/ul]
+[ul]made activating splitbelt directions easier I think[/ul]
+[ul]brought back phantom traffic jams to solve some box movement issues[/ul]
+
+1.6.1 (05/02/2025)
 [ul]build/remove shadows are hidden when the mouse is not on the grid[/ul]
 [ul]added a mini build tutorial[/ul]
 [ul]destroyer shadows can now be saved!!![/ul]

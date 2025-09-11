@@ -65,18 +65,18 @@ func _process(delta: float) -> void: #runs every nanosecond because this is a fa
 				if not current_belt.options.is_empty():
 					var option: Vector3 = current_belt.options[0 if current_belt.priority == -1 else (current_belt.priority if current_belt.options.size() > current_belt.priority else 0)]
 					var target: Vector3 = current_belt.global_position + option
-					global_position = global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4)
+					move_and_collide(global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4) - global_position)
 				else:
-					global_position = global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4)
+					move_and_collide(global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4) - global_position)
 			else:
 				if current_belt.movefoward(self): 
 					var target: Vector3 = current_belt_area.global_position - current_belt_area.global_transform.basis.z
-					global_position = global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4)
+					move_and_collide(global_position.move_toward(Vector3(target.x, 0.9, target.z), delta * 4) - global_position)
 					
 					var dist: float = (global_position - current_belt_area.global_position).dot(current_belt_area.global_transform.basis.x.normalized())
-					global_position += ((current_belt_area.global_transform.basis * Vector3(dist, 0, 0)).normalized() * -abs(dist * 2)) / 4
+					move_and_collide(((current_belt_area.global_transform.basis * Vector3(dist, 0, 0)).normalized() * -abs(dist * 2)) / 4)
 				else:
-					global_position = global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4)
+					move_and_collide(global_position.move_toward(Vector3(current_belt.global_position.x, 0.9, current_belt.global_position.z), delta * 4) - global_position)
 		else:
 			freeze = false
 	else:

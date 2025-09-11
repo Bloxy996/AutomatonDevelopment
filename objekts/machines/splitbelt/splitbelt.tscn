@@ -188,6 +188,7 @@ mesh = SubResource("BoxMesh_0l1oe")
 input_capture_on_drag = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/foward/MeshInstance3D/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.08)
 shape = SubResource("BoxShape3D_4o3l2")
 
 [node name="back" type="Marker3D" parent="nextbelts"]
@@ -202,6 +203,7 @@ mesh = SubResource("BoxMesh_0l1oe")
 input_capture_on_drag = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/back/MeshInstance3D/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.08)
 shape = SubResource("BoxShape3D_4o3l2")
 
 [node name="left" type="Marker3D" parent="nextbelts"]
@@ -216,6 +218,7 @@ mesh = SubResource("BoxMesh_0l1oe")
 input_capture_on_drag = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/left/MeshInstance3D/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.08)
 shape = SubResource("BoxShape3D_4o3l2")
 
 [node name="right" type="Marker3D" parent="nextbelts"]
@@ -230,4 +233,5 @@ mesh = SubResource("BoxMesh_0l1oe")
 input_capture_on_drag = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="nextbelts/right/MeshInstance3D/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.08)
 shape = SubResource("BoxShape3D_4o3l2")

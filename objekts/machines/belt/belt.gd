@@ -40,7 +40,8 @@ func movefoward(box : Box) -> bool:
 		if "has_box" in nextbelt: #if it moves boxes
 			if not nextbelt.has_box: return true #if it dosent have a box, go ahead!
 			elif nextbelt.effect_overlapping_boxes.has(box): return true #if the box on it is the current box, go ahead too!
-			elif nextbelt is not SplitBelt and !nextbelt.effect_overlapping_boxes.is_empty() and nextbelt.movefoward(nextbelt.effect_overlapping_boxes[0]): return true
+			##removed to keep boxes from sticking to each other, but now phantom traffic jams are back
+			##elif nextbelt is not SplitBelt and !nextbelt.effect_overlapping_boxes.is_empty() and nextbelt.movefoward(nextbelt.effect_overlapping_boxes[0]): return true
 			else: return false #pauses for everything else
 		elif "empty" in nextbelt: return (nextbelt.empty if nextbelt.pause.text == 'pause' else false) #if it grabs boxes, moves based on if it's empty or not
 		else: return false #dont collide into any other machine please
