@@ -18,13 +18,6 @@ func _ready() -> void:
 		var pos: Vector2 = Vector2(nextbeltdetector.global_position.x, nextbeltdetector.global_position.z)
 		if Main.main.machines.map.has(pos): nextbelt =  Main.main.machines.map[pos]
 		else: nextbelt = null)
-	
-	effect.body_entered.connect(func(body : Node3D) -> void:
-		if body is Box and not effect_overlapping_boxes.has(body): 
-			effect_overlapping_boxes.append(body))
-	effect.body_exited.connect(func(body : Node3D) -> void:
-		if effect_overlapping_boxes.has(body): 
-			effect_overlapping_boxes.erase(body))
 
 func update(_delta: float) -> void: #runs on every frame
 	#keep it from doing goofy stuff
@@ -32,6 +25,8 @@ func update(_delta: float) -> void: #runs on every frame
 	
 	if not is_instance_valid(nextbelt): #if there is no machine to go to
 		nextbelt = null #then there IS no machine
+	
+	effect_overlapping_boxes = effect.get_overlapping_bodies().filter(func(body: Node3D) -> bool: return body is Box)
 	
 	has_box = !effect_overlapping_boxes.is_empty()
 

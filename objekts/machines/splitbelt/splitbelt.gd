@@ -45,17 +45,12 @@ func _ready() -> void:
 		update_light(nextbelt)
 		
 		nextbelt_directions[nextbelt.name] = Vector3(nextbelt.global_position.x - global_position.x, 0, nextbelt.global_position.z - global_position.z).normalized()
-	
-	effect.body_entered.connect(func(body : Node3D) -> void:
-		if body is Box and not effect_overlapping_boxes.has(body): 
-			effect_overlapping_boxes.append(body))
-	effect.body_exited.connect(func(body : Node3D) -> void:
-		if effect_overlapping_boxes.has(body): 
-			effect_overlapping_boxes.erase(body))
 
 func update(_delta: float) -> void: #runs on every frame
 	#keep it from doing goofy stuff
 	effect.collision_mask = 1
+	
+	effect_overlapping_boxes = effect.get_overlapping_bodies().filter(func(body: Node3D) -> bool: return body is Box)
 	
 	options = []
 	priority = -1

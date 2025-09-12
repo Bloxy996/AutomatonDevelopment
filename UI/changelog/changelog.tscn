@@ -58,7 +58,13 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_5qcnx")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "1.6.2 (09/11/2025)
+text = "1.6.3 (09/11/2025)
+[ul]rotation of boxes are reset on conveyor belts to prevent clogging[/ul]
+[ul]brought back phantom traffic jams on multipliers too (forgot to do that)[/ul]
+[ul]creators dont send boxes onto belts until belts near the creator are empty[/ul]
+[ul]revamped belt system to prevent random clogs that should happen for no reason[/ul]
+
+1.6.2 (09/10/2025)
 [ul]delay for pushing boxes onto belts from creators made much shorter[/ul]
 [ul]made activating splitbelt directions easier I think[/ul]
 [ul]brought back phantom traffic jams to solve some box movement issues[/ul]

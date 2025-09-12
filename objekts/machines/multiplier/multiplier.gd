@@ -20,19 +20,14 @@ func _ready() -> void:
 		var pos: Vector2 = Vector2(nextbeltdetector.global_position.x, nextbeltdetector.global_position.z)
 		if Main.main.machines.map.has(pos): nextbelt =  Main.main.machines.map[pos]
 		else: nextbelt = null)
-	
-	effect.body_entered.connect(func(body : Node3D) -> void:
-		if body is Box and not effect_overlapping_boxes.has(body): 
-			effect_overlapping_boxes.append(body))
-	effect.body_exited.connect(func(body : Node3D) -> void:
-		if effect_overlapping_boxes.has(body): 
-			effect_overlapping_boxes.erase(body))
 
 func update(_delta: float) -> void: #runs on every frame
 	effect.collision_mask = 1 #keep it from doing goofy stuff
 	
 	if not is_instance_valid(nextbelt): #if there is no machine to go to
 		nextbelt = null #then there IS no machine
+	
+	effect_overlapping_boxes = effect.get_overlapping_bodies().filter(func(body: Node3D) -> bool: return body is Box)
 	
 	has_box = !effect_overlapping_boxes.is_empty()
 
@@ -41,7 +36,7 @@ func movefoward(box : Box) -> bool:
 		if "has_box" in nextbelt: #if it moves boxes
 			if not nextbelt.has_box: return true #if it dosent have a box, go ahead!
 			elif nextbelt.effect_overlapping_boxes.has(box): return true #if the box on it is the current box, go ahead too!
-			elif nextbelt is not SplitBelt and !nextbelt.effect_overlapping_boxes.is_empty() and nextbelt.movefoward(nextbelt.effect_overlapping_boxes[0]): return true
+			#elif nextbelt is not SplitBelt and !nextbelt.effect_overlapping_boxes.is_empty() and nextbelt.movefoward(nextbelt.effect_overlapping_boxes[0]): return true
 			else: return false #pauses for everything else
 		elif "empty" in nextbelt: return (nextbelt.empty if nextbelt.pause.text == 'pause' else false) #if it grabs boxes, moves based on if it's empty or not
 		else: return false #dont collide into any other machine please

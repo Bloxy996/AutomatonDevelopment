@@ -14,38 +14,46 @@ var onmouse: bool = false #varible for when the mouse is on the box
 var price: float = 1
 
 var used_multipliers: Array = [StaticBody3D]
-var detector_overlapping_areas: Array
+var detector_overlapping_areas: Array[Area3D]
 
 var parent: Node3D
 var current_belt_area: Area3D
 var current_belt: CollisionShape3D
 
 func _ready() -> void:
-	detector.area_entered.connect(func(area : Area3D) -> void: 
-		if area.is_in_group("usingbox") and area.get_parent().has_method("movefoward") and parent == Main.main.boxes: 
-			current_belt_area = area
-			current_belt = area.get_parent()
-	)
-	detector.area_exited.connect(func(area : Area3D) -> void: 
-		if current_belt_area == area: 
-			current_belt_area = null
-			current_belt = null
-			
-			if parent == Main.main.boxes:
-				for areaV : Area3D in detector_overlapping_areas:
-					if areaV.is_in_group("usingbox") and areaV.get_parent().has_method("movefoward"):
-						current_belt_area = area
-						current_belt = area.get_parent()
-						return
-	)
+	pass
+	#detector.area_entered.connect(func(area : Area3D) -> void: 
+	#	if area.is_in_group("usingbox") and area.get_parent().has_method("movefoward") and parent == Main.main.boxes: 
+	#		current_belt_area = area
+	#		current_belt = area.get_parent()
+	#)
+	#detector.area_exited.connect(func(area : Area3D) -> void: 
+	#	if current_belt_area == area: 
+	#		current_belt_area = null
+	#		current_belt = null
+	#		
+	#		if parent == Main.main.boxes:
+	#			for areaV : Area3D in detector_overlapping_areas:
+	#				if areaV.is_in_group("usingbox") and areaV.get_parent().has_method("movefoward"):
+	#					current_belt_area = area
+	#					current_belt = area.get_parent()
+	#					return
+	#)
 
 func update_overlaps() -> void:
 	##pls dont run this on every frame
+	detector.collision_mask = 1
 	detector_overlapping_areas = detector.get_overlapping_areas()
 
 func _process(delta: float) -> void: #runs every nanosecond because this is a fast computer
 	update_overlaps()
 	parent = get_parent()
+	
+	for area: Area3D in detector_overlapping_areas:
+		if area.is_in_group("usingbox") and area.get_parent().has_method("movefoward") and parent == Main.main.boxes: 
+			current_belt_area = area
+			current_belt = area.get_parent()
+			break
 	
 	if Main.picked and parent.name == "hand": #if the box is picked up and it's actually in the player's hand
 		global_position = lerp(global_position, parent.global_position, delta * Main.grabspeed) #move the position to the player's hand, but lerp it
@@ -61,6 +69,7 @@ func _process(delta: float) -> void: #runs every nanosecond because this is a fa
 		if is_instance_valid(current_belt_area):
 			freeze = true
 			linear_velocity = Vector3.ZERO
+			global_rotation = Vector3.ZERO
 			if current_belt is SplitBelt:
 				if not current_belt.options.is_empty():
 					var option: Vector3 = current_belt.options[0 if current_belt.priority == -1 else (current_belt.priority if current_belt.options.size() > current_belt.priority else 0)]

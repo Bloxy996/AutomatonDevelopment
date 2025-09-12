@@ -113,12 +113,12 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void: #w
 	if is_instance_valid(inst) and inst.get_parent().name != 'hand': #if a mischevious player didnt already pick up the box WHILE THE BOX WAS IN THE ANIMATION,
 		#unstatcify the box
 		inst.freeze = false
-		inst.reparent(Main.main.boxes) #make grabbable by arms
+		##inst.reparent(Main.main.boxes) #arms should be able to grab from wherever the box is right now
 
 func send_to_belt(box : RigidBody3D) -> void: #sends boxes to any belt near the kreator
 	var machine: CollisionShape3D = Main.main.machines.get_machine(sender.global_position)
 	if is_instance_valid(machine):
-		if (machine is Belt or machine is SplitBelt) and not machine.has_box:
+		if (machine is Belt or machine is SplitBelt) and not machine.has_box and !boxes_in_area():
 			box.global_position = machine.global_position + (Vector3.UP * 0.75) #move the new box over to the konveyor belt
 			box.reparent(Main.main.boxes) #send the box to the global box node so you can move it around
 
@@ -157,3 +157,8 @@ func _on_pause_pressed() -> void:
 			pause.text = "resume" #change text
 		else: #if player resumed it
 			pause.text = "pause" #change text
+
+func boxes_in_area() -> bool:
+	for node: Node3D in area.get_overlapping_bodies():
+		if node is Box and node.get_parent() == Main.main.boxes: return true
+	return false
