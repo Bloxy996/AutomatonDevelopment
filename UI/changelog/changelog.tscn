@@ -4,27 +4,27 @@
 [ext_resource type="FontFile" uid="uid://bv4vvvkt08xva" path="res://UI/IBMPlexMono-Light.ttf" id="2_5qcnx"]
 [ext_resource type="Texture2D" uid="uid://dyfriog8gdjgu" path="res://UI/shop/X.png" id="3_h64td"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_joxro"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pxjqf"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rglhw"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j7x2c"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1gs08"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_undk4"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2pqv"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ynk1h"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hoqrc"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_heliu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1f5xr"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_heliu"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hoqrc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ynk1h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2pqv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_undk4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1gs08"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j7x2c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rglhw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pxjqf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_joxro"]
 
 [node name="Changelog" type="Control"]
 layout_mode = 3
@@ -58,7 +58,11 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_5qcnx")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "1.6.3 (09/11/2025)
+text = "1.6.3 (09/26/2025)
+[ul]updated leaderboard UI to fit bigger numbers[/ul]
+[ul]removed delay to send boxes to the belts because now I have better clog prevention[/ul]
+
+1.6.3 (09/11/2025)
 [ul]rotation of boxes are reset on conveyor belts to prevent clogging[/ul]
 [ul]brought back phantom traffic jams on multipliers too (forgot to do that)[/ul]
 [ul]creators dont send boxes onto belts until belts near the creator are empty[/ul]
@@ -212,17 +216,17 @@ offset_top = 32.0
 offset_right = -184.0
 offset_bottom = 88.0
 grow_horizontal = 0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_joxro")
-theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_pxjqf")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_rglhw")
-theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_j7x2c")
-theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_1gs08")
-theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_undk4")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_p2pqv")
-theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_ynk1h")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_hoqrc")
-theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_1f5xr")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_heliu")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_1f5xr")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hoqrc")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_ynk1h")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_p2pqv")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_undk4")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_1gs08")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_j7x2c")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_rglhw")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_pxjqf")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_joxro")
 icon = ExtResource("3_h64td")
 flat = true
 expand_icon = true
