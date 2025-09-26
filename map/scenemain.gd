@@ -127,16 +127,16 @@ func _process(delta: float) -> void: #runs every ~milisecond
 					if is_instance_valid(latest): latest.request_accepted() #accept the oldest item in the queue and delete it
 				else: boxkreationqueue.pop_front() #if it's not valid just get rid of it
 	
-	if boxsenddelay.is_stopped():
-		boxsenddelay.start()
-		if not boxsendqueue.is_empty():
-			if is_instance_valid(boxsendqueue[0]):
-				var latest: Box = boxsendqueue.pop_front()
-				for area: Area3D in latest.detector.get_overlapping_areas():
-					if area.is_in_group('inkreator'):
-						area.get_parent().send_request_accepted(latest)
-						break
-			else: boxsendqueue.pop_front()
+	#if boxsenddelay.is_stopped():
+	#	boxsenddelay.start()
+	if not boxsendqueue.is_empty():
+		if is_instance_valid(boxsendqueue[0]):
+			var latest: Box = boxsendqueue.pop_front()
+			for area: Area3D in latest.detector.get_overlapping_areas():
+				if area.is_in_group('inkreator'):
+					area.get_parent().send_request_accepted(latest)
+					break
+		else: boxsendqueue.pop_front()
 	
 	light.rotation_degrees = lerp(light.rotation_degrees, Vector3(get_time(), 135, 0) if Main.settings.daynight else Vector3((((Main.settings.sunvalue / 86400.0) * 360) - 270), 135, 0), delta * 10)
 
